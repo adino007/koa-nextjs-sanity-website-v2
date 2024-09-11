@@ -2,8 +2,8 @@ import { defineConfig } from 'sanity'
 import { BASE_URL, projectId, dataset } from './src/env'
 import { structureTool } from 'sanity/structure'
 import structure from './src/structure'
-import { presentationTool } from 'sanity/presentation'
 import { locations } from './src/presentation'
+import { presentationTool } from 'sanity/presentation'
 import {
 	dashboardTool,
 	projectInfoWidget,
@@ -40,7 +40,6 @@ export default defineConfig({
 					enable: `${BASE_URL}/api/draft`,
 				},
 			},
-			resolve: { locations },
 		}),
 		dashboardTool({
 			name: 'deployment',
