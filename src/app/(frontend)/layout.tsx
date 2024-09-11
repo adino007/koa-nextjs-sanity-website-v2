@@ -11,7 +11,7 @@ import '@/styles/app.css'
 
 export const metadata: Metadata = {
 	icons: {
-		icon: `https://fav.farm/🖤`,
+		icon: `https://fav.farm/🔥`,
 	},
 }
 
@@ -24,7 +24,7 @@ export default async function RootLayout({
 		<html lang="en">
 			{/* <GoogleTagManager gtmId='' /> */}
 
-			<body className="bg-canvas text-ink">
+			<body className="font-moncheri bg-black uppercase text-white">
 				<SkipToContent />
 				<Announcement />
 				<Header />

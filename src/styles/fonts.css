@@ -1,0 +1,8 @@
+/* latin */
+@font-face {
+	font-family: 'TAN-MONCHERI';
+	font-style: normal;
+	font-weight: 100;
+	font-display: swap;
+	src: url(../../public/fonts/TAN-MONCHERI.woff2) format('woff2');
+}

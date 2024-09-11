@@ -7,6 +7,7 @@ import CreativeModule from './CreativeModule'
 import CustomHTML from './CustomHTML'
 import FlagList from './FlagList'
 import Hero from './Hero'
+import HeroVideo from './HeroVideo'
 import HeroSplit from './HeroSplit'
 import HeroSaaS from './HeroSaaS'
 import LogoList from './LogoList'
@@ -57,6 +58,8 @@ export default function Modules({
 						return <FlagList {...module} key={module._key} />
 					case 'hero':
 						return <Hero {...module} key={module._key} />
+					case 'hero.video':
+						return <HeroVideo {...module} key={module._key} />
 					case 'hero.split':
 						return <HeroSplit {...module} key={module._key} />
 					case 'hero.saas':

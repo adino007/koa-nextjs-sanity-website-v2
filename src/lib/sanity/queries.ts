@@ -4,6 +4,26 @@ export const linkQuery = groq`
 	...,
 	internal->{ _type, title, metadata }
 `
+export const heroVideoQuery = groq`
+  *[_type == "hero.video"]{
+    ...,
+    "muxVideo": muxVideo.asset->{
+      playbackId,
+      status,
+      filename
+    }
+  }
+`
+
+export async function getHeroVideo() {
+	const heroVideo = await fetchSanity(heroVideoQuery)
+
+	if (!heroVideo || heroVideo.length === 0) {
+		throw new Error('No hero video found in Sanity.')
+	}
+
+	return heroVideo[0]
+}
 
 const navigationQuery = groq`
 	title,
@@ -45,6 +65,14 @@ export const modulesQuery = groq`
 		...,
 		link{ ${linkQuery} }
 	},
+	_type == 'hero.video' => {
+    ...,
+    "muxVideo": muxVideo.asset->{
+      playbackId,
+      status,
+      filename
+    }
+  },
 	_type == 'blog-list' => { filteredCategory-> },
 	_type == 'breadcrumbs' => { crumbs[]{ ${linkQuery} } },
 	_type == 'creative-module' => {
@@ -57,6 +85,7 @@ export const modulesQuery = groq`
 		}
 	},
 	_type == 'hero' => { reputation-> },
+	_type == 'hero.video' => { reputation-> },
 	_type == 'hero.saas' => { reputation-> },
 	_type == 'hero.split' => { reputation-> },
 	_type == 'logo-list' => { logos[]-> },
