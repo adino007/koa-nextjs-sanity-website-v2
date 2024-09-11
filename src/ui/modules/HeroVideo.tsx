@@ -36,12 +36,14 @@ export default function HeroVideo({
 		? sanitizePlaybackId(muxVideo.playbackId)
 		: null
 
-	console.log('sanitizedPlaybackId', sanitizedPlaybackId)
+	// Debugging logs
+	console.log('ctas:', ctas)
+	console.log('textAlign:', textAlign)
+	console.log('alignItems:', alignItems)
 
 	return (
 		<section
 			className={cn(
-				'videosection',
 				hasVideo &&
 					'relative m-0 -mt-32 grid h-screen w-full overflow-hidden bg-ink object-cover p-0 text-canvas *:col-span-full *:row-span-full sm:-mt-32',
 			)}
@@ -64,8 +66,7 @@ export default function HeroVideo({
 				<div className="section relative z-10 flex h-full w-full">
 					<div
 						className={cn(
-							'richtext relative isolate max-w-xl [&_:is(h1,h2)]:text-balance',
-							hasVideo && 'text-shadow mb-12',
+							'richtext text-shadow relative isolate mb-12 max-w-xl [&_:is(h1,h2)]:text-balance',
 							css.txt,
 							{
 								'mb-8': stegaClean(alignItems) === 'start',
