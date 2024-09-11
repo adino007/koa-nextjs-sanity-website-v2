@@ -40,6 +40,9 @@ export default defineConfig({
 					enable: `${BASE_URL}/api/draft`,
 				},
 			},
+			resolve: {
+				locations,
+			},
 		}),
 		dashboardTool({
 			name: 'deployment',
