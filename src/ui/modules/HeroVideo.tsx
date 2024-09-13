@@ -3,9 +3,7 @@ import CTAList from '@/ui/CTAList'
 import { cn } from '@/lib/utils'
 import { stegaClean } from '@sanity/client/stega'
 import css from './Hero.module.css'
-import dynamic from 'next/dynamic'
-
-const MuxPlayer = dynamic(() => import('@mux/mux-player-react'), { ssr: false })
+import MuxPlayer from '@mux/mux-player-react'
 
 export default function HeroVideo({
 	content,
@@ -36,11 +34,6 @@ export default function HeroVideo({
 		? sanitizePlaybackId(muxVideo.playbackId)
 		: null
 
-	// Debugging logs
-	console.log('ctas:', ctas)
-	console.log('textAlign:', textAlign)
-	console.log('alignItems:', alignItems)
-
 	return (
 		<section
 			className={cn(
@@ -48,20 +41,6 @@ export default function HeroVideo({
 					'relative m-0 -mt-32 grid h-screen w-full overflow-hidden bg-ink object-cover p-0 text-canvas *:col-span-full *:row-span-full sm:-mt-32',
 			)}
 		>
-			{/* Background Video */}
-			<div className={cn(css.muxPlayerSettings, 'm-0 p-0')}>
-				{hasVideo && sanitizedPlaybackId && (
-					<MuxPlayer
-						src={`https://stream.mux.com/${sanitizedPlaybackId}.m3u8`}
-						autoPlay
-						loop
-						muted
-						playsInline
-						className="h-full w-full object-cover"
-					/>
-				)}
-			</div>
-
 			{content && (
 				<div className="section relative z-10 flex h-full w-full">
 					<div
@@ -93,6 +72,19 @@ export default function HeroVideo({
 					</div>
 				</div>
 			)}
+			{/* Background Video */}
+			<div className={cn(css.muxPlayerSettings, 'm-0 p-0')}>
+				{hasVideo && sanitizedPlaybackId && (
+					<MuxPlayer
+						src={`https://stream.mux.com/${sanitizedPlaybackId}.m3u8`}
+						autoPlay
+						loop
+						muted
+						playsInline
+						className="h-full w-full object-cover"
+					/>
+				)}
+			</div>
 		</section>
 	)
 }

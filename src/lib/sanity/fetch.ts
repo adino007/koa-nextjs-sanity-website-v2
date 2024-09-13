@@ -26,7 +26,7 @@ export function fetchSanity<T = any>(
 					useCdn: false,
 					token: process.env.NEXT_PUBLIC_SANITY_TOKEN,
 					next: {
-						revalidate: 0,
+						revalidate: 3600, // changed from 0 fo now
 						...next,
 					},
 				}
