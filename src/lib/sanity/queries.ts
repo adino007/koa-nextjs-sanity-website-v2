@@ -65,14 +65,6 @@ export const modulesQuery = groq`
 		...,
 		link{ ${linkQuery} }
 	},
-	_type == 'hero.video' => {
-    ...,
-    "muxVideo": muxVideo.asset->{
-      playbackId,
-      status,
-      filename
-    }
-  },
 	_type == 'blog-list' => { filteredCategory-> },
 	_type == 'breadcrumbs' => { crumbs[]{ ${linkQuery} } },
 	_type == 'creative-module' => {
@@ -85,7 +77,15 @@ export const modulesQuery = groq`
 		}
 	},
 	_type == 'hero' => { reputation-> },
-	_type == 'hero.video' => { reputation-> },
+    _type == 'hero.video' => {
+        ...,
+        "muxVideo": muxVideo.asset->{
+            playbackId,
+            status,
+            filename
+        },
+        ctas[]{ ${ctaQuery} }
+    },
 	_type == 'hero.saas' => { reputation-> },
 	_type == 'hero.split' => { reputation-> },
 	_type == 'logo-list' => { logos[]-> },
