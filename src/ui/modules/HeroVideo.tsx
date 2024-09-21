@@ -34,9 +34,6 @@ export default function HeroVideo({
 		? sanitizePlaybackId(muxVideo.playbackId)
 		: null
 
-	// Log the ctas prop to debug
-	console.log('CTAs in Video:', ctas)
-
 	return (
 		<section
 			className={cn(

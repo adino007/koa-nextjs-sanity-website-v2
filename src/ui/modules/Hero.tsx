@@ -28,9 +28,6 @@ export default function Hero({
 }>) {
 	const hasImage = !!bgImage?.asset
 
-	// Log the ctas prop to debug
-	console.log('CTAs in Hero:', ctas)
-
 	return (
 		<section
 			className={cn(

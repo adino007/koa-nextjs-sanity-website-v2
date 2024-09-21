@@ -14,14 +14,14 @@ export default async function Header() {
 	const logoImage = logo?.image?.dark || logo?.image?.default
 
 	return (
-		<Wrapper className="frosted-glass font-moncheri sticky top-0 z-50 uppercase text-white max-md:header-open:shadow-lg">
+		<Wrapper className="frosted-glass sticky top-0 z-50 font-moncheri uppercase text-white max-md:header-open:bg-black max-md:header-open:bg-opacity-90 max-md:header-open:shadow-lg max-md:header-open:backdrop-blur-xl">
 			<div
 				className={cn(
 					css.header,
 					'mx-auto grid max-w-screen-xl items-center gap-x-6 p-4',
 				)}
 			>
-				<div className="[grid-area:logo]">
+				<div className="[grid-area:logo] max-md:mb-8">
 					<Link
 						className={cn(
 							'h3 md:h2 inline-block',
