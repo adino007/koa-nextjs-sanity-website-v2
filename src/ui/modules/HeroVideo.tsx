@@ -45,7 +45,7 @@ export default function HeroVideo({
 				<div className="section relative z-10 flex h-full w-full">
 					<div
 						className={cn(
-							'richtext text-shadow relative isolate mb-12 max-w-xl [&_:is(h1,h2)]:text-balance',
+							'richtext text-shadow relative isolate mb-20 max-w-xl [&_:is(h1,h2)]:text-balance',
 							css.txt,
 							{
 								'mb-8': stegaClean(alignItems) === 'start',
