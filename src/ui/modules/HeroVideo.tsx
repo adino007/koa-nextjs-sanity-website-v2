@@ -38,7 +38,7 @@ export default function HeroVideo({
 		<section
 			className={cn(
 				hasVideo &&
-					'relative m-0 -mt-32 grid h-screen w-full overflow-hidden bg-ink object-cover p-0 text-canvas *:col-span-full *:row-span-full sm:-mt-32',
+					'relative m-0 -mt-36 grid h-screen w-full overflow-hidden bg-ink object-cover p-0 text-canvas *:col-span-full *:row-span-full sm:-mt-32',
 			)}
 		>
 			{content && (
