@@ -14,7 +14,7 @@ export default async function Header() {
 	const logoImage = logo?.image?.dark || logo?.image?.default
 
 	return (
-		<Wrapper className="frosted-glass sticky top-0 z-50 font-moncheri uppercase text-white max-md:header-open:bg-opacity-80 max-md:header-open:backdrop-blur-xl">
+		<Wrapper className="frosted-glass sticky top-0 z-50 font-moncheri uppercase text-white max-md:header-open:bg-opacity-70 max-md:header-open:backdrop-blur-xl">
 			<div
 				className={cn(
 					css.header,
