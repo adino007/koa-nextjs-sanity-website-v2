@@ -1,6 +1,9 @@
 // documents
 import site from './documents/site'
 import page from './documents/page'
+import artist from './documents/artist'
+import event from './documents/event'
+import venue from './documents/venue'
 import blogPost from './documents/blog.post'
 import blogCategory from './documents/blog.category'
 import navigation from './documents/navigation'
@@ -20,6 +23,8 @@ import metadata from './objects/metadata'
 
 // modules
 import accordionList from './modules/accordion-list'
+import artistGrid from './modules/artist.grid'
+import eventGrid from './modules/event.grid'
 import blogFrontpage from './modules/blog-frontpage'
 import blogList from './modules/blog-list'
 import blogPostContent from './modules/blog-post-content'
@@ -39,11 +44,15 @@ import statList from './modules/stat-list'
 import stepList from './modules/step-list'
 import testimonialFeatured from './modules/testimonial.featured'
 import testimonialList from './modules/testimonial-list'
+import EventGrid from '@/ui/modules/EventGrid'
 
 export const schemaTypes = [
 	// documents
 	site,
 	page,
+	artist,
+	event,
+	venue,
 	blogPost,
 	blogCategory,
 	navigation,
@@ -63,6 +72,8 @@ export const schemaTypes = [
 
 	// modules
 	accordionList,
+	artistGrid,
+	eventGrid,
 	blogFrontpage,
 	blogList,
 	blogPostContent,

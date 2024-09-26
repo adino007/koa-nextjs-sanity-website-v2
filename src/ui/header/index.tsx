@@ -14,14 +14,14 @@ export default async function Header() {
 	const logoImage = logo?.image?.dark || logo?.image?.default
 
 	return (
-		<Wrapper className="frosted-glass sticky top-0 z-50 font-moncheri uppercase text-white max-md:header-open:bg-opacity-70 max-md:header-open:backdrop-blur-xl">
+		<Wrapper className="frosted-glass sticky top-0 z-40 font-moncheri uppercase text-white">
 			<div
 				className={cn(
 					css.header,
 					'mx-auto grid max-w-screen-xl items-center gap-x-6 p-6',
 				)}
 			>
-				<div className="z-40 [grid-area:logo] max-md:mb-8">
+				<div className="z-50 [grid-area:logo] max-md:mb-8">
 					<Link
 						className={cn(
 							'h3 md:h2 inline-block',
@@ -31,7 +31,7 @@ export default async function Header() {
 					>
 						{logoImage ? (
 							<Img
-								className="inline-block max-h-[3.4em] w-auto"
+								className="inline-block max-h-[4em] w-auto"
 								image={logoImage}
 								alt={logo?.name || title}
 							/>

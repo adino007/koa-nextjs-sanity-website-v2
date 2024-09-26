@@ -24,7 +24,7 @@ export default async function RootLayout({
 		<html lang="en">
 			{/* <GoogleTagManager gtmId='' /> */}
 
-			<body className="font-moncheri bg-black uppercase text-white">
+			<body className="bg-black font-moncheri uppercase text-white">
 				<SkipToContent />
 				<Announcement />
 				<Header />

@@ -4,6 +4,22 @@ import type { Config } from 'tailwindcss'
 const config: Config = {
 	content: ['./src/{app,ui}/**/*.{ts,tsx}'],
 	theme: {
+		screens: {
+			sm: '640px',
+			// => @media (min-width: 640px) { ... }
+
+			md: '768px',
+			// => @media (min-width: 768px) { ... }
+
+			lg: '1024px',
+			// => @media (min-width: 1024px) { ... }
+
+			xl: '1280px',
+			// => @media (min-width: 1280px) { ... }
+
+			'2xl': '1536px',
+			// => @media (min-width: 1536px) { ... }
+		},
 		extend: {
 			colors: {
 				ink: '#000',
@@ -32,7 +48,8 @@ const config: Config = {
 		},
 	},
 	plugins: [
-		plugin(function ({ addVariant }) {
+		plugin(function ({ addVariant, addUtilities }) {
+			// Add custom variants for header-open and header-closed
 			addVariant('header-open', 'body:has(#header-open:checked) &')
 			addVariant('header-closed', 'body:has(#header-open:not(:checked)) &')
 		}),

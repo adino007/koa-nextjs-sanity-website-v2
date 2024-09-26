@@ -22,6 +22,8 @@ export default defineType({
 			type: 'array',
 			of: [
 				{ type: 'accordion-list' },
+				{ type: 'artist.grid' },
+				{ type: 'event.grid' },
 				{ type: 'blog-frontpage' },
 				{ type: 'blog-list' },
 				{ type: 'blog-post-content' },
@@ -55,6 +57,7 @@ export default defineType({
 							name: 'testimonial',
 							of: ['testimonial-list', 'testimonial.featured'],
 						},
+						{ name: 'artists', of: ['artist.grid'] },
 					],
 				},
 			},

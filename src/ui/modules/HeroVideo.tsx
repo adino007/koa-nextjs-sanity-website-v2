@@ -38,14 +38,14 @@ export default function HeroVideo({
 		<section
 			className={cn(
 				hasVideo &&
-					'relative m-0 -mt-36 grid h-screen w-full overflow-hidden bg-ink object-cover p-0 text-canvas *:col-span-full *:row-span-full sm:-mt-32',
+					'relative m-0 -mt-40 grid h-screen w-full overflow-hidden bg-ink object-cover p-0 text-canvas *:col-span-full *:row-span-full sm:-mt-44 lg:-mt-36',
 			)}
 		>
 			{content && (
 				<div className="section relative z-10 flex h-full w-full">
 					<div
 						className={cn(
-							'richtext text-shadow relative isolate mb-20 max-w-xl [&_:is(h1,h2)]:text-balance',
+							'richtext text-shadow relative isolate mb-24 max-w-xl [&_:is(h1,h2)]:text-balance',
 							css.txt,
 							{
 								'mb-8': stegaClean(alignItems) === 'start',

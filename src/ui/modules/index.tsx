@@ -1,4 +1,6 @@
 import AccordionList from './AccordionList'
+import ArtistGrid from './ArtistGrid'
+import EventGrid from './EventGrid'
 import BlogFrontpage from './blog/BlogFrontpage'
 import BlogList from './blog/BlogList'
 import Breadcrumbs from './Breadcrumbs'
@@ -34,6 +36,10 @@ export default function Modules({
 				switch (module._type) {
 					case 'accordion-list':
 						return <AccordionList {...module} key={module._key} />
+					case 'artist.grid':
+						return <ArtistGrid {...module} key={module._key} />
+					case 'event.grid':
+						return <EventGrid {...module} key={module._key} />
 					case 'blog-frontpage':
 						return <BlogFrontpage {...module} key={module._key} />
 					case 'blog-list':

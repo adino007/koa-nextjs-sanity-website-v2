@@ -19,7 +19,7 @@ export default async function Footer() {
 							<Link className="h3 md:h2 max-w-max" href="/">
 								{logoImage ? (
 									<Img
-										className="max-h-[2.5em] w-auto"
+										className="max-h-[3.8em] w-auto"
 										image={logoImage}
 										alt={logo?.name || title}
 									/>
