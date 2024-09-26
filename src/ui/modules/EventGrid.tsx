@@ -234,14 +234,14 @@ export default function EventGrid() {
 			{/* Modal */}
 			{isModalOpen && selectedEvent && (
 				<div className="fixed inset-0 z-50 flex items-center justify-center bg-black bg-opacity-75">
-					<div className="relative mx-4 my-8 max-h-screen w-full max-w-screen-lg overflow-y-auto rounded-lg bg-white p-6 md:p-8">
+					<div className="relative h-5/6 max-h-screen w-5/6 max-w-3xl overflow-y-auto rounded-lg bg-white p-6 text-black md:p-8">
 						<button
 							className="absolute right-4 top-4 text-gray-600 hover:text-gray-800"
 							onClick={closeModal}
 						>
 							&times;
 						</button>
-						<div className="flex flex-col md:flex-row">
+						<div className="flex h-full flex-col items-center">
 							<div className="md:w-1/2">
 								<Image
 									src={selectedEvent.flyer?.asset?.url || FALLBACK_IMAGE}
