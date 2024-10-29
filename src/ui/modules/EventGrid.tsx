@@ -42,7 +42,6 @@ interface Event {
 }
 
 const ITEMS_PER_PAGE = 9
-const FALLBACK_IMAGE = '/placeholder-image.jpg'
 
 export default function EventGrid() {
 	const [events, setEvents] = useState<Event[]>([])
@@ -172,13 +171,20 @@ export default function EventGrid() {
 						onClick={() => openModal(event)}
 					>
 						<div className="relative h-64 w-full">
-							<Image
-								src={event.flyer?.asset?.url || FALLBACK_IMAGE}
-								alt={event.name}
-								layout="fill"
-								objectFit="cover"
-								className="transform transition-transform duration-300 hover:scale-105"
-							/>
+							{event.flyer?.asset?.url ? (
+								<Image
+									src={event.flyer.asset.url}
+									alt={event.name}
+									fill
+									style={{ objectFit: 'cover' }}
+									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+									className="transform transition-transform duration-300 hover:scale-105"
+								/>
+							) : (
+								<div className="flex h-full w-full items-center justify-center bg-gray-300 text-gray-700">
+									No Image Available
+								</div>
+							)}
 						</div>
 						<div className="bg-gray-800 p-4 text-center text-white">
 							<h2 className="text-lg font-bold">{event.name}</h2>
@@ -244,14 +250,20 @@ export default function EventGrid() {
 						</button>
 						<div className="flex h-full flex-col items-center">
 							<div className="md:w-1/2">
-								<Image
-									src={selectedEvent.flyer?.asset?.url || FALLBACK_IMAGE}
-									alt={selectedEvent.name}
-									width={500}
-									height={300}
-									objectFit="cover"
-									className="rounded-lg"
-								/>
+								{selectedEvent.flyer?.asset?.url ? (
+									<Image
+										src={selectedEvent.flyer.asset.url}
+										alt={selectedEvent.name}
+										width={500}
+										height={300}
+										style={{ objectFit: 'cover' }}
+										className="rounded-lg"
+									/>
+								) : (
+									<div className="flex h-full w-full items-center justify-center bg-gray-300 text-gray-700">
+										No Image Available
+									</div>
+								)}
 								{selectedEvent.gallery && selectedEvent.gallery.length > 0 && (
 									<div className="mt-4">
 										<h3 className="text-xl font-semibold">Gallery</h3>
@@ -263,7 +275,7 @@ export default function EventGrid() {
 													alt={`Gallery Image ${index + 1}`}
 													width={200}
 													height={200}
-													objectFit="cover"
+													style={{ objectFit: 'cover' }}
 													className="rounded-lg"
 												/>
 											))}

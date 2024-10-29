@@ -134,13 +134,20 @@ export default function ArtistGrid() {
 						onClick={() => openModal(artist)}
 					>
 						<div className="relative h-64 w-full">
-							<Image
-								src={artist.photo?.asset?.url || '/placeholder-image.jpg'}
-								alt={artist.name}
-								fill
-								style={{ objectFit: 'cover' }}
-								className="transform transition-transform duration-300 hover:scale-105"
-							/>
+							{artist.photo?.asset?.url ? (
+								<Image
+									src={artist.photo.asset.url}
+									alt={artist.name}
+									fill
+									style={{ objectFit: 'cover' }}
+									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+									className="transform transition-transform duration-300 hover:scale-105"
+								/>
+							) : (
+								<div className="flex h-full w-full items-center justify-center bg-gray-300 text-gray-700">
+									No Image Available
+								</div>
+							)}
 						</div>
 						<div className="bg-gray-800 p-4 text-center text-white">
 							<h2 className="text-lg font-bold">{artist.name}</h2>
@@ -182,16 +189,20 @@ export default function ArtistGrid() {
 						</button>
 						<div className="flex h-full flex-col items-center">
 							<div className="md:w-1/2">
-								<Image
-									src={
-										selectedArtist.photo?.asset?.url || '/placeholder-image.jpg'
-									}
-									alt={selectedArtist.name}
-									width={500}
-									height={500}
-									style={{ objectFit: 'cover' }}
-									className="rounded-lg"
-								/>
+								{selectedArtist.photo?.asset?.url ? (
+									<Image
+										src={selectedArtist.photo.asset.url}
+										alt={selectedArtist.name}
+										width={500}
+										height={500}
+										style={{ objectFit: 'cover' }}
+										className="rounded-lg"
+									/>
+								) : (
+									<div className="flex h-full w-full items-center justify-center bg-gray-300 text-gray-700">
+										No Image Available
+									</div>
+								)}
 							</div>
 							<div className="mt-6 md:mt-0 md:w-1/2 md:pl-6">
 								<h2 className="mb-4 text-3xl font-bold">

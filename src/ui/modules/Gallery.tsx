@@ -68,7 +68,7 @@ export default function Gallery() {
 	const openModal = (event: Event) => {
 		setSelectedEvent(event)
 		setIsModalOpen(true)
-		setLightboxIndex(null)
+		setLightboxIndex(null) // Reset the lightbox index to start fresh
 	}
 
 	const closeModal = () => {
@@ -85,31 +85,41 @@ export default function Gallery() {
 		<div className="container mx-auto px-4">
 			{/* Event Grid */}
 			<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-				{paginatedEvents.map((event) => (
-					<div
-						key={event._id}
-						className="cursor-pointer overflow-hidden rounded-lg border shadow-md"
-						onClick={() => openModal(event)}
-					>
-						<div className="relative h-64 w-full">
-							<Image
-								src={
-									event.gallery.find((item) => item._type === 'photo')?.asset
-										.url || '/fallback-image.jpg'
-								}
-								alt={event.name}
-								fill
-								style={{ objectFit: 'cover' }}
-								sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-								className="transform transition-transform duration-300 hover:scale-105"
-							/>
+				{paginatedEvents.map((event) => {
+					// Find the first photo from the gallery
+					const firstPhoto = event.gallery.find(
+						(item) => item._type === 'photo',
+					)
+
+					return (
+						<div
+							key={event._id}
+							className="cursor-pointer overflow-hidden rounded-lg border shadow-md"
+							onClick={() => openModal(event)}
+						>
+							<div className="relative h-64 w-full">
+								{firstPhoto?.asset.url ? (
+									<Image
+										src={firstPhoto.asset.url}
+										alt={event.name}
+										fill
+										style={{ objectFit: 'cover' }}
+										sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+										className="transform transition-transform duration-300 hover:scale-105"
+									/>
+								) : (
+									<div className="flex h-full w-full items-center justify-center bg-gray-300 text-gray-700">
+										No Image Available
+									</div>
+								)}
+							</div>
+							<div className="bg-gray-800 p-4 text-center text-white">
+								<h2 className="text-lg font-bold">{event.name}</h2>
+								<p>{new Date(event.date).toLocaleDateString()}</p>
+							</div>
 						</div>
-						<div className="bg-gray-800 p-4 text-center text-white">
-							<h2 className="text-lg font-bold">{event.name}</h2>
-							<p>{new Date(event.date).toLocaleDateString()}</p>
-						</div>
-					</div>
-				))}
+					)
+				})}
 			</div>
 
 			{/* Pagination Controls */}
@@ -209,14 +219,18 @@ export default function Gallery() {
 										.map((photo) => ({ src: photo.asset.url, alt: `Photo` }))}
 									currentIndex={lightboxIndex}
 									onNext={() =>
-										setLightboxIndex(
-											(lightboxIndex + 1) % selectedEvent.gallery.length,
+										setLightboxIndex((prevIndex) =>
+											prevIndex !== null
+												? (prevIndex + 1) % selectedEvent.gallery.length
+												: 0,
 										)
 									}
 									onPrev={() =>
-										setLightboxIndex(
-											(lightboxIndex + selectedEvent.gallery.length - 1) %
-												selectedEvent.gallery.length,
+										setLightboxIndex((prevIndex) =>
+											prevIndex !== null
+												? (prevIndex + selectedEvent.gallery.length - 1) %
+													selectedEvent.gallery.length
+												: 0,
 										)
 									}
 								/>
