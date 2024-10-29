@@ -25,6 +25,7 @@ import metadata from './objects/metadata'
 import accordionList from './modules/accordion-list'
 import artistGrid from './modules/artist.grid'
 import eventGrid from './modules/event.grid'
+import gallery from './modules/gallery'
 import blogFrontpage from './modules/blog-frontpage'
 import blogList from './modules/blog-list'
 import blogPostContent from './modules/blog-post-content'
@@ -44,7 +45,6 @@ import statList from './modules/stat-list'
 import stepList from './modules/step-list'
 import testimonialFeatured from './modules/testimonial.featured'
 import testimonialList from './modules/testimonial-list'
-import EventGrid from '@/ui/modules/EventGrid'
 
 export const schemaTypes = [
 	// documents
@@ -74,6 +74,7 @@ export const schemaTypes = [
 	accordionList,
 	artistGrid,
 	eventGrid,
+	gallery,
 	blogFrontpage,
 	blogList,
 	blogPostContent,

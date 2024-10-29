@@ -84,7 +84,8 @@ export default function EventGrid() {
 		if (sortOrder === 'alphabetical') {
 			return a.name.localeCompare(b.name)
 		} else if (sortOrder === 'date') {
-			return new Date(a.date).getTime() - new Date(b.date).getTime()
+			// Sort by date in descending order (most recent to oldest)
+			return new Date(b.date).getTime() - new Date(a.date).getTime()
 		}
 		return 0
 	})

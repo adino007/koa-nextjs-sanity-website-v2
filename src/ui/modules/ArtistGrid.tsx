@@ -31,10 +31,9 @@ const ITEMS_PER_PAGE = 9
 
 export default function ArtistGrid() {
 	const [artists, setArtists] = useState<Artist[]>([])
-	const [sortOrder, setSortOrder] = useState<'alphabetical' | 'date'>(
-		'alphabetical',
-	)
-	const [filter, setFilter] = useState<'all' | 'upcoming' | 'past'>('all')
+	const [sortOrder, setSortOrder] = useState<
+		'alphabetical' | 'upcoming' | 'past'
+	>('alphabetical')
 	const [currentPage, setCurrentPage] = useState(1)
 	const [loading, setLoading] = useState(true)
 	const [selectedArtist, setSelectedArtist] = useState<Artist | null>(null)
@@ -54,25 +53,29 @@ export default function ArtistGrid() {
 		fetchArtists()
 	}, [])
 
-	const filteredArtists = artists.filter((artist) => {
-		if (filter === 'upcoming') {
-			return artist.upcomingEvents && artist.upcomingEvents.length > 0
-		} else if (filter === 'past') {
-			return artist.pastEvents && artist.pastEvents.length > 0
-		}
-		return true
-	})
-
-	const sortedArtists = [...filteredArtists].sort((a, b) => {
-		if (sortOrder === 'alphabetical') {
-			return a.name.localeCompare(b.name)
-		} else if (sortOrder === 'date') {
-			const aEvent = a.upcomingEvents[0]?.date || ''
-			const bEvent = b.upcomingEvents[0]?.date || ''
-			return new Date(aEvent).getTime() - new Date(bEvent).getTime()
-		}
-		return 0
-	})
+	const sortedArtists = [...artists]
+		.filter((artist) => {
+			if (sortOrder === 'upcoming') {
+				return artist.upcomingEvents && artist.upcomingEvents.length > 0
+			} else if (sortOrder === 'past') {
+				return artist.pastEvents && artist.pastEvents.length > 0
+			}
+			return true
+		})
+		.sort((a, b) => {
+			if (sortOrder === 'alphabetical') {
+				return a.name.localeCompare(b.name)
+			} else if (sortOrder === 'upcoming') {
+				const aEvent = a.upcomingEvents[0]?.date || ''
+				const bEvent = b.upcomingEvents[0]?.date || ''
+				return new Date(aEvent).getTime() - new Date(bEvent).getTime()
+			} else if (sortOrder === 'past') {
+				const aEvent = a.pastEvents[a.pastEvents.length - 1]?.date || ''
+				const bEvent = b.pastEvents[b.pastEvents.length - 1]?.date || ''
+				return new Date(bEvent).getTime() - new Date(aEvent).getTime()
+			}
+			return 0
+		})
 
 	const totalPages = Math.ceil(sortedArtists.length / ITEMS_PER_PAGE)
 	const paginatedArtists = sortedArtists.slice(
@@ -99,7 +102,7 @@ export default function ArtistGrid() {
 
 	return (
 		<div className="container mx-auto px-4">
-			{/* Sorting and Filtering Controls */}
+			{/* Sorting Controls */}
 			<div className="mb-4 flex items-center justify-between">
 				<div className="flex space-x-4">
 					<div>
@@ -108,26 +111,13 @@ export default function ArtistGrid() {
 							id="sort"
 							value={sortOrder}
 							onChange={(e) =>
-								setSortOrder(e.target.value as 'alphabetical' | 'date')
+								setSortOrder(
+									e.target.value as 'alphabetical' | 'upcoming' | 'past',
+								)
 							}
 							className="rounded border p-2 uppercase text-black"
 						>
 							<option value="alphabetical">Alphabetical</option>
-							<option value="date">Event Date</option>
-						</select>
-					</div>
-
-					<div>
-						<label htmlFor="filter">Filter By:</label>
-						<select
-							id="filter"
-							value={filter}
-							onChange={(e) =>
-								setFilter(e.target.value as 'all' | 'upcoming' | 'past')
-							}
-							className="rounded border p-2 uppercase text-black"
-						>
-							<option value="all">All Artists</option>
 							<option value="upcoming">Upcoming Events</option>
 							<option value="past">Past Events</option>
 						</select>
@@ -147,8 +137,8 @@ export default function ArtistGrid() {
 							<Image
 								src={artist.photo?.asset?.url || '/placeholder-image.jpg'}
 								alt={artist.name}
-								layout="fill"
-								objectFit="cover"
+								fill
+								style={{ objectFit: 'cover' }}
 								className="transform transition-transform duration-300 hover:scale-105"
 							/>
 						</div>
@@ -199,7 +189,7 @@ export default function ArtistGrid() {
 									alt={selectedArtist.name}
 									width={500}
 									height={500}
-									objectFit="cover"
+									style={{ objectFit: 'cover' }}
 									className="rounded-lg"
 								/>
 							</div>
@@ -228,34 +218,41 @@ export default function ArtistGrid() {
 											</ul>
 										</div>
 									)}
+								{/* Upcoming Events Section */}
 								{selectedArtist.upcomingEvents &&
-									selectedArtist.upcomingEvents.length > 0 && (
-										<div className="mb-4">
-											<h3 className="text-xl font-semibold">Upcoming Events</h3>
-											<ul className="list-disc pl-5">
-												{selectedArtist.upcomingEvents.map((event) => (
-													<li key={event._id}>
-														{event.name} at {event.venue.name} on{' '}
-														{new Date(event.date).toLocaleDateString()}
-													</li>
-												))}
-											</ul>
-										</div>
-									)}
+								selectedArtist.upcomingEvents.length > 0 ? (
+									<div className="mb-4">
+										<h3 className="text-xl font-semibold">Upcoming Events</h3>
+										<ul className="list-disc pl-5">
+											{selectedArtist.upcomingEvents.map((event) => (
+												<li key={event._id}>
+													{event.name} at {event.venue.name} on{' '}
+													{new Date(event.date).toLocaleDateString()}
+												</li>
+											))}
+										</ul>
+									</div>
+								) : (
+									<p className="text-gray-600">No upcoming events</p>
+								)}
+								{/* Past Events Section */}
 								{selectedArtist.pastEvents &&
-									selectedArtist.pastEvents.length > 0 && (
-										<div className="mb-4">
-											<h3 className="text-xl font-semibold">Past Events</h3>
-											<ul className="list-disc pl-5">
-												{selectedArtist.pastEvents.map((event) => (
-													<li key={event._id}>
-														{event.name} at {event.venue.name} on{' '}
-														{new Date(event.date).toLocaleDateString()}
-													</li>
-												))}
-											</ul>
-										</div>
-									)}
+								selectedArtist.pastEvents.length > 0 ? (
+									<div className="mb-4">
+										<h3 className="text-xl font-semibold">Past Events</h3>
+										<ul className="list-disc pl-5">
+											{selectedArtist.pastEvents.map((event) => (
+												<li key={event._id}>
+													{event.name} at {event.venue.name} on{' '}
+													{new Date(event.date).toLocaleDateString()}
+												</li>
+											))}
+										</ul>
+									</div>
+								) : (
+									<p className="text-gray-600">No past events</p>
+								)}
+								{/* Gallery Section */}
 								{selectedArtist.gallery &&
 									selectedArtist.gallery.length > 0 && (
 										<div className="mb-4">
@@ -268,7 +265,7 @@ export default function ArtistGrid() {
 														alt={`Gallery Image ${index + 1}`}
 														width={200}
 														height={200}
-														objectFit="cover"
+														style={{ objectFit: 'cover' }}
 														className="rounded-lg"
 													/>
 												))}

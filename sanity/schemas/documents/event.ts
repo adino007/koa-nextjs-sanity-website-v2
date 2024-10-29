@@ -1,4 +1,5 @@
-import { defineField, defineType } from 'sanity'
+// schemas/event.ts
+import { defineType, defineField } from 'sanity'
 
 export default defineType({
 	name: 'event',
@@ -9,13 +10,13 @@ export default defineType({
 			name: 'name',
 			title: 'Event Name',
 			type: 'string',
-			validation: (Rule) => Rule.required(),
+			validation: (Rule) => Rule.required().error('Event Name is required'),
 		}),
 		defineField({
 			name: 'date',
 			title: 'Date',
 			type: 'datetime',
-			validation: (Rule) => Rule.required(),
+			validation: (Rule) => Rule.required().error('Event Date is required'),
 		}),
 		defineField({
 			name: 'time',
@@ -47,12 +48,6 @@ export default defineType({
 			of: [{ type: 'reference', to: { type: 'artist' } }],
 		}),
 		defineField({
-			name: 'links',
-			title: 'Links',
-			type: 'array',
-			of: [{ type: 'url' }],
-		}),
-		defineField({
 			name: 'flyer',
 			title: 'Flyer Image',
 			type: 'image',
@@ -60,10 +55,28 @@ export default defineType({
 		}),
 		defineField({
 			name: 'gallery',
-			title: 'Gallery',
+			title: 'Gallery Items',
 			type: 'array',
-			of: [{ type: 'image' }],
-			options: { layout: 'grid' },
+			of: [
+				{
+					type: 'image',
+					title: 'Photo',
+					options: { hotspot: true },
+				},
+				{
+					type: 'mux.video',
+					title: 'Video',
+				},
+			],
+			options: {
+				layout: 'grid',
+			},
+		}),
+		defineField({
+			name: 'links',
+			title: 'Links',
+			type: 'array',
+			of: [{ type: 'url' }],
 		}),
 	],
 })

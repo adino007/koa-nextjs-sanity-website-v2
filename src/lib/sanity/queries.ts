@@ -142,6 +142,27 @@ export async function getEvents() {
 	return events
 }
 
+// queries.ts
+export const galleryQuery = groq`
+    *[_type == "event" && defined(gallery)] {
+    _id,
+    name,
+    date,
+    gallery[]{
+      _type,
+      asset->{
+        url,
+        "muxPlaybackId": coalesce(mux.assetId, null)
+      }
+    }
+  }
+`
+// Fetch function to get gallery data
+export async function getGallery() {
+	const galleryData = await fetchSanity(galleryQuery)
+	return galleryData
+}
+
 // --- VENUE QUERY ---
 export const venueQuery = groq`
   *[_type == "venue"]{
@@ -222,6 +243,21 @@ export const modulesQuery = groq`
       time,
       venue->{ name, location },
       flyer{ asset->{ url } }
+    }
+  },
+  _type == 'gallery' => {
+    ...,
+    "events": *[_type == "event" && defined(gallery)]{
+      _id,
+      name,
+      date,
+      gallery[]{
+        _type,
+        asset->{
+          url,
+          "muxPlaybackId": coalesce(mux.assetId, null)
+        }
+      }
     }
   },
   _type == 'testimonial.featured' => { testimonial-> },

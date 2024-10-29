@@ -24,6 +24,7 @@ export default defineType({
 				{ type: 'accordion-list' },
 				{ type: 'artist.grid' },
 				{ type: 'event.grid' },
+				{ type: 'gallery' },
 				{ type: 'blog-frontpage' },
 				{ type: 'blog-list' },
 				{ type: 'blog-post-content' },
