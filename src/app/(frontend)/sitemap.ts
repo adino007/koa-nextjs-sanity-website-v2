@@ -20,6 +20,11 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 				'url': $baseUrl + 'blog/' + metadata.slug.current,
 				'lastModified': _updatedAt,
 				'priority': 0.4
+			},
+			'events': *[_type == 'event' && defined(slug.current)]|order(date desc){
+				'url': $baseUrl + 'events/' + slug.current,
+				'lastModified': _updatedAt,
+				'priority': 0.6
 			}
 		}`,
 		{

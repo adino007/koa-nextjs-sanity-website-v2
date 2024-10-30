@@ -34,7 +34,7 @@ async function getPage(params: Props['params']) {
 		groq`*[
 			_type == 'page' &&
 			metadata.slug.current == $slug &&
-			!(metadata.slug.current in ['index', '404', 'blog/*'])
+			!(metadata.slug.current in ['index', '404', 'blog/*', 'events/*'])
 		][0]{
 			...,
 			modules[]{ ${modulesQuery} },

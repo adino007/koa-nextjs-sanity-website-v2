@@ -56,6 +56,46 @@ declare global {
 			title: string
 		}>
 
+		type Event = PageBase & {
+			readonly _type: 'event'
+			name: string
+			date: string
+			time: {
+				start: string
+				end: string
+			}
+			venue: {
+				_id: string
+				name: string
+				location: string
+				metadata: {
+					slug: {
+						current: string
+					}
+				}
+			}
+			artists: {
+				_id: string
+				name: string
+				metadata: {
+					slug: {
+						current: string
+					}
+				}
+				photo: {
+					asset: {
+						url: string
+					}
+				}
+			}[]
+			flyer: {
+				asset: {
+					url: string
+				}
+			}
+			links: string[]
+		}
+
 		// miscellaneous
 
 		type Logo = SanityDocument<{

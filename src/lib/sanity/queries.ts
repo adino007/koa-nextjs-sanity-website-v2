@@ -6,26 +6,6 @@ export const linkQuery = groq`
   internal->{ _type, title, metadata }
 `
 
-// --- HERO VIDEO QUERY ---
-export const heroVideoQuery = groq`
-  *[_type == "hero.video"]{
-    ...,
-    "muxVideo": muxVideo.asset->{
-      playbackId,
-      status,
-      filename
-    }
-  }
-`
-
-export async function getHeroVideo() {
-	const heroVideo = await fetchSanity(heroVideoQuery)
-	if (!heroVideo || heroVideo.length === 0) {
-		throw new Error('No hero video found in Sanity.')
-	}
-	return heroVideo[0]
-}
-
 // --- NAVIGATION QUERY ---
 const navigationQuery = groq`
   title,
@@ -60,133 +40,7 @@ export async function getSite() {
 	return site
 }
 
-// --- ARTIST QUERY ---
-export const artistQuery = groq`
-  *[_type == "artist"]{
-    _id,
-    name,
-    photo{
-      asset->{
-        url
-      }
-    },
-    bio,
-    socialLinks,
-    "gallery": gallery[].asset->url,
-    "upcomingEvents": upcomingEvents[]->{
-      _id,
-      name,
-      date,
-      venue->{
-        name
-      }
-    },
-    "pastEvents": pastEvents[]->{
-      _id,
-      name,
-      date,
-      venue->{
-        name
-      }
-    }
-  }
-`
-
-export async function getArtists() {
-	const artists = await fetchSanity(artistQuery)
-	return artists
-}
-
-// --- EVENT QUERY ---
-export const eventQuery = groq`
-  *[_type == "event"]{
-    _id,
-    name,
-    date,
-    time{
-      start,
-      end
-    },
-    venue->{
-      _id,
-      name,
-      location,
-      description
-    },
-    artists[]->{
-      _id,
-      name,
-      bio,
-      photo{
-        asset->{
-          url
-        }
-      }
-    },
-    flyer{
-      asset->{
-        url
-      }
-    },
-    gallery[]{
-      asset->{
-        url
-      }
-    },
-    links
-  }
-`
-
-export async function getEvents() {
-	const events = await fetchSanity(eventQuery)
-	return events
-}
-
-// queries.ts
-export const galleryQuery = groq`
-    *[_type == "event" && defined(gallery)] {
-    _id,
-    name,
-    date,
-    gallery[]{
-      _type,
-      asset->{
-        url,
-        "muxPlaybackId": coalesce(mux.assetId, null)
-      }
-    }
-  }
-`
-// Fetch function to get gallery data
-export async function getGallery() {
-	const galleryData = await fetchSanity(galleryQuery)
-	return galleryData
-}
-
-// --- VENUE QUERY ---
-export const venueQuery = groq`
-  *[_type == "venue"]{
-    name,
-    location,
-    description,
-    socialLinks,
-    "upcomingEvents": *[_type == "event" && references(^._id) && date >= now()]{
-      name,
-      date
-    },
-    "pastEvents": *[_type == "event" && references(^._id) && date < now()]{
-      name,
-      date
-    }
-  }
-`
-
-export async function getVenues() {
-	const venues = await fetchSanity(venueQuery)
-	return venues
-}
-
-// --- MODULES QUERY (including artist.grid and event.grid) ---
+// --- MODULES QUERY ---
 export const modulesQuery = groq`
   ...,
   ctas[]{
@@ -264,20 +118,177 @@ export const modulesQuery = groq`
   _type == 'testimonial-list' => { testimonials[]-> },
 `
 
-// ### Explanation:
+// --- HERO VIDEO QUERY ---
+export const heroVideoQuery = groq`
+  *[_type == "hero.video"]{
+    ...,
+    "muxVideo": muxVideo.asset->{
+      playbackId,
+      status,
+      filename
+    }
+  }
+`
 
-// 1. **Artist Grid Query:**
-//    - For the `artist.grid` module, we fetch all artists with their `name`, `photo`, and `bio`.
-//    - This allows you to render an artist grid that is dynamically populated from Sanity.
+export async function getHeroVideo() {
+	const heroVideo = await fetchSanity(heroVideoQuery)
+	if (!heroVideo || heroVideo.length === 0) {
+		throw new Error('No hero video found in Sanity.')
+	}
+	return heroVideo[0]
+}
 
-// 2. **Event Grid Query:**
-//    - For the `event.grid` module, we fetch event details including `name`, `date`, `time`, `venue`, and `flyer`.
-//    - This allows you to display a grid of events with relevant information from Sanity.
+// --- ARTIST QUERY ---
+export const artistQuery = groq`
+  *[_type == "artist"]{
+    _id,
+    name,
+    photo{
+      asset->{
+        url
+      }
+    },
+    bio,
+    socialLinks,
+    "gallery": gallery[].asset->url,
+    "upcomingEvents": upcomingEvents[]->{
+      _id,
+      name,
+      date,
+      venue->{
+        name
+      }
+    },
+    "pastEvents": pastEvents[]->{
+      _id,
+      name,
+      date,
+      venue->{
+        name
+      }
+    }
+  }
+`
 
-// 3. **Modular Fetching:**
-//    - The queries for `artist.grid` and `event.grid` are now part of the `modulesQuery`, ensuring they can be used within your modular components, just like any other module in Sanity.
+export async function getArtists() {
+	const artists = await fetchSanity(artistQuery)
+	return artists
+}
 
-// 4. **Scalability:**
-//    - If you add more modules in the future, you can simply append them to the `modulesQuery` without disrupting the structure.
+// --- EVENT QUERY ---
+export const eventQuery = groq`
+  *[_type == "event"]{
+    _type,
+    _id,
+    name,
+    date,
+    time{
+      start,
+      end
+    },
+    metadata {
+      title,
+      description,
+      ogimage,
+      noIndex,
+      slug {
+        current
+      }
+    },
+    venue->{
+      _id,
+      name,
+      location,
+      metadata {
+        slug {
+          current
+        }
+      }
+    },
+    artists[]->{
+      _id,
+      name,
+      metadata {
+        slug {
+          current
+        }
+      },
+      photo{
+        asset->{
+          url
+        }
+      }
+    },
+    flyer{
+      asset->{
+        url
+      }
+    },
+    gallery[]{
+      asset->{
+        url
+      }
+    },
+    links
+  }
+`
 
-// This implementation ensures that your `artist.grid` and `event.grid` modules are both properly queried and can be displayed as part of your modular system within Sanity and Next.js. If you need any adjustments or additional enhancements, feel free to ask!
+export async function getEvents() {
+	return await fetchSanity(eventQuery)
+}
+
+export async function getSingleEvent(
+	slug: string,
+): Promise<Sanity.Event | null> {
+	return await fetchSanity<Sanity.Event | null>(
+		`${eventQuery}[metadata.slug.current == $slug][0]`,
+		{
+			params: { slug },
+			tags: ['events'],
+		},
+	)
+}
+
+// queries.ts
+export const galleryQuery = groq`
+    *[_type == "event" && defined(gallery)] {
+    _id,
+    name,
+    date,
+    gallery[]{
+      _type,
+      asset->{
+        url,
+        "muxPlaybackId": coalesce(mux.assetId, null)
+      }
+    }
+  }
+`
+// Fetch function to get gallery data
+export async function getGallery() {
+	const galleryData = await fetchSanity(galleryQuery)
+	return galleryData
+}
+
+// --- VENUE QUERY ---
+export const venueQuery = groq`
+  *[_type == "venue"]{
+    name,
+    location,
+    description,
+    socialLinks,
+    "upcomingEvents": *[_type == "event" && references(^._id) && date >= now()]{
+      name,
+      date
+    },
+    "pastEvents": *[_type == "event" && references(^._id) && date < now()]{
+      name,
+      date
+    }
+  }
+`
+
+export async function getVenues() {
+	const venues = await fetchSanity(venueQuery)
+	return venues
+}
