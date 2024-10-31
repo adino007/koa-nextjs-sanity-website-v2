@@ -124,6 +124,8 @@ declare global {
 				to: Event
 			}>
 			venuesPlayed?: Array<{
+				name: ReactI18NextChildren | Iterable<ReactI18NextChildren>
+				location: ReactI18NextChildren | Iterable<ReactI18NextChildren>
 				type: 'reference'
 				to: Venue
 			}>

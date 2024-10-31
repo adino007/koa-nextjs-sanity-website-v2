@@ -149,8 +149,15 @@ export const artistQuery = groq`
       }
     },
     bio,
-    socialLinks,
-    "gallery": gallery[].asset->url,
+    socialLinks[]{
+      platform,
+      url
+    },
+    gallery[]{
+      asset->{
+        url
+      }
+    },
     "upcomingEvents": upcomingEvents[]->{
       _id,
       name,
@@ -166,13 +173,34 @@ export const artistQuery = groq`
       venue->{
         name
       }
+    },
+    "venuesPlayed": venuesPlayed[]->{
+      name,
+      location
+    },
+    metadata{
+      title,
+      description,
+      ogimage,
+      noIndex,
+      slug{
+        current
+      }
     }
   }
 `
-
 export async function getArtists() {
-	const artists = await fetchSanity(artistQuery)
-	return artists
+	return await fetchSanity(artistQuery)
+}
+
+export async function getArtist(slug: string): Promise<Sanity.Artist | null> {
+	return await fetchSanity<Sanity.Artist | null>(
+		`${artistQuery}[metadata.slug.current == $slug][0]`,
+		{
+			params: { slug },
+			tags: ['artists'],
+		},
+	)
 }
 
 // --- EVENT QUERY ---
@@ -291,16 +319,4 @@ export const venueQuery = groq`
 export async function getVenues() {
 	const venues = await fetchSanity(venueQuery)
 	return venues
-}
-
-export async function getSingleArtist(
-	slug: string,
-): Promise<Sanity.Artist | null> {
-	return await fetchSanity<Sanity.Artist | null>(
-		`${artistQuery}[metadata.slug.current == $slug][0]`,
-		{
-			params: { slug },
-			tags: ['artists'],
-		},
-	)
 }

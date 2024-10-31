@@ -8,7 +8,11 @@ import { useRouter } from 'next/navigation'
 interface Artist {
 	_id: string
 	name: string
-	photo: { asset: { url: string } }
+	photo: {
+		asset: {
+			url: string
+		}
+	}
 	bio: string
 	socialLinks: {
 		platform: string
@@ -26,9 +30,12 @@ interface Artist {
 		date: string
 		venue: { name: string }
 	}[]
-	gallery: string[]
+	metadata: {
+		slug: {
+			current: string
+		}
+	}
 }
-
 const ITEMS_PER_PAGE = 9
 
 export default function ArtistGrid() {
