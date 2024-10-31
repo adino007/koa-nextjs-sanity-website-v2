@@ -65,35 +65,87 @@ declare global {
 				end: string
 			}
 			venue: {
-				_id: string
-				name: string
-				location: string
-				metadata: {
-					slug: {
-						current: string
-					}
-				}
+				_type: 'reference'
+				to: Venue
 			}
-			artists: {
-				_id: string
-				name: string
-				metadata: {
-					slug: {
-						current: string
-					}
-				}
-				photo: {
-					asset: {
-						url: string
-					}
-				}
-			}[]
-			flyer: {
+			artists: Array<{
+				_type: 'reference'
+				to: Artist
+			}>
+			flyer?: {
 				asset: {
 					url: string
 				}
+				hotspot?: boolean
 			}
-			links: string[]
+			gallery?: Array<{
+				type: 'image' | 'mux.video'
+				title?: string
+				asset: {
+					url: string
+				}
+				hotspot?: boolean
+			}>
+			links?: string[]
+			metadata: Metadata
+		}
+
+		type Artist = PageBase & {
+			readonly _type: 'artist'
+			name: string
+			photo?: {
+				asset: {
+					url: string
+				}
+				hotspot?: boolean
+			}
+			bio?: string
+			socialLinks?: Array<{
+				platform: string
+				url: string
+			}>
+			upcomingEvents?: Array<{
+				type: 'reference'
+				to: Event
+			}>
+			pastEvents?: Array<{
+				type: 'reference'
+				to: Event
+			}>
+			venuesPlayed?: Array<{
+				type: 'reference'
+				to: Venue
+			}>
+			gallery?: Array<{
+				type: 'image'
+				asset: {
+					url: string
+				}
+				hotspot?: boolean
+			}>
+			metadata: Metadata
+		}
+
+		type Venue = PageBase & {
+			readonly _type: 'venue'
+			name: string
+			location: string
+			description?: string
+			image?: {
+				asset: {
+					url: string
+				}
+				alt?: string
+			}
+			gallery?: Array<{
+				_type: 'image' | 'mux.video'
+				asset: {
+					url: string
+				}
+			}>
+			upcomingEvents?: Event[]
+			pastEvents?: Event[]
+			metadata: Metadata
 		}
 
 		// miscellaneous
