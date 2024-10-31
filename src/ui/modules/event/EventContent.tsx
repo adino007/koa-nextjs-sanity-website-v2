@@ -1,27 +1,30 @@
+'use client'
+
+import { FastAverageColor } from 'fast-average-color'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
-import { useState, useEffect } from 'react'
-import { getPaletteFromURL } from 'color-thief-node'
 
 export default function EventContent({ event }: { event: Sanity.Event }) {
+	const [bgColor, setBgColor] = useState('transparent')
 
+	useEffect(() => {
+		if (event.flyer?.asset?.url) {
+			const fac = new FastAverageColor()
+			const img = document.createElement('img')
+			img.src = event.flyer.asset.url
+			img.crossOrigin = 'anonymous'
 
-    const [bgColor, setBgColor] = useState('')
-
-    useEffect(() => {
-        if (event.flyer?.asset?.url) {
-            getPaletteFromURL(event.flyer.asset.url).then(color => {
-                const [r, g, b] = color
-                setBgColor(`rgba(${r}, ${g}, ${b}, 0.7)`)
-            })
-        }
-    }, [event.flyer?.asset?.url])
-
-    return (
-        <div 
-            className="container mx-auto px-4 py-8"
-            style={{ backgroundColor: bgColor }}
-        >
+			img.onload = () => {
+				const color = fac.getColor(img)
+				setBgColor(
+					`rgba(${color.value[0]}, ${color.value[1]}, ${color.value[2]}, 0.7)`,
+				)
+			}
+		}
+	}, [event.flyer?.asset?.url])
+	return (
+		<div className="container mx-auto bg-transparent px-4 py-8 transition-colors duration-500">
 			<div className="flex flex-col items-center justify-center gap-8 lg:flex-row">
 				{/* Flyer Section */}
 				<div className="w-full lg:w-1/3">
@@ -116,5 +119,4 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 			</div>
 		</div>
 	)
-
 }

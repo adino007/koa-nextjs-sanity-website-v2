@@ -4,6 +4,7 @@ import { modulesQuery } from '@/lib/sanity/queries'
 import { notFound } from 'next/navigation'
 import Modules from '@/ui/modules'
 import EventContent from '@/ui/modules/event/EventContent'
+import DynamicBackground from '@/ui/modules/event/DynamicBackground'
 
 export default async function Page({ params }: Props) {
 	const page = await getPageTemplate()
@@ -11,10 +12,9 @@ export default async function Page({ params }: Props) {
 	if (!page || !event) notFound()
 
 	return (
-		<>
+		<DynamicBackground imageUrl={event.flyer?.asset?.url || ''}>
 			<EventContent event={event} />
-			<Modules modules={page?.modules} page={page} />
-		</>
+		</DynamicBackground>
 	)
 }
 
