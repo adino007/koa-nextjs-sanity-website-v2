@@ -292,3 +292,15 @@ export async function getVenues() {
 	const venues = await fetchSanity(venueQuery)
 	return venues
 }
+
+export async function getSingleArtist(
+	slug: string,
+): Promise<Sanity.Artist | null> {
+	return await fetchSanity<Sanity.Artist | null>(
+		`${artistQuery}[metadata.slug.current == $slug][0]`,
+		{
+			params: { slug },
+			tags: ['artists'],
+		},
+	)
+}

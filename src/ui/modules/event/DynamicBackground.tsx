@@ -43,7 +43,7 @@ export default function DynamicBackground({
 			const elements = ['header', 'footer', 'main']
 			elements.forEach((selector) => {
 				const element = document.querySelector(selector)
-				if (element) element.style.backgroundColor = ''
+				if (element) (element as HTMLElement).style.backgroundColor = ''
 			})
 		}
 	}, [imageUrl])

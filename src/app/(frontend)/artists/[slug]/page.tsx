@@ -1,25 +1,23 @@
-import client from '@/lib/sanity/client'
-import { fetchSanity, groq } from '@/lib/sanity/fetch'
-import { modulesQuery } from '@/lib/sanity/queries'
+import { getSingleArtist } from '@/lib/sanity/queries'
 import { notFound } from 'next/navigation'
-import Modules from '@/ui/modules'
+import ArtistContent from '@/ui/modules/artist/ArtistContent'
+import DynamicBackground from '@/ui/modules/event/DynamicBackground'
+import client from '@/lib/sanity/client'
+import groq from 'groq'
 
 export default async function Page({ params }: Props) {
-	const page = await getPageTemplate()
-	const artist = await getArtist(params)
-	if (!page || !artist) notFound()
+  const artist = await getSingleArtist(params.slug!)
+  if (!artist) notFound()
 
-	return (
-		<div>
-			<h1>{artist.name}</h1>
-			<div>{artist.bio}</div>
-			{artist.photo && <img src={artist.photo.asset.url} alt={artist.name} />}
-		</div>
-	)
+  return (
+    <DynamicBackground imageUrl={artist.photo?.asset?.url || ''}>
+      <ArtistContent artist={artist} />
+    </DynamicBackground>
+  )
 }
 
 export async function generateMetadata({ params }: Props) {
-	const artist = await getArtist(params)
+	const artist = await getSingleArtist(params.slug!)
 	if (!artist) notFound()
 
 	return {
@@ -36,55 +34,6 @@ export async function generateStaticParams() {
 		groq`*[_type == 'artist' && defined(slug.current)].slug.current`,
 	)
 	return slugs.map((slug) => ({ slug }))
-}
-
-async function getArtist(params: Props['params']) {
-	return await fetchSanity<Sanity.Artist>(
-		groq`*[_type == 'artist' && metadata.slug.current == $slug][0]{
-            _type,
-            name,
-            bio,
-            metadata {
-                title,
-                description,
-                ogimage,
-                noIndex,
-                slug {
-                    current
-                }
-            },
-            photo{
-                asset->{
-                    url
-                }
-            },
-            events[]->{
-                _id,
-                name,
-                date,
-                metadata {
-                    slug {
-                        current
-                    }
-                }
-            }
-        }`,
-		{
-			params,
-			tags: ['artist'],
-		},
-	)
-}
-
-async function getPageTemplate() {
-	return await fetchSanity<Sanity.Page>(
-		groq`*[_type == 'page' && metadata.slug.current == 'artists/*'][0]{
-            ...,
-            modules[]{ ${modulesQuery} },
-            metadata { slug }
-        }`,
-		{ tags: ['artists/*'] },
-	)
 }
 
 type Props = {

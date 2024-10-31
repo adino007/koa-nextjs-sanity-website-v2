@@ -65,10 +65,17 @@ declare global {
 				end: string
 			}
 			venue: {
+				metadata: any
+				name: ReactI18NextChildren | Iterable<ReactI18NextChildren>
+				location: ReactI18NextChildren | Iterable<ReactI18NextChildren>
 				_type: 'reference'
 				to: Venue
 			}
 			artists: Array<{
+				metadata: any
+				_id: Key | null | undefined
+				photo: any
+				name: string
 				_type: 'reference'
 				to: Artist
 			}>
@@ -105,6 +112,10 @@ declare global {
 				url: string
 			}>
 			upcomingEvents?: Array<{
+				_id: Key | null | undefined
+				name: ReactI18NextChildren | Iterable<ReactI18NextChildren>
+				date: string | number | Date
+				venue: any
 				type: 'reference'
 				to: Event
 			}>
