@@ -18,7 +18,7 @@ export default async function Header() {
 			<div
 				className={cn(
 					css.header,
-					'mx-auto grid max-w-screen-xl items-center gap-x-6 p-6 max-sm:pb-0',
+					'mx-auto grid max-w-screen-xl items-center gap-x-6 p-6 pb-4 max-sm:pb-0',
 				)}
 			>
 				<div className="z-50 [grid-area:logo] max-md:mb-8">
