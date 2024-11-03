@@ -67,28 +67,38 @@ export default function EventGrid() {
 			<div className="mb-4 flex justify-center sm:justify-end">
 				<div className="flex flex-row space-x-2">
 					<div className="flex items-center">
-						<label htmlFor="sort" className="mr-1 font-medium text-white text-sm">Sort:</label>
+						<label
+							htmlFor="sort"
+							className="mr-1 text-sm font-medium text-white"
+						>
+							Sort:
+						</label>
 						<select
 							id="sort"
 							value={sortOrder}
 							onChange={(e) =>
 								setSortOrder(e.target.value as 'alphabetical' | 'date')
 							}
-							className="rounded border p-1 text-sm uppercase text-black w-24"
+							className="w-24 rounded border p-1 text-sm uppercase text-black"
 						>
 							<option value="date">Date</option>
 							<option value="alphabetical">Name</option>
 						</select>
 					</div>
 					<div className="flex items-center">
-						<label htmlFor="filter" className="mr-1 font-medium text-white text-sm">Filter:</label>
+						<label
+							htmlFor="filter"
+							className="mr-1 text-sm font-medium text-white"
+						>
+							Filter:
+						</label>
 						<select
 							id="filter"
 							value={filter}
 							onChange={(e) =>
 								setFilter(e.target.value as 'all' | 'upcoming' | 'past')
 							}
-							className="rounded border p-1 text-sm uppercase text-black w-24"
+							className="w-34 rounded border p-1 text-sm uppercase text-black"
 						>
 							<option value="all">All</option>
 							<option value="upcoming">Upcoming</option>
