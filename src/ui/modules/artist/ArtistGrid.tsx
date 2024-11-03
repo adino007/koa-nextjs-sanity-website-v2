@@ -76,14 +76,21 @@ export default function ArtistGrid() {
 			<div className="mb-4 flex justify-center sm:justify-end">
 				<div className="flex flex-row space-x-2">
 					<div className="flex items-center">
-						<label htmlFor="sort" className="mr-1 font-medium text-white text-sm">Sort:</label>
+						<label
+							htmlFor="sort"
+							className="mr-1 text-sm font-medium text-white"
+						>
+							Sort:
+						</label>
 						<select
 							id="sort"
 							value={sortOrder}
 							onChange={(e) =>
-								setSortOrder(e.target.value as 'alphabetical' | 'upcoming' | 'past')
+								setSortOrder(
+									e.target.value as 'alphabetical' | 'upcoming' | 'past',
+								)
 							}
-							className="rounded border p-1 text-sm uppercase text-black w-24"
+							className="w-34 rounded border p-1 text-sm uppercase text-black"
 						>
 							<option value="alphabetical">Name</option>
 							<option value="upcoming">Upcoming</option>
