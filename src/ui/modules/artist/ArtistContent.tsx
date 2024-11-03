@@ -27,7 +27,7 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 	return (
 		<div className="container mx-auto bg-transparent px-4 py-2 transition-colors duration-500">
 			<div className="flex flex-col items-start justify-center gap-8 lg:flex-row">
-				{/* Artist Photo Section - Fixed Height */}
+				{/* Artist Photo Section */}
 				<div className="w-full lg:w-1/3">
 					{artist.photo?.asset?.url && (
 						<div className="relative sticky top-24 mx-auto aspect-square w-full max-w-sm">

@@ -43,13 +43,17 @@ export default function ArtistGrid() {
 		.sort((a, b) => {
 			if (sortOrder === 'alphabetical') {
 				return a.name.localeCompare(b.name)
-			} else if (sortOrder === 'upcoming' && a.upcomingEvents && b.upcomingEvents) {
-				const aEvent = a.upcomingEvents[0]?.date || ''
-				const bEvent = b.upcomingEvents[0]?.date || ''
+			} else if (
+				sortOrder === 'upcoming' &&
+				a.upcomingEvents &&
+				b.upcomingEvents
+			) {
+				const aEvent = a.upcomingEvents[0]?.to?.date || ''
+				const bEvent = b.upcomingEvents[0]?.to?.date || ''
 				return new Date(aEvent).getTime() - new Date(bEvent).getTime()
 			} else if (sortOrder === 'past' && a.pastEvents && b.pastEvents) {
-				const aEvent = a.pastEvents[a.pastEvents.length - 1]?.date || ''
-				const bEvent = b.pastEvents[b.pastEvents.length - 1]?.date || ''
+				const aEvent = a.pastEvents[a.pastEvents.length - 1]?.to?.date || ''
+				const bEvent = b.pastEvents[b.pastEvents.length - 1]?.to?.date || ''
 				return new Date(bEvent).getTime() - new Date(aEvent).getTime()
 			}
 			return 0
