@@ -64,44 +64,39 @@ export default function EventGrid() {
 
 	return (
 		<div className="container mx-auto px-4">
-			<div className="mb-4 flex items-center justify-between">
-				<div className="flex space-x-4">
-					<div>
-						<label htmlFor="sort" className="mr-2 font-medium text-white">
-							Sort By:
-						</label>
+			<div className="mb-4 flex justify-center sm:justify-end">
+				<div className="flex flex-row space-x-2">
+					<div className="flex items-center">
+						<label htmlFor="sort" className="mr-1 font-medium text-white text-sm">Sort:</label>
 						<select
 							id="sort"
 							value={sortOrder}
 							onChange={(e) =>
 								setSortOrder(e.target.value as 'alphabetical' | 'date')
 							}
-							className="rounded border p-2 uppercase text-black"
+							className="rounded border p-1 text-sm uppercase text-black w-24"
 						>
-							<option value="date">Event Date</option>
-							<option value="alphabetical">Alphabetical</option>
+							<option value="date">Date</option>
+							<option value="alphabetical">Name</option>
 						</select>
 					</div>
-					<div>
-						<label htmlFor="filter" className="mr-2 font-medium text-white">
-							Filter By:
-						</label>
+					<div className="flex items-center">
+						<label htmlFor="filter" className="mr-1 font-medium text-white text-sm">Filter:</label>
 						<select
 							id="filter"
 							value={filter}
 							onChange={(e) =>
 								setFilter(e.target.value as 'all' | 'upcoming' | 'past')
 							}
-							className="rounded border p-2 uppercase text-black"
+							className="rounded border p-1 text-sm uppercase text-black w-24"
 						>
-							<option value="all">All Events</option>
-							<option value="upcoming">Upcoming Events</option>
-							<option value="past">Past Events</option>
+							<option value="all">All</option>
+							<option value="upcoming">Upcoming</option>
+							<option value="past">Past</option>
 						</select>
 					</div>
 				</div>
 			</div>
-
 			<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
 				{paginatedEvents.map((event) => (
 					<div

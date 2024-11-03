@@ -311,17 +311,34 @@ export async function getGallery() {
 // --- VENUE QUERY ---
 export const venueQuery = groq`
   *[_type == "venue"]{
+    _type,
+    _id,
     name,
     location,
     description,
-    socialLinks,
-    "upcomingEvents": *[_type == "event" && references(^._id) && date >= now()]{
+    photo{
+      asset->{
+        url
+      }
+    },
+    socialLinks[]{
+      platform,
+      url
+    },
+    upcomingEvents[]->{
+      _id,
       name,
       date
     },
-    "pastEvents": *[_type == "event" && references(^._id) && date < now()]{
+    pastEvents[]->{
+      _id,
       name,
       date
+    },
+    metadata{
+      slug{
+        current
+      }
     }
   }
 `
@@ -329,4 +346,14 @@ export const venueQuery = groq`
 export async function getVenues() {
 	const venues = await fetchSanity(venueQuery)
 	return venues
+}
+
+export async function getVenue(slug: string): Promise<Sanity.Venue | null> {
+	return await fetchSanity<Sanity.Venue | null>(
+		`${venueQuery}[metadata.slug.current == $slug][0]`,
+		{
+			params: { slug },
+			tags: ['venues'],
+		},
+	)
 }
