@@ -1,12 +1,12 @@
 import client from '@/lib/sanity/client'
 import { groq } from '@/lib/sanity/fetch'
-import { getSingleEvent } from '@/lib/sanity/queries'
+import { getEvent } from '@/lib/sanity/queries'
 import { notFound } from 'next/navigation'
 import EventContent from '@/ui/modules/event/EventContent'
-import DynamicBackground from '@/ui/modules/event/DynamicBackground'
+import DynamicBackground from '@/ui/modules/Styling Module/DynamicBackground'
 
 export default async function Page({ params }: Props) {
-	const event = await getSingleEvent(params.slug!)
+	const event = await getEvent(params.slug!)
 	if (!event) notFound()
 
 	return (
@@ -17,7 +17,7 @@ export default async function Page({ params }: Props) {
 }
 
 export async function generateMetadata({ params }: Props) {
-	const event = await getSingleEvent(params.slug!)
+	const event = await getEvent(params.slug!)
 	if (!event) notFound()
 
 	return {

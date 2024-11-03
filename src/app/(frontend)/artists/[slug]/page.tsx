@@ -1,7 +1,7 @@
 import { getArtist } from '@/lib/sanity/queries'
 import { notFound } from 'next/navigation'
 import ArtistContent from '@/ui/modules/artist/ArtistContent'
-import DynamicBackground from '@/ui/modules/event/DynamicBackground'
+import DynamicBackground from '@/ui/modules/Styling Module/DynamicBackground'
 import client from '@/lib/sanity/client'
 import { groq } from '@/lib/sanity/fetch'
 

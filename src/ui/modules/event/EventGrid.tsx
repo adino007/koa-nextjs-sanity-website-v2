@@ -5,58 +5,11 @@ import { getEvents } from '@/lib/sanity/queries'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-interface Event {
-	_id: string
-	name: string
-	date: string
-	metadata: {
-		title: string
-		description: string
-		ogimage?: string
-		noIndex: boolean
-		slug: {
-			current: string
-		}
-	}
-	time: {
-		start: string
-		end: string
-	}
-	venue: {
-		_id: string
-		name: string
-		location: string
-		metadata: {
-			slug: {
-				current: string
-			}
-		}
-	}
-	artists: {
-		_id: string
-		name: string
-		metadata: {
-			slug: {
-				current: string
-			}
-		}
-		photo: {
-			asset: {
-				url: string
-			}
-		}
-	}[]
-	flyer: {
-		asset: {
-			url: string
-		}
-	}
-}
 const ITEMS_PER_PAGE = 9
 
 export default function EventGrid() {
 	const router = useRouter()
-	const [events, setEvents] = useState<Event[]>([])
+	const [events, setEvents] = useState<Sanity.Event[]>([])
 	const [sortOrder, setSortOrder] = useState<'alphabetical' | 'date'>('date')
 	const [filter, setFilter] = useState<'all' | 'upcoming' | 'past'>('all')
 	const [currentPage, setCurrentPage] = useState(1)
@@ -221,3 +174,54 @@ export default function EventGrid() {
 		</div>
 	)
 }
+
+/*
+
+interface Event {
+	_id: string
+	name: string
+	date: string
+	metadata: {
+		title: string
+		description: string
+		ogimage?: string
+		noIndex: boolean
+		slug: {
+			current: string
+		}
+	}
+	time: {
+		start: string
+		end: string
+	}
+	venue: {
+		_id: string
+		name: string
+		location: string
+		metadata: {
+			slug: {
+				current: string
+			}
+		}
+	}
+	artists: {
+		_id: string
+		name: string
+		metadata: {
+			slug: {
+				current: string
+			}
+		}
+		photo: {
+			asset: {
+				url: string
+			}
+		}
+	}[]
+	flyer: {
+		asset: {
+			url: string
+		}
+	}
+}
+	*/

@@ -141,6 +141,11 @@ export async function getHeroVideo() {
 // --- ARTIST QUERY ---
 export const artistQuery = groq`
   *[_type == "artist"]{
+    "debug": {
+      "hasMetadata": defined(metadata),
+      "hasSlug": defined(metadata.slug)
+    },
+    _type,
     _id,
     name,
     photo{
@@ -158,41 +163,48 @@ export const artistQuery = groq`
         url
       }
     },
-    "upcomingEvents": upcomingEvents[]->{
+    upcomingEvents[]->{
       _id,
       name,
       date,
       venue->{
-        name
+        _id,
+        name,
+        location
       }
     },
-    "pastEvents": pastEvents[]->{
+    pastEvents[]->{
       _id,
       name,
       date,
       venue->{
-        name
+        _id,
+        name,
+        location
       }
     },
-    "venuesPlayed": venuesPlayed[]->{
+    venuesPlayed[]->{
       name,
       location
     },
-    metadata{
+    metadata {
       title,
       description,
       ogimage,
       noIndex,
-      slug{
+      slug {
         current
       }
     }
   }
 `
-export async function getArtists() {
-	return await fetchSanity(artistQuery)
-}
 
+export async function getArtists() {
+	const artists = await fetchSanity(artistQuery)
+	console.log('Raw GROQ Response:', artists)
+	return artists
+}
+// --- ARTIST QUERY Function ---
 export async function getArtist(slug: string): Promise<Sanity.Artist | null> {
 	return await fetchSanity<Sanity.Artist | null>(
 		`${artistQuery}[metadata.slug.current == $slug][0]`,
@@ -265,9 +277,7 @@ export async function getEvents() {
 	return await fetchSanity(eventQuery)
 }
 
-export async function getSingleEvent(
-	slug: string,
-): Promise<Sanity.Event | null> {
+export async function getEvent(slug: string): Promise<Sanity.Event | null> {
 	return await fetchSanity<Sanity.Event | null>(
 		`${eventQuery}[metadata.slug.current == $slug][0]`,
 		{

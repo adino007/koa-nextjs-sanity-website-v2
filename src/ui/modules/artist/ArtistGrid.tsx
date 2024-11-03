@@ -5,42 +5,11 @@ import { getArtists } from '@/lib/sanity/queries'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
 
-interface Artist {
-	_id: string
-	name: string
-	photo: {
-		asset: {
-			url: string
-		}
-	}
-	bio: string
-	socialLinks: {
-		platform: string
-		url: string
-	}[]
-	upcomingEvents: {
-		_id: string
-		name: string
-		date: string
-		venue: { name: string }
-	}[]
-	pastEvents: {
-		_id: string
-		name: string
-		date: string
-		venue: { name: string }
-	}[]
-	metadata: {
-		slug: {
-			current: string
-		}
-	}
-}
 const ITEMS_PER_PAGE = 9
 
 export default function ArtistGrid() {
 	const router = useRouter()
-	const [artists, setArtists] = useState<Artist[]>([])
+	const [artists, setArtists] = useState<Sanity.Artist[]>([])
 	const [sortOrder, setSortOrder] = useState<
 		'alphabetical' | 'upcoming' | 'past'
 	>('alphabetical')
@@ -51,6 +20,7 @@ export default function ArtistGrid() {
 		async function fetchArtists() {
 			try {
 				const data = await getArtists()
+				console.log('Fetched Artists Data:', data)
 				setArtists(data)
 			} catch (error) {
 				console.error('Error fetching artists:', error)
@@ -73,11 +43,11 @@ export default function ArtistGrid() {
 		.sort((a, b) => {
 			if (sortOrder === 'alphabetical') {
 				return a.name.localeCompare(b.name)
-			} else if (sortOrder === 'upcoming') {
+			} else if (sortOrder === 'upcoming' && a.upcomingEvents && b.upcomingEvents) {
 				const aEvent = a.upcomingEvents[0]?.date || ''
 				const bEvent = b.upcomingEvents[0]?.date || ''
 				return new Date(aEvent).getTime() - new Date(bEvent).getTime()
-			} else if (sortOrder === 'past') {
+			} else if (sortOrder === 'past' && a.pastEvents && b.pastEvents) {
 				const aEvent = a.pastEvents[a.pastEvents.length - 1]?.date || ''
 				const bEvent = b.pastEvents[b.pastEvents.length - 1]?.date || ''
 				return new Date(bEvent).getTime() - new Date(aEvent).getTime()
@@ -129,6 +99,7 @@ export default function ArtistGrid() {
 						className="cursor-pointer overflow-hidden rounded-lg border shadow-md"
 						onClick={() => {
 							const slug = artist?.metadata?.slug?.current
+							console.log('Slug: ', slug)
 							router.push(slug ? `/artists/${slug}` : '/404')
 						}}
 					>
