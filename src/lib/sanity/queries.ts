@@ -226,6 +226,7 @@ export const eventQuery = groq`
       start,
       end
     },
+    ticketlink,
     metadata {
       title,
       description,
@@ -268,11 +269,12 @@ export const eventQuery = groq`
       asset->{
         url
       }
-    },
-    links
-  }
-`
 
+
+    }
+  }
+
+`
 export async function getEvents() {
 	return await fetchSanity(eventQuery)
 }

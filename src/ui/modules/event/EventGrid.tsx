@@ -13,7 +13,6 @@ export default function EventGrid() {
 	const router = useRouter()
 	const [events, setEvents] = useState<Sanity.Event[]>([])
 	const [filter, setFilter] = useState<'all' | 'upcoming' | 'past'>('all')
-	const [currentPage, setCurrentPage] = useState(1)
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
@@ -42,15 +41,6 @@ export default function EventGrid() {
 			}
 			return true
 		})
-
-	const totalPages = Math.max(
-		Math.ceil(filteredEvents.length / ITEMS_PER_PAGE),
-		1,
-	)
-	const paginatedEvents = filteredEvents.slice(
-		(currentPage - 1) * ITEMS_PER_PAGE,
-		currentPage * ITEMS_PER_PAGE,
-	)
 
 	if (loading) {
 		return <div className="text-center text-white">Loading events...</div>
@@ -181,14 +171,14 @@ export default function EventGrid() {
 
 							{/* CTA Button */}
 							<div className="mt-4 w-full md:mt-0 md:w-auto">
-								{event.links && event.links.length > 0 && (
+								{event.ticketLink && (
 									<CTAList
 										ctas={[
 											{
 												_type: 'cta',
 												link: {
 													_type: 'link',
-													href: event.ticketLink,
+													url: event.ticketLink,
 												},
 												label: 'Buy Tickets',
 											},
@@ -199,7 +189,7 @@ export default function EventGrid() {
 							</div>
 						</div>
 					</div>
-				))}
+				))}{' '}
 			</div>
 		</div>
 	)

@@ -45,12 +45,10 @@ export default defineType({
 			group: 'content',
 		}),
 		defineField({
-			name: 'ticketlink',
+			name: 'ticketLink',
 			title: 'Ticket Link',
-			type: 'array',
-			of: [{ type: 'url' }],
-			validation: (Rule) =>
-				Rule.required().min(1).error('At least one ticket link is required'),
+			type: 'url',
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'venue',
