@@ -96,6 +96,7 @@ export default defineType({
 			name: 'metadata',
 			type: 'metadata',
 			group: 'seo',
+			validation: (Rule) => Rule.required(),
 		}),
 	],
 })

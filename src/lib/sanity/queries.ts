@@ -294,10 +294,18 @@ export const galleryQuery = groq`
     name,
     date,
     gallery[]{
-      _type,
-      asset->{
-        url,
-        "muxPlaybackId": coalesce(mux.assetId, null)
+      _type == 'image' => {
+        "type": "image",
+        asset->{
+          url
+        }
+      },
+      _type == 'mux.video' => {
+        "type": "video",
+        asset->{
+          playbackId,
+          "url": "https://stream.mux.com/" + playbackId + "/high.mp4"
+        }
       }
     }
   }

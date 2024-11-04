@@ -38,7 +38,7 @@ export function fetchSanity<T = any>(
 					useCdn: false,
 					token: process.env.NEXT_PUBLIC_SANITY_TOKEN,
 					next: {
-						revalidate: 36, // revalidate after 1 hour
+						revalidate: 0, // revalidate after 1 hour
 						...next,
 					},
 				}
@@ -46,7 +46,7 @@ export function fetchSanity<T = any>(
 					perspective: 'published',
 					useCdn: true,
 					next: {
-						revalidate: 3600, // revalidate after 1 hour
+						revalidate: 360, // revalidate after 1 hour
 						...next,
 					},
 				},

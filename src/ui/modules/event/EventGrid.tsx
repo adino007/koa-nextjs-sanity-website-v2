@@ -114,7 +114,7 @@ export default function EventGrid() {
 						className="cursor-pointer overflow-hidden rounded-lg border shadow-md"
 						onClick={() => {
 							const slug = event?.metadata?.slug?.current
-							router.push(slug ? `/events/${slug}` : '/404')
+							router.push(slug ? `/event/${slug}` : '/404')
 						}}
 					>
 						<div className="relative h-64 w-full">

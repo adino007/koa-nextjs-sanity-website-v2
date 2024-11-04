@@ -10,6 +10,7 @@ export default defineType({
 		defineField({
 			name: 'name',
 			type: 'string',
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'image',
@@ -21,6 +22,7 @@ export default defineType({
 				defineField({
 					name: 'default',
 					type: 'image',
+					validation: (Rule) => Rule.required(),
 				}),
 				defineField({
 					name: 'light',

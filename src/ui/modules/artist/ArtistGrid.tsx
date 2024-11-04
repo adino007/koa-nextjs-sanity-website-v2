@@ -10,9 +10,7 @@ const ITEMS_PER_PAGE = 9
 export default function ArtistGrid() {
 	const router = useRouter()
 	const [artists, setArtists] = useState<Sanity.Artist[]>([])
-	const [sortOrder, setSortOrder] = useState<
-		'alphabetical' | 'upcoming' | 'past'
-	>('alphabetical')
+	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
 	const [currentPage, setCurrentPage] = useState(1)
 	const [loading, setLoading] = useState(true)
 
@@ -31,40 +29,17 @@ export default function ArtistGrid() {
 		fetchArtists()
 	}, [])
 
-	const sortedArtists = [...artists]
-		.filter((artist) => {
-			if (sortOrder === 'upcoming') {
-				return artist.upcomingEvents && artist.upcomingEvents.length > 0
-			} else if (sortOrder === 'past') {
-				return artist.pastEvents && artist.pastEvents.length > 0
-			}
-			return true
-		})
-		.sort((a, b) => {
-			if (sortOrder === 'alphabetical') {
-				return a.name.localeCompare(b.name)
-			} else if (
-				sortOrder === 'upcoming' &&
-				a.upcomingEvents &&
-				b.upcomingEvents
-			) {
-				const aEvent = a.upcomingEvents[0]?.to?.date || ''
-				const bEvent = b.upcomingEvents[0]?.to?.date || ''
-				return new Date(aEvent).getTime() - new Date(bEvent).getTime()
-			} else if (sortOrder === 'past' && a.pastEvents && b.pastEvents) {
-				const aEvent = a.pastEvents[a.pastEvents.length - 1]?.to?.date || ''
-				const bEvent = b.pastEvents[b.pastEvents.length - 1]?.to?.date || ''
-				return new Date(bEvent).getTime() - new Date(aEvent).getTime()
-			}
-			return 0
-		})
+	const sortedArtists = [...artists].sort((a, b) => {
+		return sortOrder === 'asc'
+			? a.name.localeCompare(b.name) // A to Z
+			: b.name.localeCompare(a.name) // Z to A
+	})
 
 	const totalPages = Math.ceil(sortedArtists.length / ITEMS_PER_PAGE)
 	const paginatedArtists = sortedArtists.slice(
 		(currentPage - 1) * ITEMS_PER_PAGE,
 		currentPage * ITEMS_PER_PAGE,
 	)
-
 	const handleNextPage = () =>
 		setCurrentPage((prev) => Math.min(prev + 1, totalPages))
 	const handlePreviousPage = () =>
@@ -85,16 +60,15 @@ export default function ArtistGrid() {
 						<select
 							id="sort"
 							value={sortOrder}
-							onChange={(e) =>
-								setSortOrder(
-									e.target.value as 'alphabetical' | 'upcoming' | 'past',
-								)
-							}
-							className="w-34 rounded border p-1 text-sm uppercase text-black"
+							onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
+							className="w-32 rounded border p-1 text-sm uppercase text-black"
 						>
-							<option value="alphabetical">Name</option>
-							<option value="upcoming">Upcoming</option>
-							<option value="past">Past</option>
+							<option className="py-1" value="asc">
+								A to Z
+							</option>
+							<option className="py-1" value="desc">
+								Z to A
+							</option>
 						</select>
 					</div>
 				</div>
@@ -109,7 +83,7 @@ export default function ArtistGrid() {
 						onClick={() => {
 							const slug = artist?.metadata?.slug?.current
 							console.log('Slug: ', slug)
-							router.push(slug ? `/artists/${slug}` : '/404')
+							router.push(slug ? `/artist/${slug}` : '/404')
 						}}
 					>
 						<div className="relative h-64 w-full">

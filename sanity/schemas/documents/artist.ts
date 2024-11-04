@@ -18,6 +18,7 @@ export default defineType({
 			title: 'Artist Name',
 			type: 'string',
 			group: 'content',
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'photo',
@@ -100,6 +101,7 @@ export default defineType({
 			name: 'metadata',
 			type: 'metadata',
 			group: 'seo',
+			validation: (Rule) => Rule.required(),
 		}),
 	],
 })
