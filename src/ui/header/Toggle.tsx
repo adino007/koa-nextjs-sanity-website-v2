@@ -24,7 +24,7 @@ export default function Toggle() {
 	}, [pathname])
 
 	return (
-		<label className="z-50 [grid-area:toggle] md:hidden">
+		<label className="sticky right-6 top-6 z-50 [grid-area:toggle] md:hidden">
 			<input id="header-open" type="checkbox" hidden />
 			<span className="text-4xl font-bold header-closed:hidden">
 				<IoCloseCircleOutline />

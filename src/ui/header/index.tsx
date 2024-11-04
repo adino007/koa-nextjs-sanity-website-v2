@@ -19,9 +19,10 @@ export default async function Header() {
 				className={cn(
 					css.header,
 					'mx-auto grid max-w-screen-xl items-center gap-x-6 p-6 pb-4 max-sm:pb-0',
+					'relative'
 				)}
 			>
-				<div className="z-50 [grid-area:logo] max-md:mb-8">
+				<div className="z-50 [grid-area:logo] max-md:mb-8 sticky top-0">
 					<Link
 						className={cn(
 							'h3 md:h2 inline-block',
@@ -42,11 +43,6 @@ export default async function Header() {
 				</div>
 
 				<Navigation />
-
-				<CTAList
-					ctas={ctas}
-					className="pl-2 [grid-area:ctas] max-md:*:w-full max-md:header-closed:hidden md:ml-auto"
-				/>
 
 				<Toggle />
 			</div>
