@@ -60,6 +60,7 @@ declare global {
 			readonly _type: 'event'
 			name: string
 			date: string
+			ticketlink: string
 			time: {
 				start: string
 				end: string
@@ -96,7 +97,6 @@ declare global {
 			links?: string[]
 			metadata: Metadata
 		}
-
 		type Artist = PageBase & {
 			readonly _type: 'artist'
 			name: string
