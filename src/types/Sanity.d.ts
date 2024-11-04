@@ -60,7 +60,7 @@ declare global {
 			readonly _type: 'event'
 			name: string
 			date: string
-			ticketlink: string
+			ticketlink: CTA
 			time: {
 				start: string
 				end: string

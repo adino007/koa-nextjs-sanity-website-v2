@@ -45,10 +45,9 @@ export default defineType({
 			group: 'content',
 		}),
 		defineField({
-			name: 'ticketLink',
+			name: 'ticketlink',
 			title: 'Ticket Link',
-			type: 'url',
-			validation: (Rule) => Rule.required(),
+			type: 'cta'
 		}),
 		defineField({
 			name: 'venue',

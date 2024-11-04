@@ -221,12 +221,14 @@ export const eventQuery = groq`
     _type,
     _id,
     name,
+    ticketlink{
+      ${ctaQuery}
+    },
     date,
     time{
       start,
       end
     },
-    ticketlink,
     metadata {
       title,
       description,
@@ -269,12 +271,10 @@ export const eventQuery = groq`
       asset->{
         url
       }
-
-
     }
   }
-
 `
+
 export async function getEvents() {
 	return await fetchSanity(eventQuery)
 }

@@ -171,18 +171,9 @@ export default function EventGrid() {
 
 							{/* CTA Button */}
 							<div className="mt-4 w-full md:mt-0 md:w-auto">
-								{event.ticketLink && (
+								{event.ticketlink && (
 									<CTAList
-										ctas={[
-											{
-												_type: 'cta',
-												link: {
-													_type: 'link',
-													url: event.ticketLink,
-												},
-												label: 'Buy Tickets',
-											},
-										]}
+										ctas={[event.ticketlink]}
 										className="!mt-4 md:!mt-0"
 									/>
 								)}
