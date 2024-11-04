@@ -1,19 +1,27 @@
 'use client'
 
 import { useEffect } from 'react'
+import { usePathname } from 'next/navigation'
 import { IoCloseCircleOutline, IoReorderThreeOutline } from 'react-icons/io5'
 
 export default function Toggle() {
+	const pathname = usePathname()
+
 	useEffect(() => {
 		const checkbox = document.querySelector('#header-open') as HTMLInputElement
-		
+
 		const handleChange = () => {
 			document.body.style.overflow = checkbox.checked ? 'hidden' : 'unset'
 		}
-		
+
 		checkbox?.addEventListener('change', handleChange)
+
+		// Reset scroll lock on page change
+		document.body.style.overflow = 'unset'
+		if (checkbox) checkbox.checked = false
+
 		return () => checkbox?.removeEventListener('change', handleChange)
-	}, [])
+	}, [pathname])
 
 	return (
 		<label className="z-50 [grid-area:toggle] md:hidden">

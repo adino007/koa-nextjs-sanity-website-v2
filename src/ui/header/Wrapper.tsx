@@ -35,8 +35,11 @@ export default function Wrapper({
 	}, [pathname])
 
 	return (
-		<header ref={ref} className="frosted-glass fixed top-0 left-0 right-0 z-40 font-moncheri uppercase text-white md:pl-8">
-			{children}
+		<header
+			ref={ref}
+			className="frosted-glass sticky top-0 z-40 font-moncheri uppercase text-white md:pl-8"
+		>
+			<div className="pt-safe">{children}</div>
 		</header>
 	)
 }
