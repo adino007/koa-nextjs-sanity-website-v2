@@ -82,7 +82,7 @@ export default function EventGrid() {
 				{filteredEvents.map((event) => (
 					<div
 						key={event._id}
-						className="relative overflow-hidden rounded-lg"
+						className="relative cursor-pointer overflow-hidden rounded-lg"
 						onClick={() => {
 							const slug = event?.metadata?.slug?.current
 							router.push(slug ? `/event/${slug}` : '/404')
@@ -97,13 +97,11 @@ export default function EventGrid() {
 									fill
 									className="object-cover"
 								/>
-								<div className="absolute inset-0 bg-black/50 backdrop-blur-xl" />
+								<div className="absolute inset-0 bg-black/50 backdrop-blur-lg" />
 							</div>
 						)}
 
-						{/* Content */}
 						<div className="relative z-10 flex flex-col items-start gap-6 p-6 md:flex-row md:items-center">
-							{/* Event Details */}
 							<div className="flex-grow">
 								<h2 className="mb-2 text-2xl font-bold">{event.name}</h2>
 								<div className="space-y-2">
@@ -119,16 +117,21 @@ export default function EventGrid() {
 										</span>
 									</div>
 									{event.venue && (
-										<a
-											href={`https://maps.google.com/?q=${event.venue.location}`}
-											target="_blank"
-											rel="noopener noreferrer"
-											className="flex items-center gap-2 hover:text-blue-400"
-											onClick={(e) => e.stopPropagation()}
-										>
+										<div className="flex items-center gap-2">
 											<IoLocation className="text-gray-400" />
-											<span>{event.venue.name}</span>
-										</a>
+											<span
+												className="cursor-pointer hover:text-blue-400"
+												onClick={(e) => {
+													e.stopPropagation()
+													window.open(
+														`https://maps.google.com/?q=${event.venue.location}`,
+														'_blank',
+													)
+												}}
+											>
+												{event.venue.name}
+											</span>
+										</div>
 									)}
 									{event.time && (
 										<div className="flex items-center gap-2">
@@ -149,7 +152,7 @@ export default function EventGrid() {
 								</div>
 							</div>
 
-							{/* Artists - Now stacks on mobile */}
+							{/* Artists (Stacks on mobile) */}
 							<div className="mt-4 flex w-full flex-wrap justify-start gap-4 md:mt-0 md:w-auto md:justify-end">
 								{event.artists &&
 									event.artists.map((artist) => (
@@ -168,16 +171,17 @@ export default function EventGrid() {
 										</div>
 									))}
 							</div>
-
-							{/* CTA Button */}
-							<div className="mt-4 w-full md:mt-0 md:w-auto">
-								{event.ticketlink && (
+							{event.ticketlink && (
+								<div
+									onClick={(e) => e.stopPropagation()}
+									className="w-full text-center md:w-32"
+								>
 									<CTAList
 										ctas={[event.ticketlink]}
 										className="!mt-4 md:!mt-0"
 									/>
-								)}
-							</div>
+								</div>
+							)}
 						</div>
 					</div>
 				))}{' '}

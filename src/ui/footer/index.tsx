@@ -16,7 +16,7 @@ export default async function Footer() {
 				<div className="mx-auto max-w-screen-xl space-y-8">
 					<div className="flex flex-wrap justify-center gap-x-12 gap-y-8">
 						<div className="sm:h4 flex flex-col items-center gap-3 self-start max-sm:mx-auto">
-							<Link className="h3 md:h2 max-w-max" href="/">
+							<Link className="h3 md:h2 z-30 max-w-max" href="/">
 								{logoImage ? (
 									<Img
 										className="max-h-[3.8em] w-auto"
