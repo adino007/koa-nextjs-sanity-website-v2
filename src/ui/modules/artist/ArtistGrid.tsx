@@ -46,7 +46,7 @@ export default function ArtistGrid() {
 		setCurrentPage((prev) => Math.max(prev - 1, 1))
 
 	return (
-		<div className="container mx-auto px-4">
+		<div className="container mx-auto px-4 py-4">
 			{/* Sorting Controls */}
 			<div className="mb-4 flex justify-center sm:justify-end">
 				<div className="flex flex-row space-x-2">
@@ -73,43 +73,40 @@ export default function ArtistGrid() {
 					</div>
 				</div>
 			</div>
-
 			{/* Artist Grid */}
-			<div className="grid grid-cols-1 gap-6 sm:grid-cols-2 md:grid-cols-3">
-				{paginatedArtists.map((artist) => (
+			<div className="grid grid-cols-3 gap-4 sm:gap-6">
+				{sortedArtists.map((artist) => (
 					<div
 						key={artist._id}
-						className="cursor-pointer overflow-hidden rounded-lg border shadow-md"
+						className="cursor-pointer overflow-hidden"
 						onClick={() => {
 							const slug = artist?.metadata?.slug?.current
-							console.log('Slug: ', slug)
 							router.push(slug ? `/artist/${slug}` : '/404')
 						}}
 					>
-						<div className="relative h-64 w-full">
+						<div className="relative aspect-square w-full">
 							{artist.photo?.asset?.url ? (
 								<Image
 									src={artist.photo.asset.url}
 									alt={artist.name}
 									fill
 									style={{ objectFit: 'cover' }}
-									sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-									className="transform transition-transform duration-300 hover:scale-105"
+									sizes="(max-width: 768px) 33vw, 25vw"
+									className="rounded-lg transition-transform duration-300 hover:scale-105"
 								/>
 							) : (
-								<div className="flex h-full w-full items-center justify-center bg-gray-300 text-gray-700">
-									No Image Available
+								<div className="flex h-full w-full items-center justify-center rounded-lg bg-gray-300 text-gray-700">
+									No Image
 								</div>
 							)}
 						</div>
-						<div className="bg-gray-800 p-4 text-center text-white">
-							<h2 className="text-lg font-bold">{artist.name}</h2>
-						</div>
+						<h2 className="mt-2 text-center text-sm font-medium text-white">
+							{artist.name}
+						</h2>
 					</div>
 				))}
 			</div>
-
-			{/* Pagination */}
+			{/* Pagination
 			<div className="mt-8 flex items-center justify-between">
 				<button
 					onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
@@ -130,7 +127,7 @@ export default function ArtistGrid() {
 				>
 					Next
 				</button>
-			</div>
+			</div> */}
 		</div>
 	)
 }
