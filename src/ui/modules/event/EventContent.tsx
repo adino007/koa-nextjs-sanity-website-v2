@@ -13,6 +13,10 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 	const [isSticky, setIsSticky] = useState(false)
 	const ctaRef = useRef(null)
 
+	const getMapUrl = (location: string) => {
+		return `maps://maps.apple.com/?address=${encodeURIComponent(location)}&dirflg=d`
+	}
+
 	useEffect(() => {
 		if (event.flyer?.asset?.url) {
 			const fac = new FastAverageColor()
@@ -23,7 +27,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 			img.onload = () => {
 				const color = fac.getColor(img)
 				setBgColor(
-					`rgba(${color.value[0]}, ${color.value[1]}, ${color.value[2]}, 0.7)`,
+					`rgba(${color.value[0]}, ${color.value[1]}, ${color.value[2]}, 0.7) backdrop-filter: blur(16px)`,
 				)
 			}
 		}
@@ -47,14 +51,18 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 	return (
 		<>
 			{/* Mobile Sticky CTA */}
-			{isSticky && event.ticketlink && (
+			{isSticky && event.eventCTA && (
 				<div
-					className="fixed bottom-0 left-0 right-0 z-10 backdrop-blur-lg md:hidden"
-					style={{ backgroundColor: bgColor }}
+					className="fixed bottom-0 left-0 right-0 z-10 md:hidden"
+					style={{
+						background: bgColor,
+						backdropFilter: 'blur(25px)',
+						WebkitBackdropFilter: 'blur(25px)',
+					}}
 				>
 					<div className="p-4">
 						<CTAList
-							ctas={[event.ticketlink?.ticketCTA]}
+							ctas={[event.eventCTA?.ticketCTA]}
 							className="text-center"
 						/>
 					</div>
@@ -68,8 +76,8 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						<div
 							className="relative mx-auto mt-6 aspect-[3/4] w-full max-w-sm cursor-pointer"
 							onClick={() =>
-								event.ticketlink?.ticketCTA?.link?.external &&
-								window.open(event.ticketlink.ticketCTA.link.external, '_blank')
+								event.eventCTA?.ticketCTA?.link?.external &&
+								window.open(event.eventCTA.ticketCTA.link.external, '_blank')
 							}
 						>
 							{event.flyer?.asset?.url && (
@@ -99,10 +107,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 								<div
 									className="cursor-pointer pt-2 text-sm hover:text-blue-400"
 									onClick={() =>
-										window.open(
-											`maps://maps.google.com/?q=${event.venue.location}`,
-											'_blank',
-										)
+										window.open(getMapUrl(event.venue.location), '_blank')
 									}
 								>
 									<IoLocation className="mr-2 inline-block text-gray-400" />
@@ -165,10 +170,10 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						)}
 
 						{/* Regular CTA */}
-						{event.ticketlink?.ticketCTA && (
+						{event.eventCTA?.showCTA && (
 							<div ref={ctaRef}>
 								<CTAList
-									ctas={[event.ticketlink?.ticketCTA]}
+									ctas={[event.eventCTA?.ticketCTA]}
 									className="justify-center text-center"
 								/>
 							</div>

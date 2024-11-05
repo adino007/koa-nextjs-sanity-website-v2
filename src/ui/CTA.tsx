@@ -6,6 +6,7 @@ import { stegaClean } from '@sanity/client/stega'
 export default function CTA({
 	link,
 	style,
+	showCTA,
 	className,
 	children,
 	...rest

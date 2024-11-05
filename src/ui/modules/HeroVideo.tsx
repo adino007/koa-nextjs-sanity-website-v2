@@ -63,7 +63,7 @@ export default function HeroVideo({
 						<PortableText value={content} />
 						<CTAList
 							ctas={ctas}
-							className={cn('!mt-4', {
+							className={cn('!mt-4 max-sm:w-full', {
 								'justify-start': stegaClean(textAlign) === 'left',
 								'justify-center': stegaClean(textAlign) === 'center',
 								'justify-end': stegaClean(textAlign) === 'right',

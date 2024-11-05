@@ -15,6 +15,10 @@ export default function EventGrid() {
 	const [filter, setFilter] = useState<'all' | 'upcoming' | 'past'>('all')
 	const [loading, setLoading] = useState(true)
 
+	const getMapUrl = (location: string) => {
+		return `maps://maps.apple.com/?address=${encodeURIComponent(location)}&dirflg=d`
+	}
+
 	useEffect(() => {
 		async function fetchEvents() {
 			try {
@@ -123,10 +127,7 @@ export default function EventGrid() {
 												className="cursor-pointer hover:text-blue-400"
 												onClick={(e) => {
 													e.stopPropagation()
-													window.open(
-														`maps://maps.google.com/?q=${event.venue.location}`,
-														'_blank',
-													)
+													window.open(getMapUrl(event.venue.location), '_blank')
 												}}
 											>
 												{event.venue.name}
@@ -171,15 +172,13 @@ export default function EventGrid() {
 										</div>
 									))}
 							</div>
-							{event.ticketlink?.showCTA && event.ticketlink?.ticketCTA && (
+
+							{event.eventCTA && event.eventCTA?.showCTA && (
 								<div
 									onClick={(e) => e.stopPropagation()}
 									className="w-full text-center md:w-32"
 								>
-									<CTAList
-										ctas={[event.ticketlink.ticketCTA]}
-										className="!mt-4 md:!mt-0"
-									/>
+									<CTAList ctas={[event.eventCTA]} className="!mt-4 md:!mt-0" />
 								</div>
 							)}
 						</div>

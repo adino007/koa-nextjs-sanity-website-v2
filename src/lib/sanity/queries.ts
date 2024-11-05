@@ -19,6 +19,7 @@ const navigationQuery = groq`
 // --- CTA QUERY ---
 export const ctaQuery = groq`
   ...,
+  showCTA,
   link{ ${linkQuery} }
 `
 
@@ -221,11 +222,11 @@ export const eventQuery = groq`
     _type,
     _id,
     name,
-    ticketlink{
+    eventCTA{
       cta{
         ${ctaQuery}
       },
-      showCTA
+      
     },
     date,
     time{

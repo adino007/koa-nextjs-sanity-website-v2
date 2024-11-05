@@ -23,6 +23,12 @@ export default defineType({
 				],
 			},
 		}),
+		defineField({
+			name: 'showCTA',
+			title: 'Show this CTA',
+			type: 'boolean',
+			initialValue: true,
+		}),
 	],
 	preview: {
 		select: {

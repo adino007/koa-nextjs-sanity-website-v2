@@ -60,7 +60,7 @@ declare global {
 			readonly _type: 'event'
 			name: string
 			date: string
-			ticketlink?: {
+			eventCTA?: {
 				ticketCTA: CTA
 				showCTA: boolean
 			}
@@ -209,6 +209,7 @@ declare global {
 		type CTA = {
 			link?: Link
 			style?: string
+			showCTA?: boolean
 		}
 
 		type Image = SanityImageObject &

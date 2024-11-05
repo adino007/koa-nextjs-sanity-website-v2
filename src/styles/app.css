@@ -117,7 +117,7 @@
 	}
 
 	.action {
-		@apply _btn frosted-glass hover:bg-hover text-balance rounded border text-white shadow hover:bg-white hover:text-black;
+		@apply _btn frosted-glass hover:bg-hover text-balance rounded border text-white shadow hover:bg-white hover:text-black max-sm:w-full;
 	}
 
 	.action-outline {
