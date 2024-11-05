@@ -222,7 +222,10 @@ export const eventQuery = groq`
     _id,
     name,
     ticketlink{
-      ${ctaQuery}
+      cta{
+        ${ctaQuery}
+      },
+      showCTA
     },
     date,
     time{
@@ -274,7 +277,6 @@ export const eventQuery = groq`
     }
   }
 `
-
 export async function getEvents() {
 	return await fetchSanity(eventQuery)
 }

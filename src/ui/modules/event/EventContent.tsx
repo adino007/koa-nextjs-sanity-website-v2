@@ -47,13 +47,13 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 	return (
 		<>
 			{/* Mobile Sticky CTA */}
-			{isSticky && (
+			{isSticky && event.ticketlink && (
 				<div
 					className="fixed bottom-0 left-0 right-0 z-10 backdrop-blur-lg md:hidden"
 					style={{ backgroundColor: bgColor }}
 				>
 					<div className="p-4">
-						<CTAList ctas={[event.ticketlink]} className="text-center" />
+						<CTAList ctas={[event.ticketlink?.cta]} className="text-center" />
 					</div>
 				</div>
 			)}
@@ -65,8 +65,8 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						<div
 							className="relative mx-auto mt-6 aspect-[3/4] w-full max-w-sm cursor-pointer"
 							onClick={() =>
-								event.ticketlink?.link?.external &&
-								window.open(event.ticketlink.link.external, '_blank')
+								event.ticketlink?.cta?.link?.external &&
+								window.open(event.ticketlink.cta.link.external, '_blank')
 							}
 						>
 							{event.flyer?.asset?.url && (
@@ -157,10 +157,10 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						)}
 
 						{/* Regular CTA */}
-						{event.ticketlink && (
+						{event.ticketlink?.cta && (
 							<div ref={ctaRef}>
 								<CTAList
-									ctas={[event.ticketlink]}
+									ctas={[event.ticketlink?.cta]}
 									className="justify-center text-center"
 								/>
 							</div>

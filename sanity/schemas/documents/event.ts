@@ -48,9 +48,21 @@ export default defineType({
 		defineField({
 			name: 'ticketlink',
 			title: 'Ticket Link',
-			type: 'cta',
+			type: 'object',
 			group: 'content',
-			validation: (Rule) => Rule.required(),
+			fields: [
+				defineField({
+					name: 'cta',
+					type: 'cta',
+					validation: (Rule) => Rule.required(),
+				}),
+				defineField({
+					name: 'showCTA',
+					title: 'Show Buy Tickets Button',
+					type: 'boolean',
+					initialValue: true,
+				}),
+			],
 		}),
 		defineField({
 			name: 'venue',

@@ -60,7 +60,10 @@ declare global {
 			readonly _type: 'event'
 			name: string
 			date: string
-			ticketlink: CTA
+			ticketlink?: {
+				cta: CTA
+				showCTA: boolean
+			}
 			time: {
 				start: string
 				end: string
@@ -204,6 +207,9 @@ declare global {
 		// objects
 
 		type CTA = {
+			cta: any
+			showCTA: any
+			options: any
 			link?: Link
 			style?: string
 		}
