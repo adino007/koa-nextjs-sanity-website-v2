@@ -7,6 +7,7 @@ import Link from 'next/link'
 import CTAList from '@/ui/CTAList'
 import { FaCalendar, FaClock } from 'react-icons/fa6'
 import { IoLocation } from 'react-icons/io5'
+import CTA from '@/ui/CTA'
 
 export default function EventContent({ event }: { event: Sanity.Event }) {
 	const [bgColor, setBgColor] = useState('transparent')
@@ -51,20 +52,17 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 	return (
 		<>
 			{/* Mobile Sticky CTA */}
-			{isSticky && event.eventCTA && (
+			{isSticky && event.eventCTAS && event.eventCTAS[0] && (
 				<div
 					className="fixed bottom-0 left-0 right-0 z-10 md:hidden"
 					style={{
 						background: bgColor,
-						backdropFilter: 'blur(25px)',
-						WebkitBackdropFilter: 'blur(25px)',
+						backdropFilter: 'blur(16px)',
+						WebkitBackdropFilter: 'blur(16px)',
 					}}
 				>
 					<div className="p-4">
-						<CTAList
-							ctas={[event.eventCTA?.ticketCTA]}
-							className="text-center"
-						/>
+						<CTAList ctas={[event.eventCTAS[0]]} className="text-center" />
 					</div>
 				</div>
 			)}
@@ -76,8 +74,8 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						<div
 							className="relative mx-auto mt-6 aspect-[3/4] w-full max-w-sm cursor-pointer"
 							onClick={() =>
-								event.eventCTA?.ticketCTA?.link?.external &&
-								window.open(event.eventCTA.ticketCTA.link.external, '_blank')
+								event.eventCTAS?.[0]?.link?.external &&
+								window.open(event.eventCTAS[0].link.external, '_blank')
 							}
 						>
 							{event.flyer?.asset?.url && (
@@ -170,12 +168,14 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						)}
 
 						{/* Regular CTA */}
-						{event.eventCTA?.showCTA && (
+						{event.eventCTAS && event.eventCTAS.length > 0 && (
 							<div ref={ctaRef}>
-								<CTAList
-									ctas={[event.eventCTA?.ticketCTA]}
-									className="justify-center text-center"
-								/>
+								<div className="!mt-4 flex flex-wrap items-center justify-center gap-[.5em]">
+									<CTAList
+										ctas={event.eventCTAS}
+										className="action max-sm:w-full"
+									/>
+								</div>
 							</div>
 						)}
 					</div>

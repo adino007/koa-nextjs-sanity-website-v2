@@ -222,11 +222,13 @@ export const eventQuery = groq`
     _type,
     _id,
     name,
-    eventCTA{
-      cta{
-        ${ctaQuery}
-      },
-      
+    eventCTAS[]{ 
+      ...,
+      showCTA,
+      link{ 
+        ...,
+        internal->{ _type, title, metadata }
+      }
     },
     date,
     time{
@@ -293,7 +295,6 @@ export async function getEvent(slug: string): Promise<Sanity.Event | null> {
 		},
 	)
 }
-
 // queries.ts
 export const galleryQuery = groq`
     *[_type == "event" && defined(gallery)] {

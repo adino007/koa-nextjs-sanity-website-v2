@@ -173,14 +173,19 @@ export default function EventGrid() {
 									))}
 							</div>
 
-							{event.eventCTA && event.eventCTA?.showCTA && (
-								<div
-									onClick={(e) => e.stopPropagation()}
-									className="w-full text-center md:w-32"
-								>
-									<CTAList ctas={[event.eventCTA]} className="!mt-4 md:!mt-0" />
-								</div>
-							)}
+							{event.eventCTAS &&
+								event.eventCTAS.length > 0 &&
+								event.eventCTAS[0].showCTA && (
+									<div
+										onClick={(e) => e.stopPropagation()}
+										className="w-full text-center md:w-32"
+									>
+										<CTAList
+											ctas={[event.eventCTAS[0]]}
+											className="!mt-4 md:!mt-0"
+										/>
+									</div>
+								)}
 						</div>
 					</div>
 				))}{' '}

@@ -60,10 +60,7 @@ declare global {
 			readonly _type: 'event'
 			name: string
 			date: string
-			eventCTA?: {
-				ticketCTA: CTA
-				showCTA: boolean
-			}
+			eventCTAS?: CTA[]
 			time: {
 				start: string
 				end: string

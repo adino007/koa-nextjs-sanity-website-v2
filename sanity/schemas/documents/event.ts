@@ -46,8 +46,8 @@ export default defineType({
 			group: 'content',
 		}),
 		defineField({
-			name: 'eventCTA',
-			title: 'Event Call to Actions',
+			name: 'eventCTAS',
+			title: 'Event Call-to-Actions',
 			type: 'array',
 			of: [{ type: 'cta' }],
 			group: 'content',

@@ -4,9 +4,11 @@ import { getEvent } from '@/lib/sanity/queries'
 import { notFound } from 'next/navigation'
 import EventContent from '@/ui/modules/event/EventContent'
 import DynamicBackground from '@/ui/modules/Styling Module/DynamicBackground'
+import { draftMode } from 'next/headers'
 
 export default async function Page({ params }: Props) {
 	const event = await getEvent(params.slug!)
+
 	if (!event) notFound()
 
 	return (
@@ -17,21 +19,28 @@ export default async function Page({ params }: Props) {
 }
 
 export async function generateMetadata({ params }: Props) {
-	const event = await getEvent(params.slug!)
-	if (!event) notFound()
+	try {
+		const event = await getEvent(params.slug!)
+		if (!event) notFound()
 
-	return {
-		title: event.name,
-		description: `${event.name} at ${event.venue?.name}`,
-		openGraph: {
-			images: event.flyer?.asset?.url ? [event.flyer.asset.url] : [],
-		},
+		return {
+			title: event.name,
+			description: `${event.name} at ${event.venue?.name}`,
+			openGraph: {
+				images: event.flyer?.asset?.url ? [event.flyer.asset.url] : [],
+			},
+		}
+	} catch (error) {
+		console.error('Failed to generate metadata:', error)
+		return {
+			title: 'Event Not Found',
+			description: 'Unable to load event details',
+		}
 	}
 }
-
 export async function generateStaticParams() {
 	const slugs = await client.fetch<string[]>(
-		groq`*[_type == 'event' && defined(slug.current)].slug.current`,
+		groq`*[_type == 'event' && defined(metadata.slug.current)].metadata.slug.current`,
 	)
 	return slugs.map((slug) => ({ slug }))
 }
