@@ -171,13 +171,13 @@ export default function EventGrid() {
 										</div>
 									))}
 							</div>
-							{event.ticketlink?.showCTA && event.ticketlink?.cta && (
+							{event.ticketlink?.showCTA && event.ticketlink?.ticketCTA && (
 								<div
 									onClick={(e) => e.stopPropagation()}
 									className="w-full text-center md:w-32"
 								>
 									<CTAList
-										ctas={[event.ticketlink.cta]}
+										ctas={[event.ticketlink.ticketCTA]}
 										className="!mt-4 md:!mt-0"
 									/>
 								</div>

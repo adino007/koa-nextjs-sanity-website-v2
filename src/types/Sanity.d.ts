@@ -61,7 +61,7 @@ declare global {
 			name: string
 			date: string
 			ticketlink?: {
-				cta: CTA
+				ticketCTA: CTA
 				showCTA: boolean
 			}
 			time: {
@@ -207,9 +207,6 @@ declare global {
 		// objects
 
 		type CTA = {
-			cta: any
-			showCTA: any
-			options: any
 			link?: Link
 			style?: string
 		}

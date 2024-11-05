@@ -52,7 +52,7 @@ export default defineType({
 			group: 'content',
 			fields: [
 				defineField({
-					name: 'cta',
+					name: 'ticketCTA',
 					type: 'cta',
 					validation: (Rule) => Rule.required(),
 				}),

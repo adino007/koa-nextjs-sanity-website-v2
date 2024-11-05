@@ -276,7 +276,9 @@ export const eventQuery = groq`
       }
     }
   }
+
 `
+
 export async function getEvents() {
 	return await fetchSanity(eventQuery)
 }
