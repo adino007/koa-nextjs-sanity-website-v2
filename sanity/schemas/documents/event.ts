@@ -42,12 +42,15 @@ export default defineType({
 					type: 'datetime',
 				}),
 			],
+			validation: (Rule) => Rule.required(),
 			group: 'content',
 		}),
 		defineField({
 			name: 'ticketlink',
 			title: 'Ticket Link',
-			type: 'cta'
+			type: 'cta',
+			group: 'content',
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'venue',
@@ -55,6 +58,7 @@ export default defineType({
 			type: 'reference',
 			to: [{ type: 'venue' }],
 			group: 'content',
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'artists',
@@ -62,6 +66,7 @@ export default defineType({
 			type: 'array',
 			of: [{ type: 'reference', to: { type: 'artist' } }],
 			group: 'content',
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'flyer',
@@ -69,6 +74,7 @@ export default defineType({
 			type: 'image',
 			options: { hotspot: true },
 			group: 'content',
+			validation: (Rule) => Rule.required(),
 		}),
 		defineField({
 			name: 'gallery',

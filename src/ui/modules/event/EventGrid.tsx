@@ -124,7 +124,7 @@ export default function EventGrid() {
 												onClick={(e) => {
 													e.stopPropagation()
 													window.open(
-														`https://maps.google.com/?q=${event.venue.location}`,
+														`maps://maps.google.com/?q=${event.venue.location}`,
 														'_blank',
 													)
 												}}
