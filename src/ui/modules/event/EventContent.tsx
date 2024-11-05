@@ -88,9 +88,16 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						<h1 className="text-5xl font-bold">{event.name}</h1>
 						{event.venue && (
 							<div className="text-xl">
-								<IoLocation className="mr-2 inline-block text-gray-400" />
-								<span
-									className="cursor-pointer hover:text-blue-400"
+								<Link
+									href={`/venue/${event.venue.metadata.slug.current}`}
+									className="hover:text-blue-400"
+								>
+									<h2 className="inline-block font-semibold">
+										{event.venue.name}
+									</h2>
+								</Link>
+								<div
+									className="cursor-pointer pt-2 text-sm hover:text-blue-400"
 									onClick={() =>
 										window.open(
 											`maps://maps.google.com/?q=${event.venue.location}`,
@@ -98,11 +105,9 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 										)
 									}
 								>
-									<h2 className="inline-block font-semibold">
-										{event.venue.name}
-									</h2>
-								</span>
-								<p>{event.venue.location}</p>
+									<IoLocation className="mr-2 inline-block text-gray-400" />
+									<span>{event.venue.location}</span>
+								</div>
 							</div>
 						)}
 						<div className="text-sm">
