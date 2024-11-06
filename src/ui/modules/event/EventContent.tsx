@@ -61,9 +61,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						WebkitBackdropFilter: 'blur(16px)',
 					}}
 				>
-					<div className="p-4">
-						<CTAList ctas={[event.eventCTAS[0]]} className="text-center" />
-					</div>
+					<CTAList ctas={[event.eventCTAS[0]]} className="text-center" />
 				</div>
 			)}
 

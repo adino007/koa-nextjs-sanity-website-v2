@@ -18,11 +18,11 @@ export default async function Header() {
 			<div
 				className={cn(
 					css.header,
-					'mx-auto grid max-w-screen-xl items-center gap-x-6 p-6 pb-4 max-sm:pb-0',
-					'relative'
+					'mx-auto flex max-w-screen-xl items-center justify-between p-6 pb-4 max-sm:pb-0',
+					'relative',
 				)}
 			>
-				<div className="z-50 [grid-area:logo] max-md:mb-8 sticky top-0">
+				<div className="z-50 [grid-area:logo] max-md:mb-8 sticky top-0 bg-inherit">
 					<Link
 						className={cn(
 							'h3 md:h2 inline-block',
@@ -41,9 +41,9 @@ export default async function Header() {
 						)}
 					</Link>
 				</div>
-
-				<Navigation />
-
+				<div className="-ml-12 flex flex-1 justify-center">
+					<Navigation />
+				</div>
 				<Toggle />
 			</div>
 		</Wrapper>
