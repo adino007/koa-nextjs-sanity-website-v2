@@ -17,6 +17,7 @@ export default defineType({
 			name: 'events',
 			title: 'Events',
 			type: 'array',
+			hidden: true,
 			of: [
 				{
 					type: 'reference',
@@ -27,9 +28,6 @@ export default defineType({
 					},
 				},
 			],
-			description: 'Select the events you want to display in the grid',
-			validation: (Rule) =>
-				Rule.min(1).error('You must add at least one event.'),
 		}),
 		defineField({
 			name: 'layout',

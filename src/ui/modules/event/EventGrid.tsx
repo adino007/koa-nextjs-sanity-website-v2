@@ -7,7 +7,6 @@ import { useRouter } from 'next/navigation'
 import { FaCalendar, FaClock } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
 import CTAList from '@/ui/CTAList'
-const ITEMS_PER_PAGE = 9
 
 export default function EventGrid() {
 	const router = useRouter()
@@ -188,7 +187,7 @@ export default function EventGrid() {
 								)}
 						</div>
 					</div>
-				))}{' '}
+				))}
 			</div>
 		</div>
 	)

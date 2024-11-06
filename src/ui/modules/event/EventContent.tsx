@@ -169,13 +169,8 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 
 						{/* Regular CTA */}
 						{event.eventCTAS && event.eventCTAS.length > 0 && (
-							<div ref={ctaRef}>
-								<div className="!mt-4 flex flex-wrap items-center justify-center gap-[.5em]">
-									<CTAList
-										ctas={event.eventCTAS}
-										className="action max-sm:w-full"
-									/>
-								</div>
+							<div ref={ctaRef} className="!mt-4">
+								<CTAList ctas={event.eventCTAS} />
 							</div>
 						)}
 					</div>

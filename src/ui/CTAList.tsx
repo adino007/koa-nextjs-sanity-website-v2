@@ -9,10 +9,13 @@ export default function CTAList({
 } & React.ComponentProps<'div'>) {
 	if (!ctas?.length) return null
 
+	const visibleCtas = ctas.filter((cta) => cta.showCTA)
+	if (!visibleCtas.length) return null
+
 	return (
 		<div className={cn('flex flex-wrap items-center gap-[.5em]', className)}>
-			{ctas?.map((cta, key) => (
-				<CTA className="max-sm:w-full" {...cta} key={key} />
+			{visibleCtas.map((cta, key) => (
+				<CTA key={key} {...cta} />
 			))}
 		</div>
 	)

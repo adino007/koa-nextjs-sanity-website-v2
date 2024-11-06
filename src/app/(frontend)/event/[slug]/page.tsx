@@ -19,25 +19,39 @@ export default async function Page({ params }: Props) {
 }
 
 export async function generateMetadata({ params }: Props) {
-	try {
-		const event = await getEvent(params.slug!)
-		if (!event) notFound()
+	const event = await getEvent(params.slug!)
+	if (!event) notFound()
 
-		return {
-			title: event.name,
-			description: `${event.name} at ${event.venue?.name}`,
-			openGraph: {
-				images: event.flyer?.asset?.url ? [event.flyer.asset.url] : [],
-			},
-		}
-	} catch (error) {
-		console.error('Failed to generate metadata:', error)
-		return {
-			title: 'Event Not Found',
-			description: 'Unable to load event details',
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'Event',
+		name: event.name,
+		startDate: event.time?.start,
+		endDate: event.time?.end,
+		location: {
+			'@type': 'Place',
+			name: event.venue?.name,
+			address: event.venue?.location
+		},
+		image: event.flyer?.asset?.url,
+		performers: event.artists?.map(artist => ({
+			'@type': 'PerformingGroup',
+			name: artist.name
+		}))
+	}
+
+	return {
+		title: event.name,
+		description: `${event.name} at ${event.venue?.name}`,
+		openGraph: {
+			images: event.flyer?.asset?.url ? [event.flyer.asset.url] : [],
+		},
+		other: {
+			'script:ld+json': JSON.stringify(jsonLd)
 		}
 	}
 }
+
 export async function generateStaticParams() {
 	const slugs = await client.fetch<string[]>(
 		groq`*[_type == 'event' && defined(metadata.slug.current)].metadata.slug.current`,
