@@ -22,7 +22,7 @@ export default async function Header() {
 					'relative',
 				)}
 			>
-				<div className="z-50 [grid-area:logo] max-md:mb-8 sticky top-0 bg-inherit">
+				<div className="sticky top-0 z-50 bg-inherit [grid-area:logo] max-md:mb-8">
 					<Link
 						className={cn(
 							'h3 md:h2 inline-block',
@@ -41,7 +41,7 @@ export default async function Header() {
 						)}
 					</Link>
 				</div>
-				<div className="-ml-12 flex flex-1 justify-center">
+				<div className="-ml-24 flex flex-1 justify-center">
 					<Navigation />
 				</div>
 				<Toggle />

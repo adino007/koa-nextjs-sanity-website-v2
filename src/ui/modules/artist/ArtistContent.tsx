@@ -1,7 +1,16 @@
 'use client'
 
 import { FastAverageColor } from 'fast-average-color'
-import { useState, useEffect } from 'react'
+import {
+	useState,
+	useEffect,
+	AwaitedReactNode,
+	JSXElementConstructor,
+	Key,
+	ReactElement,
+	ReactNode,
+	ReactPortal,
+} from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
@@ -25,12 +34,12 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 	}, [artist.photo?.asset?.url])
 
 	return (
-		<div className="container mx-auto bg-transparent px-4 py-2 transition-colors duration-500">
-			<div className="flex flex-col items-start justify-center gap-8 lg:flex-row">
+		<div className="container mx-auto bg-transparent px-4 pb-12 transition-colors duration-500">
+			<div className="flex flex-col items-center justify-center gap-8 lg:flex-row">
 				{/* Artist Photo Section */}
 				<div className="w-full lg:w-1/3">
 					{artist.photo?.asset?.url && (
-						<div className="relative sticky top-24 mx-auto aspect-square w-full max-w-sm">
+						<div className="relative mx-auto aspect-square w-full max-w-sm max-md:mt-0">
 							<Image
 								src={artist.photo.asset.url}
 								alt={artist.name}
@@ -42,9 +51,9 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 					)}
 				</div>
 
-				{/* Artist Details Section - Scrollable */}
-				<div className="space-y-6 py-8 lg:w-1/2 lg:pt-0">
-					<h1 className="text-4xl font-bold">{artist.name}</h1>
+				{/* Artist Details Section */}
+				<div className="mt-6 space-y-6 text-center max-md:py-4 lg:w-1/2">
+					<h1 className="text-5xl font-bold">{artist.name}</h1>
 
 					{artist.bio && (
 						<div className="text-xl">
@@ -52,20 +61,22 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 						</div>
 					)}
 
-					{/* Social Links Section */}
+					{/* Social Links */}
 					{artist.socialLinks && artist.socialLinks.length > 0 && (
-						<div className="flex justify-center gap-4">
-							{artist.socialLinks.map((link, index) => (
-								<a
-									key={index}
-									href={link.url}
-									target="_blank"
-									rel="noopener noreferrer"
-									className="bg-primary inline-block rounded-lg px-4 py-2 font-semibold text-white transition-opacity hover:opacity-90"
-								>
-									{link.platform}
-								</a>
-							))}
+						<div className="!mt-4 flex justify-center">
+							<div className="flex flex-wrap items-center justify-center gap-[.5em]">
+								{artist.socialLinks.map((link, index) => (
+									<a
+										key={index}
+										href={link.url}
+										target="_blank"
+										rel="noopener noreferrer"
+										className="action text-lg md:px-8 md:py-4 md:text-xl"
+									>
+										{link.platform}
+									</a>
+								))}
+							</div>
 						</div>
 					)}
 
@@ -93,13 +104,44 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 						<div className="space-y-4">
 							<h2 className="text-2xl font-semibold">Upcoming Events</h2>
 							<div className="flex flex-col gap-4">
-								{artist.upcomingEvents.map((event) => (
-									<div key={event._id} className="rounded-lg bg-gray-800 p-4">
-										<h3 className="font-bold">{event.name}</h3>
-										<p>{new Date(event.date).toLocaleDateString()}</p>
-										<p>{event.venue.name}</p>
-									</div>
-								))}
+								{artist.upcomingEvents.map(
+									(event: {
+										_id: Key | null | undefined
+										name:
+											| string
+											| number
+											| bigint
+											| boolean
+											| ReactElement<any, string | JSXElementConstructor<any>>
+											| Iterable<ReactNode>
+											| ReactPortal
+											| Promise<AwaitedReactNode>
+											| Iterable<ReactNode>
+											| null
+											| undefined
+										date: string | number | Date
+										venue: {
+											name:
+												| string
+												| number
+												| bigint
+												| boolean
+												| ReactElement<any, string | JSXElementConstructor<any>>
+												| Iterable<ReactNode>
+												| ReactPortal
+												| Promise<AwaitedReactNode>
+												| Iterable<ReactNode>
+												| null
+												| undefined
+										}
+									}) => (
+										<div key={event._id} className="rounded-lg bg-gray-800 p-4">
+											<h3 className="font-bold">{event.name}</h3>
+											<p>{new Date(event.date).toLocaleDateString()}</p>
+											<p>{event.venue.name}</p>
+										</div>
+									),
+								)}
 							</div>
 						</div>
 					)}

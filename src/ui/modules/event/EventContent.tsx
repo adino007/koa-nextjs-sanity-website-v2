@@ -43,7 +43,6 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 		)
 
 		if (ctaRef.current) {
-			<CTAList ctas={event.eventCTAS} className="action text-lg md:text-xl md:px-8 md:py-4" />
 			observer.observe(ctaRef.current)
 		}
 
@@ -89,7 +88,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						</div>
 					</div>
 					{/* Event Details Section */}
-					<div className="space-y-6 text-center max-md:py-4 lg:w-1/2">
+					<div className="space-y-6 text-center max-md:py-4 md:mt-4 lg:w-1/2">
 						<h1 className="text-5xl font-bold">{event.name}</h1>
 						{event.venue && (
 							<div className="text-xl">

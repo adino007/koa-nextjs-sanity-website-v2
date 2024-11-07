@@ -74,7 +74,7 @@ export default function ArtistGrid() {
 				</div>
 			</div>
 			{/* Artist Grid */}
-			<div className="grid grid-cols-3 gap-4 pt-4 sm:gap-6">
+			<div className="grid grid-cols-6 gap-4 pt-4 max-md:grid-cols-4 max-sm:grid-cols-3 sm:ml-16 sm:gap-6 lg:gap-3">
 				{sortedArtists.map((artist) => (
 					<div
 						key={artist._id}
@@ -84,7 +84,7 @@ export default function ArtistGrid() {
 							router.push(slug ? `/artist/${slug}` : '/404')
 						}}
 					>
-						<div className="relative aspect-square w-full">
+						<div className="relative aspect-square w-full pt-2 lg:mx-auto lg:w-3/4">
 							{artist.photo?.asset?.url ? (
 								<Image
 									src={artist.photo.asset.url}
@@ -100,12 +100,13 @@ export default function ArtistGrid() {
 								</div>
 							)}
 						</div>
-						<h2 className="mt-2 text-center text-sm font-medium text-white">
+						<h2 className="mt-4 text-center text-sm font-medium text-white md:mt-6">
 							{artist.name}
 						</h2>
 					</div>
 				))}
 			</div>
+
 			{/* Pagination
 			<div className="mt-8 flex items-center justify-between">
 				<button
