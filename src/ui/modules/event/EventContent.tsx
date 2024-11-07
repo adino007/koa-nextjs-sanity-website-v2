@@ -43,6 +43,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 		)
 
 		if (ctaRef.current) {
+			<CTAList ctas={event.eventCTAS} className="action text-lg md:text-xl md:px-8 md:py-4" />
 			observer.observe(ctaRef.current)
 		}
 
@@ -54,7 +55,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 			{/* Mobile Sticky CTA */}
 			{isSticky && event.eventCTAS && event.eventCTAS[0] && (
 				<div
-					className="fixed bottom-0 left-0 right-0 z-10 md:hidden"
+					className="fixed bottom-0 left-0 right-0 z-10 lg:hidden"
 					style={{
 						background: bgColor,
 						backdropFilter: 'blur(16px)',

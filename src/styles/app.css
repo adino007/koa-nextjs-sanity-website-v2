@@ -269,7 +269,19 @@
 
 @layer utilities {
 	.frosted-glass {
-		@apply bg-opacity-80 backdrop-blur-sm backdrop-saturate-100;
+		-webkit-backdrop-filter: blur(3px);
+		backdrop-filter: blur(3px);
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+	}
+
+	.frosted-glass-dark {
+		-webkit-backdrop-filter: blur(16px);
+		backdrop-filter: blur(16px);
+		z-index: 40;
+		-webkit-transform: translate3d(0, 0, 0);
+		transform: translate3d(0, 0, 0);
+		background: rgba(0, 0, 0, 0.6);
 	}
 
 	.full-bleed {

@@ -13,7 +13,12 @@ export default function CTAList({
 	if (!visibleCtas.length) return null
 
 	return (
-		<div className={cn('flex flex-wrap items-center gap-[.5em]', className)}>
+		<div
+			className={cn(
+				'flex flex-wrap items-center justify-center gap-[.5em]',
+				className,
+			)}
+		>
 			{visibleCtas.map((cta, key) => (
 				<CTA key={key} {...cta} />
 			))}

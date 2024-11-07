@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react'
 import { usePathname } from 'next/navigation'
-import { IoCloseCircleOutline, IoReorderThreeOutline } from 'react-icons/io5'
+import styles from './Header.module.css'
 
 export default function Toggle() {
 	const pathname = usePathname()
@@ -24,14 +24,13 @@ export default function Toggle() {
 	}, [pathname])
 
 	return (
-		<label className="sticky right-6 top-6 z-50 [grid-area:toggle] md:hidden">
+		<label className="sticky right-6 top-6 z-50 mb-6 mr-2 [grid-area:toggle] md:hidden">
 			<input id="header-open" type="checkbox" hidden />
-			<span className="text-4xl font-bold header-closed:hidden">
-				<IoCloseCircleOutline />
-			</span>
-			<span className="text-5xl header-open:hidden">
-				<IoReorderThreeOutline />
-			</span>
+			<div className={styles.menu}>
+				<span className={styles.bar}></span>
+				<span className={styles.bar}></span>
+				<span className={styles.bar}></span>
+			</div>
 		</label>
 	)
 }

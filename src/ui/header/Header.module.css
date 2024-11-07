@@ -8,3 +8,38 @@
 		grid-template: 'logo nav ctas' auto / 1fr auto 1fr;
 	}
 }
+.menu {
+	height: 50px;
+	width: 50px;
+	position: relative;
+	margin: auto;
+	padding: 10px;
+}
+
+.bar {
+	height: 2px;
+	width: 35px;
+	display: block;
+	margin: 8px auto;
+	position: relative;
+	background-color: currentColor;
+	transition: transform 0.6s;
+}
+
+.menu:hover {
+	transform: scale(1.1);
+	transition: transform 0.3s ease;
+}
+
+/* Animation for click on closed to open state */
+:global(#header-open:checked) ~ .menu .bar:nth-of-type(1) {
+	transform: translateY(10px) rotate(45deg);
+}
+
+:global(#header-open:checked) ~ .menu .bar:nth-of-type(2) {
+	transform: translateX(100px);
+}
+
+:global(#header-open:checked) ~ .menu .bar:nth-of-type(3) {
+	transform: translateY(-10px) rotate(-45deg);
+}
