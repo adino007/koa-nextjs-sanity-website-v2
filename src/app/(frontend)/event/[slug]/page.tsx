@@ -8,7 +8,6 @@ import { draftMode } from 'next/headers'
 
 export default async function Page({ params }: Props) {
 	const event = await getEvent(params.slug!)
-
 	if (!event) notFound()
 
 	return (
@@ -31,13 +30,14 @@ export async function generateMetadata({ params }: Props) {
 		location: {
 			'@type': 'Place',
 			name: event.venue?.name,
-			address: event.venue?.location
+			address: event.venue?.location,
 		},
 		image: event.flyer?.asset?.url,
-		performers: event.artists?.map(artist => ({
+		performers: event.artists?.map((artist) => ({
 			'@type': 'PerformingGroup',
-			name: artist.name
-		}))
+			name: artist.name,
+		})),
+		url: `${process.env.NEXT_PUBLIC_SITE_URL}/event/${params.slug}`,
 	}
 
 	return {
@@ -45,10 +45,14 @@ export async function generateMetadata({ params }: Props) {
 		description: `${event.name} at ${event.venue?.name}`,
 		openGraph: {
 			images: event.flyer?.asset?.url ? [event.flyer.asset.url] : [],
+			url: `${process.env.NEXT_PUBLIC_SITE_URL}/event/${params.slug}`,
+		},
+		alternates: {
+			canonical: `/event/${params.slug}`,
 		},
 		other: {
-			'script:ld+json': JSON.stringify(jsonLd)
-		}
+			'script:ld+json': JSON.stringify(jsonLd),
+		},
 	}
 }
 

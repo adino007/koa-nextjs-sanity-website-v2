@@ -20,11 +20,28 @@ export async function generateMetadata({ params }: Props) {
 	const venue = await getVenue(params.slug!)
 	if (!venue) notFound()
 
+	const jsonLd = {
+		'@context': 'https://schema.org',
+		'@type': 'Place',
+		name: venue.name,
+		address: venue.location,
+		description: venue.description,
+		image: venue.image?.asset?.url,
+		url: `${process.env.NEXT_PUBLIC_SITE_URL}/venue/${params.slug}`,
+	}
+
 	return {
 		title: venue.name,
 		description: venue.description,
 		openGraph: {
 			images: venue.image?.asset?.url ? [venue.image.asset.url] : [],
+			url: `${process.env.NEXT_PUBLIC_SITE_URL}/venue/${params.slug}`,
+		},
+		alternates: {
+			canonical: `/venue/${params.slug}`,
+		},
+		other: {
+			'script:ld+json': JSON.stringify(jsonLd),
 		},
 	}
 }

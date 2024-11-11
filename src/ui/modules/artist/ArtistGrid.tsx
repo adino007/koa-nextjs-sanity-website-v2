@@ -1,9 +1,15 @@
 'use client'
-
 import { useState, useEffect } from 'react'
 import { getArtists } from '@/lib/sanity/queries'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select'
 
 const ITEMS_PER_PAGE = 9
 
@@ -49,32 +55,24 @@ export default function ArtistGrid() {
 		<div className="container mx-auto px-4 py-4">
 			{/* Sorting Controls */}
 			<div className="mb-4 flex justify-center sm:justify-end">
-				<div className="flex flex-row space-x-2">
-					<div className="flex items-center">
-						<label
-							htmlFor="sort"
-							className="mr-1 text-sm font-medium text-white"
-						>
-							Sort:
-						</label>
-						<select
-							id="sort"
-							value={sortOrder}
-							onChange={(e) => setSortOrder(e.target.value as 'asc' | 'desc')}
-							className="w-32 rounded border p-1 text-sm uppercase text-black"
-						>
-							<option className="py-1" value="asc">
-								A to Z
-							</option>
-							<option className="py-1" value="desc">
-								Z to A
-							</option>
-						</select>
-					</div>
-				</div>
+				<Select
+					onValueChange={(value) => setSortOrder(value as 'asc' | 'desc')}
+				>
+					<SelectTrigger className="w-42 frosted-glass-dark z-10 px-2 uppercase leading-normal lg:mr-4">
+						<SelectValue placeholder="Sort Artists" />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem className="frosted-glass-dark z-10 py-1" value="asc">
+							A to Z
+						</SelectItem>
+						<SelectItem className="frosted-glass-dark z-10 py-1" value="desc">
+							Z to A
+						</SelectItem>
+					</SelectContent>
+				</Select>
 			</div>
 			{/* Artist Grid */}
-			<div className="grid grid-cols-6 gap-4 pt-4 max-md:grid-cols-4 max-sm:grid-cols-3 sm:ml-16 sm:gap-6 lg:gap-3">
+			<div className="grid grid-cols-5 gap-4 pt-4 max-lg:grid-cols-4 max-sm:grid-cols-3 sm:gap-6 lg:gap-3">
 				{sortedArtists.map((artist) => (
 					<div
 						key={artist._id}
@@ -108,27 +106,27 @@ export default function ArtistGrid() {
 			</div>
 
 			{/* Pagination
-			<div className="mt-8 flex items-center justify-between">
-				<button
-					onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-					disabled={currentPage === 1}
-					className="rounded bg-gray-800 px-4 py-2 text-white disabled:opacity-50"
-				>
-					Previous
-				</button>
-				<p className="text-white">
-					Page {currentPage} of {totalPages}
-				</p>
-				<button
-					onClick={() =>
-						setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-					}
-					disabled={currentPage === totalPages}
-					className="rounded bg-gray-800 px-4 py-2 text-white disabled:opacity-50"
-				>
-					Next
-				</button>
-			</div> */}
+				<div className="mt-8 flex items-center justify-between">
+					<button
+						onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+						disabled={currentPage === 1}
+						className="rounded bg-gray-800 px-4 py-2 text-white disabled:opacity-50"
+					>
+						Previous
+					</button>
+					<p className="text-white">
+						Page {currentPage} of {totalPages}
+					</p>
+					<button
+						onClick={() =>
+							setCurrentPage((prev) => Math.min(prev + 1, totalPages))
+						}
+						disabled={currentPage === totalPages}
+						className="rounded bg-gray-800 px-4 py-2 text-white disabled:opacity-50"
+					>
+						Next
+					</button>
+				</div> */}
 		</div>
 	)
 }

@@ -35,11 +35,11 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 
 	return (
 		<div className="container mx-auto bg-transparent px-4 pb-12 transition-colors duration-500">
-			<div className="flex flex-col items-center justify-center gap-8 lg:flex-row">
+			<div className="flex flex-col items-center justify-center gap-8 lg:flex-row lg:items-start">
 				{/* Artist Photo Section */}
 				<div className="w-full lg:w-1/3">
 					{artist.photo?.asset?.url && (
-						<div className="relative mx-auto aspect-square w-full max-w-sm max-md:mt-0">
+						<div className="relative mx-auto mt-6 aspect-[3/4] w-full max-w-sm cursor-pointer max-md:mt-0">
 							<Image
 								src={artist.photo.asset.url}
 								alt={artist.name}
@@ -52,11 +52,11 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 				</div>
 
 				{/* Artist Details Section */}
-				<div className="mt-6 space-y-6 text-center max-md:py-4 lg:w-1/2">
-					<h1 className="text-5xl font-bold">{artist.name}</h1>
+				<div className="pace-y-6 text-center max-md:py-4 lg:mt-6 lg:w-1/2">
+					<h1 className="text-5xl font-bold md:mt-8 lg:mt-12">{artist.name}</h1>
 
 					{artist.bio && (
-						<div className="text-xl">
+						<div className="mt-6 text-sm">
 							<p>{artist.bio}</p>
 						</div>
 					)}

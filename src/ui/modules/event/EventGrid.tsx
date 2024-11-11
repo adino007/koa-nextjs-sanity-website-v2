@@ -7,6 +7,13 @@ import { useRouter } from 'next/navigation'
 import { FaCalendar, FaClock } from 'react-icons/fa'
 import { IoLocation } from 'react-icons/io5'
 import CTAList from '@/ui/CTAList'
+import {
+	Select,
+	SelectContent,
+	SelectItem,
+	SelectTrigger,
+	SelectValue,
+} from '@/components/ui/select'
 
 export default function EventGrid() {
 	const router = useRouter()
@@ -46,148 +53,169 @@ export default function EventGrid() {
 		})
 
 	if (loading) {
-		return <div className="text-center text-white">Loading events...</div>
+		return (
+			<div className="py-24 text-center text-xl text-white">
+				<div className="inline-flex">
+					Loading events
+					<span className="ml-1">
+						<span className="animate-pulse">.</span>
+						<span className="animate-pulse delay-300">.</span>
+						<span className="delay-600 animate-pulse">.</span>
+					</span>
+				</div>
+			</div>
+		)
 	}
 
 	return (
 		<div className="container mx-auto px-4 pb-12">
 			<div className="mb-4 flex justify-center pt-2 sm:justify-end">
-				<div className="flex items-center">
-					<label
-						htmlFor="filter"
-						className="mr-1 text-sm font-medium text-white"
-					>
-						Filter:
-					</label>
-					<select
-						id="filter"
-						value={filter}
-						onChange={(e) =>
-							setFilter(e.target.value as 'all' | 'upcoming' | 'past')
-						}
-						className="w-42 rounded border p-1 text-sm uppercase text-black"
-					>
-						<option className="py-1" value="all">
+				<Select
+					onValueChange={(value) =>
+						setFilter(value as 'all' | 'upcoming' | 'past')
+					}
+				>
+					<SelectTrigger className="w-42 frosted-glass-dark z-10 px-2 uppercase leading-normal lg:mr-4">
+						<SelectValue placeholder="Filter Events" />
+					</SelectTrigger>
+					<SelectContent>
+						<SelectItem className="frosted-glass-dark z-10 py-1" value="all">
 							All Events
-						</option>
-						<option className="py-1" value="upcoming">
+						</SelectItem>
+						<SelectItem
+							className="frosted-glass-dark z-10 py-1"
+							value="upcoming"
+						>
 							Upcoming
-						</option>
-						<option className="py-1" value="past">
+						</SelectItem>
+						<SelectItem className="frosted-glass-dark z-10 py-1" value="past">
 							Past
-						</option>
-					</select>
-				</div>
+						</SelectItem>
+					</SelectContent>
+				</Select>
 			</div>
 
 			{/* Event List */}
 			<div className="space-y-6">
-				{filteredEvents.map((event) => (
-					<div
-						key={event._id}
-						className="relative cursor-pointer overflow-hidden rounded-lg"
-						onClick={() => {
-							const slug = event?.metadata?.slug?.current
-							router.push(slug ? `/event/${slug}` : '/404')
-						}}
-					>
-						{/* Background Image with Blur */}
-						{event.flyer?.asset?.url && (
-							<div className="absolute inset-0">
-								<Image
-									src={event.flyer.asset.url}
-									alt=""
-									fill
-									className="object-cover"
-								/>
-								<div className="absolute inset-0 bg-black/50 backdrop-blur-lg" />
-							</div>
-						)}
+				{filteredEvents.length > 0 ? (
+					filteredEvents.map((event) => (
+						<div
+							key={event._id}
+							className="relative cursor-pointer overflow-hidden rounded-lg"
+							onClick={() => {
+								const slug = event?.metadata?.slug?.current
+								router.push(slug ? `/event/${slug}` : '/404')
+							}}
+						>
+							{/* Background Image with Blur */}
+							{event.flyer?.asset?.url && (
+								<div className="absolute inset-0">
+									<Image
+										src={event.flyer.asset.url}
+										alt=""
+										fill
+										className="object-cover"
+									/>
+									<div className="absolute inset-0 bg-black/50 backdrop-blur-lg" />
+								</div>
+							)}
 
-						<div className="relative z-10 flex flex-col items-start gap-6 p-6 md:flex-row md:items-center">
-							<div className="flex-grow">
-								<h2 className="mb-2 text-2xl font-bold">{event.name}</h2>
-								<div className="space-y-2">
-									<div className="flex items-center gap-2">
-										<FaCalendar className="text-gray-400" />
-										<span>
-											{new Date(event.date).toLocaleDateString('en-US', {
-												weekday: 'long',
-												year: 'numeric',
-												month: 'long',
-												day: 'numeric',
-											})}
-										</span>
-									</div>
-									{event.venue && (
+							<div className="relative z-10 flex flex-col items-start gap-6 p-6 md:flex-row md:items-center">
+								<div className="flex-grow">
+									<h2 className="mb-2 text-2xl font-bold">{event.name}</h2>
+									<div className="space-y-2">
 										<div className="flex items-center gap-2">
-											<IoLocation className="text-gray-400" />
-											<span
-												className="cursor-pointer hover:text-blue-400"
-												onClick={(e) => {
-													e.stopPropagation()
-													window.open(getMapUrl(event.venue.location), '_blank')
-												}}
-											>
-												{event.venue.name}
-											</span>
-										</div>
-									)}
-									{event.time && (
-										<div className="flex items-center gap-2">
-											<FaClock className="text-gray-400" />
+											<FaCalendar className="text-gray-400" />
 											<span>
-												{new Date(event.time.start).toLocaleTimeString([], {
-													hour: '2-digit',
-													minute: '2-digit',
-												})}{' '}
-												-
-												{new Date(event.time.end).toLocaleTimeString([], {
-													hour: '2-digit',
-													minute: '2-digit',
+												{new Date(event.date).toLocaleDateString('en-US', {
+													weekday: 'long',
+													year: 'numeric',
+													month: 'long',
+													day: 'numeric',
 												})}
 											</span>
 										</div>
-									)}
-								</div>
-							</div>
-
-							{/* Artists (Stacks on mobile) */}
-							<div className="mt-4 flex w-full flex-wrap justify-start gap-4 md:mt-0 md:w-auto md:justify-end">
-								{event.artists &&
-									event.artists.map((artist) => (
-										<div key={artist._id} className="w-16 text-center">
-											{artist.photo?.asset?.url && (
-												<div className="relative mx-auto mb-1 h-12 w-12">
-													<Image
-														src={artist.photo.asset.url}
-														alt={artist.name}
-														fill
-														className="rounded-full object-cover"
-													/>
-												</div>
-											)}
-											<span className="text-xs">{artist.name}</span>
-										</div>
-									))}
-							</div>
-
-							{event.eventCTAS &&
-								event.eventCTAS.length > 0 &&
-								event.eventCTAS[0].showCTA && (
-									<div
-										onClick={(e) => e.stopPropagation()}
-										className="w-full text-center md:w-32"
-									>
-										<CTAList
-											ctas={[event.eventCTAS[0]]}
-											className="!mt-4 md:!mt-0"
-										/>
+										{event.venue && (
+											<div className="flex items-center gap-2">
+												<IoLocation className="text-gray-400" />
+												<span
+													className="cursor-pointer hover:text-blue-400"
+													onClick={(e) => {
+														e.stopPropagation()
+														window.open(
+															getMapUrl(event.venue.location),
+															'_blank',
+														)
+													}}
+												>
+													{event.venue.name}
+												</span>
+											</div>
+										)}
+										{event.time && (
+											<div className="flex items-center gap-2">
+												<FaClock className="text-gray-400" />
+												<span>
+													{new Date(event.time.start).toLocaleTimeString([], {
+														hour: '2-digit',
+														minute: '2-digit',
+													})}{' '}
+													-
+													{new Date(event.time.end).toLocaleTimeString([], {
+														hour: '2-digit',
+														minute: '2-digit',
+													})}
+												</span>
+											</div>
+										)}
 									</div>
-								)}
+								</div>
+
+								{/* Artists (Stacks on mobile) */}
+								<div className="mt-4 flex w-full flex-wrap justify-start gap-4 md:mt-0 md:w-auto md:justify-end">
+									{event.artists &&
+										event.artists.map((artist) => (
+											<div key={artist._id} className="w-16 text-center">
+												{artist.photo?.asset?.url && (
+													<div className="relative mx-auto mb-1 h-12 w-12">
+														<Image
+															src={artist.photo.asset.url}
+															alt={artist.name}
+															fill
+															className="rounded-full object-cover"
+														/>
+													</div>
+												)}
+												<span className="text-xs">{artist.name}</span>
+											</div>
+										))}
+								</div>
+
+								{event.eventCTAS &&
+									event.eventCTAS.length > 0 &&
+									event.eventCTAS[0].showCTA && (
+										<div
+											onClick={(e) => e.stopPropagation()}
+											className="w-full text-center md:w-32"
+										>
+											<CTAList
+												ctas={[event.eventCTAS[0]]}
+												className="!mt-4 md:!mt-0"
+											/>
+										</div>
+									)}
+							</div>
 						</div>
+					))
+				) : (
+					<div className="pt-24 text-center text-xl text-white max-md:pb-4 max-md:pt-36">
+						<div>
+							No {filter === 'all' ? '' : filter} Events
+							{filter === 'all' ? ' Found' : ''}
+						</div>
+						<div className="mt-4 text-4xl">😢</div>
 					</div>
-				))}
+				)}
 			</div>
 		</div>
 	)
