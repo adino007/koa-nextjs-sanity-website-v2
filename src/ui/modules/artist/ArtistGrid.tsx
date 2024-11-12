@@ -53,7 +53,6 @@ export default function ArtistGrid() {
 
 	return (
 		<div className="container mx-auto px-4 py-4">
-			{/* Sorting Controls */}
 			<div className="mb-4 flex justify-center sm:justify-end">
 				<Select
 					onValueChange={(value) => setSortOrder(value as 'asc' | 'desc')}
@@ -71,6 +70,7 @@ export default function ArtistGrid() {
 					</SelectContent>
 				</Select>
 			</div>
+
 			{/* Artist Grid */}
 			<div className="grid grid-cols-5 gap-4 pt-4 max-lg:grid-cols-4 max-sm:grid-cols-3 sm:gap-6 lg:gap-3">
 				{sortedArtists.map((artist) => (
