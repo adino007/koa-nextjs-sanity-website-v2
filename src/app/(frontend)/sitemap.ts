@@ -6,7 +6,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 		groq`{
 			'pages': *[
 				_type == 'page' &&
-				!(metadata.slug.current in ['404', 'blog/*']) &&
+				!(metadata.slug.current in ['404', 'blog/*', 'event/*', 'artist/*', 'venue/*']) &&
 				metadata.noIndex != true
 			]|order(metadata.slug.current){
 				'url': $baseUrl + select(metadata.slug.current == 'index' => '', metadata.slug.current),
@@ -26,6 +26,16 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 				'lastModified': _updatedAt,
 				'priority': 0.8,
 				'changefreq': 'always'
+			},
+			'artists': *[_type == 'artist' && defined(metadata.slug.current)]|order(name){
+				'url': $baseUrl + 'artist/' + metadata.slug.current,
+				'lastModified': _updatedAt,
+				'priority': 0.7
+			},
+			'venues': *[_type == 'venue' && defined(metadata.slug.current)]|order(name){
+				'url': $baseUrl + 'venue/' + metadata.slug.current,
+				'lastModified': _updatedAt,
+				'priority': 0.6
 			}
 		}`,
 		{

@@ -208,7 +208,7 @@ export default function EventGrid() {
 						</div>
 					))
 				) : (
-					<div className="pt-24 text-center text-xl text-white max-md:pb-4 max-md:pt-36">
+					<div className="pt-20 text-center text-xl text-white max-md:pb-4 max-md:pt-32">
 						<div>
 							No {filter === 'all' ? '' : filter} Events
 							{filter === 'all' ? ' Found' : ''}
