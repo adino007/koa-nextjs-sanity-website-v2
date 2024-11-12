@@ -75,7 +75,7 @@ export default function EventGrid() {
 						setFilter(value as 'all' | 'upcoming' | 'past')
 					}
 				>
-					<SelectTrigger className="w-42 frosted-glass-dark z-10 px-2 uppercase leading-normal lg:mr-4">
+					<SelectTrigger className="w-42 frosted-glass-dark px-2 uppercase leading-normal max-md:header-open:z-0 lg:mr-4">
 						<SelectValue placeholder="Filter Events" />
 					</SelectTrigger>
 					<SelectContent>

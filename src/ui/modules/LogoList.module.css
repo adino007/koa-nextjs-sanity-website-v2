@@ -1,5 +1,5 @@
 .track {
-	--dur: 8s;
+	--dur: 12s;
 
 	& > * {
 		--ox: calc((var(--count) - var(--index)) * 100%);
