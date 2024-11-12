@@ -1,4 +1,5 @@
 'use client'
+
 import { useState, useEffect } from 'react'
 import { getArtists } from '@/lib/sanity/queries'
 import Image from 'next/image'
@@ -11,20 +12,16 @@ import {
 	SelectValue,
 } from '@/components/ui/select'
 
-const ITEMS_PER_PAGE = 9
-
 export default function ArtistGrid() {
 	const router = useRouter()
 	const [artists, setArtists] = useState<Sanity.Artist[]>([])
 	const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('asc')
-	const [currentPage, setCurrentPage] = useState(1)
 	const [loading, setLoading] = useState(true)
 
 	useEffect(() => {
 		async function fetchArtists() {
 			try {
 				const data = await getArtists()
-				console.log('Fetched Artists Data:', data)
 				setArtists(data)
 			} catch (error) {
 				console.error('Error fetching artists:', error)
@@ -37,19 +34,24 @@ export default function ArtistGrid() {
 
 	const sortedArtists = [...artists].sort((a, b) => {
 		return sortOrder === 'asc'
-			? a.name.localeCompare(b.name) // A to Z
-			: b.name.localeCompare(a.name) // Z to A
+			? a.name.localeCompare(b.name)
+			: b.name.localeCompare(a.name)
 	})
 
-	const totalPages = Math.ceil(sortedArtists.length / ITEMS_PER_PAGE)
-	const paginatedArtists = sortedArtists.slice(
-		(currentPage - 1) * ITEMS_PER_PAGE,
-		currentPage * ITEMS_PER_PAGE,
-	)
-	const handleNextPage = () =>
-		setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-	const handlePreviousPage = () =>
-		setCurrentPage((prev) => Math.max(prev - 1, 1))
+	if (loading) {
+		return (
+			<div className="py-24 text-center text-xl text-white">
+				<div className="inline-flex">
+					Loading artists
+					<span className="ml-1">
+						<span className="animate-pulse">.</span>
+						<span className="animate-pulse delay-300">.</span>
+						<span className="delay-600 animate-pulse">.</span>
+					</span>
+				</div>
+			</div>
+		)
+	}
 
 	return (
 		<div className="container mx-auto px-4 py-4">
@@ -71,7 +73,6 @@ export default function ArtistGrid() {
 				</Select>
 			</div>
 
-			{/* Artist Grid */}
 			<div className="grid grid-cols-5 gap-4 pt-4 max-lg:grid-cols-4 max-sm:grid-cols-3 sm:gap-6 lg:gap-3">
 				{sortedArtists.map((artist) => (
 					<div
@@ -104,29 +105,6 @@ export default function ArtistGrid() {
 					</div>
 				))}
 			</div>
-
-			{/* Pagination
-				<div className="mt-8 flex items-center justify-between">
-					<button
-						onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
-						disabled={currentPage === 1}
-						className="rounded bg-gray-800 px-4 py-2 text-white disabled:opacity-50"
-					>
-						Previous
-					</button>
-					<p className="text-white">
-						Page {currentPage} of {totalPages}
-					</p>
-					<button
-						onClick={() =>
-							setCurrentPage((prev) => Math.min(prev + 1, totalPages))
-						}
-						disabled={currentPage === totalPages}
-						className="rounded bg-gray-800 px-4 py-2 text-white disabled:opacity-50"
-					>
-						Next
-					</button>
-				</div> */}
 		</div>
 	)
 }
