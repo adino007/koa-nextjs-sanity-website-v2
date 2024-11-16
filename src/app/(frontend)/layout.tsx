@@ -22,8 +22,10 @@ export default async function RootLayout({
 }) {
 	return (
 		<html lang="en">
-			{/* <GoogleTagManager gtmId='' /> */}
-			<meta name="seobility" content="856ff90b386856cdb709d1280d0b618e">
+			<head>
+				{/* <GoogleTagManager gtmId='' /> */}
+				<meta name="seobility" content="856ff90b386856cdb709d1280d0b618e"/>
+			</head>
 
 			<body className="bg-black font-moncheri uppercase text-white">
 				<SkipToContent />
