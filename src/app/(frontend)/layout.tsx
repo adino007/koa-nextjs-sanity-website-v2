@@ -29,8 +29,8 @@ export default async function RootLayout({
     rel="preload"
     as="image"
     href="https://cdn.sanity.io/images/z2grrz9f/production/e767975773de37e33985d82b4…"
-    imagesrcset="(your srcset here if applicable)"
-    imagesizes="(your sizes here if applicable)"
+    imageSrcSet="(your srcset here if applicable)"
+    imageSizes="(your sizes here if applicable)"
 		  />
 			</head>
 
