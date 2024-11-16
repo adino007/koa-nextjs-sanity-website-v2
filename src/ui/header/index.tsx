@@ -34,6 +34,7 @@ export default async function Header() {
 							<Img
 								className="inline-block max-h-[4em] w-auto"
 								image={logoImage}
+								loading="eager"
 								alt={logo?.name || title}
 							/>
 						) : (
