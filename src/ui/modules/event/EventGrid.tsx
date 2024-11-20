@@ -14,6 +14,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
+import Link from 'next/link'
 
 export default function EventGrid() {
 	const router = useRouter()
@@ -97,24 +98,27 @@ export default function EventGrid() {
 
 			{/* Event List */}
 			<div className="space-y-6">
-				{filteredEvents.length > 0 ? (
-					filteredEvents.map((event) => (
-						<div
-							key={event._id}
-							className="relative cursor-pointer overflow-hidden rounded-lg"
-							onClick={() => {
-								const slug = event?.metadata?.slug?.current
-								router.push(slug ? `/event/${slug}` : '/404')
-							}}
+				{filteredEvents.map((event) => (
+					<div key={event._id} className="block">
+						<Link
+							href={
+								event?.metadata?.slug?.current
+									? `/event/${event.metadata.slug.current}`
+									: '/404'
+							}
+							className="relative block cursor-pointer overflow-hidden rounded-lg"
+							title={event.name}
 						>
 							{/* Background Image with Blur */}
 							{event.flyer?.asset?.url && (
 								<div className="absolute inset-0">
 									<Image
 										src={event.flyer.asset.url}
-										alt=""
+										alt={event.name}
 										fill
+										sizes="(max-width: 768px) 100vw, 50vw"
 										className="object-cover"
+										priority={true}
 									/>
 									<div className="absolute inset-0 bg-black/50 backdrop-blur-lg" />
 								</div>
@@ -138,18 +142,16 @@ export default function EventGrid() {
 										{event.venue && (
 											<div className="flex items-center gap-2">
 												<IoLocation className="text-gray-400" />
-												<span
+												<a
+													href={getMapUrl(event.venue.location)}
+													target="_blank"
+													rel="noopener noreferrer"
+													onClick={(e) => e.stopPropagation()}
 													className="cursor-pointer hover:text-blue-400"
-													onClick={(e) => {
-														e.stopPropagation()
-														window.open(
-															getMapUrl(event.venue.location),
-															'_blank',
-														)
-													}}
+													title={`View ${event.venue.name} on map`}
 												>
 													{event.venue.name}
-												</span>
+												</a>
 											</div>
 										)}
 										{event.time && (
@@ -175,7 +177,10 @@ export default function EventGrid() {
 								<div className="mt-4 flex w-full flex-wrap justify-start gap-4 md:mt-0 md:w-auto md:justify-end">
 									{event.artists &&
 										event.artists.map((artist) => (
-											<div key={artist._id} className="w-16 text-center">
+											<div
+												key={artist._id}
+												className="flex w-16 flex-col items-center justify-center text-center"
+											>
 												{artist.photo?.asset?.url && (
 													<div className="relative mx-auto mb-1 h-12 w-12">
 														<Image
@@ -186,7 +191,9 @@ export default function EventGrid() {
 														/>
 													</div>
 												)}
-												<span className="text-xs">{artist.name}</span>
+												<span className="pt-2 text-xs leading-5">
+													{artist.name}
+												</span>
 											</div>
 										))}
 								</div>
@@ -205,17 +212,9 @@ export default function EventGrid() {
 										</div>
 									)}
 							</div>
-						</div>
-					))
-				) : (
-					<div className="pt-20 text-center text-xl text-white max-md:pb-4 max-md:pt-32">
-						<div>
-							No {filter === 'all' ? '' : filter} Events
-							{filter === 'all' ? ' Found' : ''}
-						</div>
-						<div className="mt-4 text-4xl">😢</div>
+						</Link>
 					</div>
-				)}
+				))}
 			</div>
 		</div>
 	)
