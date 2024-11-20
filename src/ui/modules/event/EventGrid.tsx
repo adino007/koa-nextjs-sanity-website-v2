@@ -120,7 +120,7 @@ export default function EventGrid() {
 								</div>
 							)}
 
-							<div className="relative z-10 flex flex-col items-start gap-6 p-6 md:flex-row md:items-center bg-gradient-to-r from-black/40 to-transparent rounded-lg">
+							<div className="relative z-10 flex flex-col items-start gap-6 p-6 md:flex-row md:items-center bg-gradient-to-r from-black/60 via-black/40 to-transparent rounded-lg transition-colors duration-300 group-hover:from-black/70">
 								<div className="flex-grow">
 									<h2 className="mb-2 text-2xl font-bold">{event.name}</h2>
 									<div className="space-y-2">
