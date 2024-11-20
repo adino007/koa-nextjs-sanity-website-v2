@@ -15,6 +15,8 @@ export default function CTA({
 		className: cn(style, className) || undefined,
 		children:
 			children || link?.label || link?.internal?.title || link?.external,
+		title: link?.label || link?.internal?.title,
+		'aria-label': link?.label || link?.internal?.title,
 		...rest,
 	}
 
@@ -30,7 +32,14 @@ export default function CTA({
 		)
 
 	if (link?.type === 'external' && link.external)
-		return <a href={stegaClean(link.external)} {...props} />
+		return (
+			<a
+				href={stegaClean(link.external)}
+				target="_blank"
+				rel="noopener noreferrer"
+				{...props}
+			/>
+		)
 
 	return props.children
 }

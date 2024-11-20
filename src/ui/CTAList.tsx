@@ -4,6 +4,7 @@ import CTA from './CTA'
 export default function CTAList({
 	ctas,
 	className,
+	...props
 }: {
 	ctas?: Sanity.CTA[]
 } & React.ComponentProps<'div'>) {
@@ -18,6 +19,9 @@ export default function CTAList({
 				'flex flex-wrap items-center justify-center gap-[.5em]',
 				className,
 			)}
+			role="navigation"
+			aria-label="Call to action links"
+			{...props}
 		>
 			{visibleCtas.map((cta, key) => (
 				<CTA key={key} {...cta} />
