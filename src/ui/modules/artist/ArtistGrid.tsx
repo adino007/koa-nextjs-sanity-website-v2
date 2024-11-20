@@ -82,7 +82,7 @@ export default function ArtistGrid() {
 								? `/artist/${artist.metadata.slug.current}`
 								: '/404'
 						}
-						className="cursor-pointer overflow-hidden"
+						className="cursor-pointer overflow-hidden outline-none transition-all duration-300 hover:scale-[1.12] hover:shadow-2xl"
 						title={artist.name}
 					>
 						<div className="relative aspect-square w-full pt-2 lg:mx-auto lg:w-3/4">
@@ -93,7 +93,7 @@ export default function ArtistGrid() {
 									fill
 									style={{ objectFit: 'cover' }}
 									sizes="(max-width: 768px) 33vw, 25vw"
-									className="rounded-lg transition-transform duration-300 hover:scale-105"
+									className="rounded-lg transition-transform duration-300"
 								/>
 							) : (
 								<div className="flex h-full w-full items-center justify-center rounded-lg bg-gray-300 text-gray-700">

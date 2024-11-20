@@ -45,7 +45,7 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 								alt={artist.name}
 								fill
 								className="rounded-lg object-cover"
-								priority
+								loading="eager"
 							/>
 						</div>
 					)}

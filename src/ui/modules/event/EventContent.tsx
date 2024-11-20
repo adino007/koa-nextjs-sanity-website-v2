@@ -7,7 +7,6 @@ import Link from 'next/link'
 import CTAList from '@/ui/CTAList'
 import { FaCalendar, FaClock } from 'react-icons/fa6'
 import { IoLocation } from 'react-icons/io5'
-import CTA from '@/ui/CTA'
 
 export default function EventContent({ event }: { event: Sanity.Event }) {
 	const [bgColor, setBgColor] = useState('transparent')
@@ -82,7 +81,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 									alt={event.name}
 									fill
 									className="rounded-lg object-cover transition-opacity hover:opacity-90"
-									priority
+									loading="eager"
 								/>
 							)}
 						</div>

@@ -101,12 +101,8 @@ export default function EventGrid() {
 				{filteredEvents.map((event) => (
 					<div key={event._id} className="block">
 						<Link
-							href={
-								event?.metadata?.slug?.current
-									? `/event/${event.metadata.slug.current}`
-									: '/404'
-							}
-							className="relative block cursor-pointer overflow-hidden rounded-lg"
+							href={event?.metadata?.slug?.current ? `/event/${event.metadata.slug.current}` : '/404'}
+							className="relative block cursor-pointer overflow-hidden rounded-lg group transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl outline-none"
 							title={event.name}
 						>
 							{/* Background Image with Blur */}
@@ -120,11 +116,11 @@ export default function EventGrid() {
 										className="object-cover"
 										priority={true}
 									/>
-									<div className="absolute inset-0 bg-black/50 backdrop-blur-lg" />
+									<div className="absolute inset-0 bg-black/50 backdrop-blur-lg transition-all duration-300 group-hover:bg-black/30 group-hover:backdrop-blur-[2px]" />
 								</div>
 							)}
 
-							<div className="relative z-10 flex flex-col items-start gap-6 p-6 md:flex-row md:items-center">
+							<div className="relative z-10 flex flex-col items-start gap-6 p-6 md:flex-row md:items-center bg-gradient-to-r from-black/40 to-transparent rounded-lg">
 								<div className="flex-grow">
 									<h2 className="mb-2 text-2xl font-bold">{event.name}</h2>
 									<div className="space-y-2">
