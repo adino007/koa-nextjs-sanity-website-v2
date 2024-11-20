@@ -11,6 +11,7 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select'
+import Link from 'next/link'
 
 export default function ArtistGrid() {
 	const router = useRouter()
@@ -72,16 +73,17 @@ export default function ArtistGrid() {
 					</SelectContent>
 				</Select>
 			</div>
-
 			<div className="grid grid-cols-5 gap-4 pt-4 max-lg:grid-cols-4 max-sm:grid-cols-3 sm:gap-6 lg:gap-3">
 				{sortedArtists.map((artist) => (
-					<div
+					<Link
 						key={artist._id}
+						href={
+							artist?.metadata?.slug?.current
+								? `/artist/${artist.metadata.slug.current}`
+								: '/404'
+						}
 						className="cursor-pointer overflow-hidden"
-						onClick={() => {
-							const slug = artist?.metadata?.slug?.current
-							router.push(slug ? `/artist/${slug}` : '/404')
-						}}
+						title={artist.name}
 					>
 						<div className="relative aspect-square w-full pt-2 lg:mx-auto lg:w-3/4">
 							{artist.photo?.asset?.url ? (
@@ -102,7 +104,7 @@ export default function ArtistGrid() {
 						<h2 className="mt-4 text-center text-sm font-medium text-white md:mt-6">
 							{artist.name}
 						</h2>
-					</div>
+					</Link>
 				))}
 			</div>
 		</div>
