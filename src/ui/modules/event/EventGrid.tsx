@@ -1,6 +1,6 @@
 'use client'
 
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef, SetStateAction } from 'react'
 import { getEvents } from '@/lib/sanity/queries'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
@@ -21,6 +21,7 @@ export default function EventGrid() {
 	const [events, setEvents] = useState<Sanity.Event[]>([])
 	const [filter, setFilter] = useState<'all' | 'upcoming' | 'past'>('all')
 	const [loading, setLoading] = useState(true)
+	const [activeEventId, setActiveEventId] = useState(null)
 
 	const getMapUrl = (location: string) => {
 		return `maps://maps.apple.com/?address=${encodeURIComponent(location)}&dirflg=d`
@@ -38,6 +39,26 @@ export default function EventGrid() {
 			}
 		}
 		fetchEvents()
+	}, [])
+
+	useEffect(() => {
+		if (typeof window !== 'undefined' && window.innerWidth < 768) {
+			const observer = new IntersectionObserver(
+				(entries) => {
+					entries.forEach((entry) => {
+						if (entry.isIntersecting) {
+							setActiveEventId(entry.target.id as unknown as SetStateAction<null>)
+						}
+					})				},
+				{ threshold: 0.7 }
+			)
+
+			document.querySelectorAll('.event-card').forEach((el) => {
+				observer.observe(el)
+			})
+
+			return () => observer.disconnect()
+		}
 	}, [])
 
 	const filteredEvents = events
@@ -102,7 +123,10 @@ export default function EventGrid() {
 					<div key={event._id} className="block">
 						<Link
 							href={event?.metadata?.slug?.current ? `/event/${event.metadata.slug.current}` : '/404'}
-							className="relative block cursor-pointer overflow-hidden rounded-lg group transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl outline-none"
+							className={`event-card relative block cursor-pointer overflow-hidden rounded-lg group transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl focus:outline-none ${
+								activeEventId === event._id ? 'max-md:!scale-105' : ''
+							}`}
+							id={event._id}
 							title={event.name}
 						>
 							{/* Background Image with Blur */}
