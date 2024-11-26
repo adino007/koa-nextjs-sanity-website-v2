@@ -10,7 +10,7 @@ import { IoLocation } from 'react-icons/io5'
 
 export default function EventContent({ event }: { event: Sanity.Event }) {
 	const [bgColor, setBgColor] = useState('transparent')
-	const [isSticky, setIsSticky] = useState(false)
+	const [isSticky, setIsSticky] = useState(true) // Initialize to true instead of false
 	const ctaRef = useRef(null)
 
 	const getMapUrl = (location: string) => {
@@ -38,7 +38,10 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 			([entry]) => {
 				setIsSticky(!entry.isIntersecting)
 			},
-			{ threshold: 1 },
+			{
+				threshold: 0,
+				rootMargin: '0px',
+			},
 		)
 
 		if (ctaRef.current) {
@@ -53,23 +56,26 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 			{/* Mobile Sticky CTA */}
 			{isSticky && event.eventCTAS && event.eventCTAS[0] && (
 				<div
-					className="fixed bottom-0 left-0 right-0 z-10 lg:hidden"
+					className="fixed bottom-0 left-0 right-0 z-10 py-2 lg:hidden"
 					style={{
 						background: bgColor,
 						backdropFilter: 'blur(16px)',
 						WebkitBackdropFilter: 'blur(16px)',
 					}}
 				>
-					<CTAList ctas={[event.eventCTAS[0]]} className="text-center" />
+					<CTAList
+						ctas={[event.eventCTAS[0]]}
+						className="text-center text-xl font-bold tracking-wide"
+					/>
 				</div>
 			)}
 
-			<div className="container mx-auto bg-transparent px-4 pb-12 transition-colors duration-500 max-sm:-my-6">
+			<div className="container mx-auto bg-transparent px-4 transition-colors duration-500 md:pb-12">
 				<div className="flex flex-col items-center justify-center gap-8 lg:flex-row">
 					{/* Flyer Section */}
 					<div className="w-full lg:w-1/3">
 						<div
-							className="relative mx-auto mt-6 aspect-[3/4] w-full max-w-sm cursor-pointer"
+							className="relative mx-auto aspect-[3/4] w-full max-w-sm cursor-pointer md:mt-6"
 							onClick={() =>
 								event.eventCTAS?.[0]?.link?.external &&
 								window.open(event.eventCTAS[0].link.external, '_blank')
@@ -167,7 +173,10 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						{/* Regular CTA */}
 						{event.eventCTAS && event.eventCTAS.length > 0 && (
 							<div ref={ctaRef} className="!mt-4">
-								<CTAList ctas={event.eventCTAS} />
+								<CTAList
+									ctas={event.eventCTAS}
+									className="text-center text-xl font-bold tracking-wide"
+								/>
 							</div>
 						)}
 					</div>
