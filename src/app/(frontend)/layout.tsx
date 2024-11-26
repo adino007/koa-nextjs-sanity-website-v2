@@ -24,14 +24,14 @@ export default async function RootLayout({
 		<html lang="en">
 			<head>
 				{/* <GoogleTagManager gtmId='' /> */}
-				<meta name="seobility" content="856ff90b386856cdb709d1280d0b618e" />
+				<meta name="seobility" content="856ff90b386856cdb709d1280d0b618e"/>
 				<link
-					rel="preload"
-					as="image"
-					href="https://cdn.sanity.io/images/z2grrz9f/production/e767975773de37e33985d82b4…"
-					imageSrcSet="(your srcset here if applicable)"
-					imageSizes="(your sizes here if applicable)"
-				/>
+    rel="preload"
+    as="image"
+    href="https://cdn.sanity.io/images/z2grrz9f/production/e767975773de37e33985d82b4…"
+    imageSrcSet="(your srcset here if applicable)"
+    imageSizes="(your sizes here if applicable)"
+		  />
 			</head>
 
 			<body className="bg-black font-moncheri uppercase text-white">

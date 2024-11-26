@@ -24,46 +24,15 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 			img.src = event.flyer.asset.url
 			img.crossOrigin = 'anonymous'
 
-			// Calculate contrast ratio between background and white text
-			const getContrastRatio = (r: number, g: number, b: number) => {
-				const luminance = (0.299 * r + 0.587 * g + 0.114 * b) / 255
-				const textLuminance = 1 // White text
-				const lighter = Math.max(textLuminance, luminance)
-				const darker = Math.min(textLuminance, luminance)
-				return (lighter + 0.05) / (darker + 0.05)
-			}
-
 			img.onload = () => {
-				const mainColor = fac.getColor(img, {
-					algorithm: 'dominant',
-					mode: 'speed',
-				})
-
-				let finalColor = mainColor.value
-				const contrastRatio = getContrastRatio(
-					finalColor[0],
-					finalColor[1],
-					finalColor[2],
+				const color = fac.getColor(img)
+				setBgColor(
+					`rgba(${color.value[0]}, ${color.value[1]}, ${color.value[2]}, 0.7) backdrop-filter: blur(16px)`,
 				)
-
-				// If contrast is too low, adjust color until we reach desired ratio
-				if (contrastRatio < 4.5) {
-					finalColor = [
-						Math.floor(finalColor[0] * 0.6),
-						Math.floor(finalColor[1] * 0.6),
-						Math.floor(finalColor[2] * 0.6),
-						finalColor[3],
-					]
-				}
-
-				const bgColorValue = `rgba(${finalColor[0]}, ${finalColor[1]}, ${finalColor[2]}, 0.9)`
-
-				const root = document.documentElement
-				root.style.setProperty('background-color', bgColorValue)
-				root.style.setProperty('color-scheme', 'dark')
 			}
 		}
 	}, [event.flyer?.asset?.url])
+
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			([entry]) => {
@@ -79,36 +48,28 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 		return () => observer.disconnect()
 	}, [])
 
-	useEffect(() => {
-		console.log('Sticky state changed:', isSticky)
-	}, [isSticky])
-
 	return (
 		<>
 			{/* Mobile Sticky CTA */}
-			{isSticky && event.eventCTAS?.[0] && (
+			{isSticky && event.eventCTAS && event.eventCTAS[0] && (
 				<div
-					className="fixed left-0 right-0 z-10 py-5 lg:hidden"
+					className="fixed bottom-0 left-0 right-0 z-10 lg:hidden"
 					style={{
 						background: bgColor,
 						backdropFilter: 'blur(16px)',
 						WebkitBackdropFilter: 'blur(16px)',
-						bottom: 'env(safe-area-inset-bottom)',
-						paddingBottom: 'env(safe-area-inset-bottom)',
 					}}
 				>
-					<CTAList
-						ctas={[event.eventCTAS[0]]}
-						className="pb-2 text-center text-xl font-bold tracking-wide"
-					/>
+					<CTAList ctas={[event.eventCTAS[0]]} className="text-center" />
 				</div>
 			)}
-			<div className="mx-auto px-4 transition-colors duration-500 md:pb-12">
+
+			<div className="container mx-auto bg-transparent px-4 pb-12 transition-colors duration-500 max-sm:-my-6">
 				<div className="flex flex-col items-center justify-center gap-8 lg:flex-row">
 					{/* Flyer Section */}
 					<div className="w-full lg:w-1/3">
 						<div
-							className="relative mx-auto aspect-[3/4] w-full max-w-sm cursor-pointer md:mt-6"
+							className="relative mx-auto mt-6 aspect-[3/4] w-full max-w-sm cursor-pointer"
 							onClick={() =>
 								event.eventCTAS?.[0]?.link?.external &&
 								window.open(event.eventCTAS[0].link.external, '_blank')
@@ -206,10 +167,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						{/* Regular CTA */}
 						{event.eventCTAS && event.eventCTAS.length > 0 && (
 							<div ref={ctaRef} className="!mt-4">
-								<CTAList
-									ctas={event.eventCTAS}
-									className="text-center text-xl font-bold tracking-wide"
-								/>
+								<CTAList ctas={event.eventCTAS} />
 							</div>
 						)}
 					</div>
