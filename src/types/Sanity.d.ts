@@ -112,6 +112,11 @@ declare global {
 				url: string
 			}>
 			upcomingEvents?: Array<{
+				eventCTAS: boolean
+				time: any
+				flyer: any
+				flyer: any
+				metadata: any
 				_id: Key | null | undefined
 				name: ReactI18NextChildren | Iterable<ReactI18NextChildren>
 				date: string | number | Date
@@ -124,6 +129,7 @@ declare global {
 				to: Event
 			}>
 			venuesPlayed?: Array<{
+				metadata: any
 				name: ReactI18NextChildren | Iterable<ReactI18NextChildren>
 				location: ReactI18NextChildren | Iterable<ReactI18NextChildren>
 				type: 'reference'

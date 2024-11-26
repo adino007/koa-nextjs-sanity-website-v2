@@ -111,8 +111,15 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 										window.open(getMapUrl(event.venue.location), '_blank')
 									}
 								>
-									<IoLocation className="mr-2 inline-block text-gray-400" />
-									<span>{event.venue.location}</span>
+									<span className="flex flex-col">
+										<span>
+											<IoLocation className="mr-2 inline-block text-gray-400" />
+											{event.venue.location.split(',')[0]}
+										</span>
+										<span>
+											{event.venue.location.split(',').slice(1).join(',')}
+										</span>
+									</span>
 								</div>
 							</div>
 						)}
