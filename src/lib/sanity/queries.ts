@@ -164,25 +164,30 @@ export const artistQuery = groq`
         url
       }
     },
-    upcomingEvents[]->{
+    "events": *[_type == "event" && references(^._id)] {
       _id,
       name,
       date,
-      venue->{
-        _id,
+      time,
+      flyer {
+        asset-> {
+          url
+        }
+      },
+      metadata {
+        slug {
+          current
+        }
+      },
+      venue-> {
         name,
-        location
-      }
-    },
-    pastEvents[]->{
-      _id,
-      name,
-      date,
-      venue->{
-        _id,
-        name,
-        location
-      }
+        metadata {
+          slug {
+            current
+          }
+        }
+      },
+      eventCTAS[]
     },
     venuesPlayed[]->{
       name,

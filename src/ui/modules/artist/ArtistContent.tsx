@@ -26,9 +26,28 @@ import {
 } from 'react-icons/fa6'
 import { IoLocation } from 'react-icons/io5'
 import CTAList from '@/ui/CTAList'
+import {
+  Carousel,
+  CarouselContent,
+  CarouselItem,
+  CarouselNext,
+  CarouselPrevious,
+} from "@/components/ui/carousel"
+import Autoplay from "embla-carousel-autoplay"
+import useEmblaCarousel from "embla-carousel-react"
+import EventCard from '../event/EventCard'
 
 export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 	const [bgColor, setBgColor] = useState('transparent')
+	const [upcomingCarouselRef] = useEmblaCarousel({
+		align: "start",
+		containScroll: "trimSnaps"
+	})
+
+	const [pastCarouselRef] = useEmblaCarousel({
+		align: "start",
+		containScroll: "trimSnaps"
+	})
 
 	useEffect(() => {
 		if (artist.photo?.asset?.url) {
@@ -45,16 +64,6 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 			}
 		}
 	}, [artist.photo?.asset?.url])
-
-	const socialIcons = {
-		instagram: FaInstagram,
-		facebook: FaFacebook,
-		spotify: FaSpotify,
-		soundcloud: FaSoundcloud,
-		youtube: FaYoutube,
-		twitter: FaTwitter,
-		website: FaGlobe,
-	}
 
 	const getSocialIcon = (url: string) => {
 		const domain = new URL(url).hostname.toLowerCase()
@@ -115,101 +124,49 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 							</div>
 						</div>
 					)}
-					{/* Upcoming Events Section */}
-					{artist.upcomingEvents && artist.upcomingEvents.length > 0 && (
-						<div className="space-y-6">
-							<h2 className="text-2xl font-semibold">Upcoming Events</h2>
-							<div className="space-y-6">
-								{artist.upcomingEvents.map((event) => (
-									<div key={event._id} className="block">
-										<Link
-											href={`/event/${event.metadata?.slug?.current}`}
-											className="relative block cursor-pointer overflow-hidden rounded-lg group transition-all duration-300 hover:scale-[1.02] hover:shadow-2xl outline-none"
-											title={event.name}
-										>
-											{/* Background Image with Blur */}
-											{event.flyer?.asset?.url && (
-												<div className="absolute inset-0">
-													<Image
-														src={event.flyer.asset.url}
-														alt={event.name}
-														fill
-														sizes="(max-width: 768px) 100vw, 50vw"
-														className="object-cover"
-														priority={true}
-													/>
-													<div className="absolute inset-0 bg-black/50 backdrop-blur-lg transition-all duration-300 group-hover:bg-black/30 group-hover:backdrop-blur-[2px]" />
-												</div>
-											)}
-											
-											{/* Rest of your event content */}
-											<div className="relative z-10 flex flex-col items-start gap-6 rounded-lg bg-gradient-to-r from-black/60 via-black/40 to-transparent p-6 transition-colors duration-300 group-hover:from-black/70 md:flex-row md:items-center">
-												<div className="flex-grow">
-													<h2 className="mb-2 text-2xl font-bold">
-														{event.name}
-													</h2>
-													<div className="space-y-2">
-														<div className="flex items-center gap-2">
-															<FaCalendar className="text-gray-400" />
-															<span>
-																{new Date(event.date).toLocaleDateString(
-																	'en-US',
-																	{
-																		weekday: 'long',
-																		year: 'numeric',
-																		month: 'long',
-																		day: 'numeric',
-																	},
-																)}
-															</span>
+						{/* Events Sections */}
+						<div className="events-carousel-container">
+							{artist.events && artist.events.length > 0 && (
+								<div className="space-y-6">
+									{(() => {
+										const now = new Date()
+										const upcoming = artist.events
+											.filter(event => new Date(event.date) >= now)
+											.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
+										
+										const past = artist.events
+											.filter(event => new Date(event.date) < now)
+											.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+
+										return (
+											<>
+												{upcoming.length > 0 && (
+													<div className="space-y-6">
+														<h2 className="text-2xl font-semibold">Upcoming Events</h2>
+														<div className="space-y-6">
+															{upcoming.map((event) => (
+																<EventCard key={event._id} event={event} />
+															))}
 														</div>
-														{event.venue && (
-															<div className="flex items-center gap-2">
-																<IoLocation className="text-gray-400" />
-																<span>{event.venue.name}</span>
-															</div>
-														)}
-														{event.time && (
-															<div className="flex items-center gap-2">
-																<FaClock className="text-gray-400" />
-																<span>
-																	{new Date(
-																		event.time.start,
-																	).toLocaleTimeString([], {
-																		hour: '2-digit',
-																		minute: '2-digit',
-																	})}{' '}
-																	-
-																	{new Date(event.time.end).toLocaleTimeString(
-																		[],
-																		{
-																			hour: '2-digit',
-																			minute: '2-digit',
-																		},
-																	)}
-																</span>
-															</div>
-														)}
 													</div>
-												</div>
-												{event.eventCTAS &&
-													Array.isArray(event.eventCTAS) &&
-													event.eventCTAS.length > 0 &&
-													event.eventCTAS[0]?.showCTA && (
-														<div className="w-full text-center md:w-32">
-															<CTAList
-																ctas={[event.eventCTAS[0]]}
-																className="!mt-4 md:!mt-0"
-															/>
+												)}
+
+												{past.length > 0 && (
+													<div className="space-y-6">
+														<h2 className="text-2xl font-semibold">Past Events</h2>
+														<div className="space-y-6">
+															{past.map((event) => (
+																<EventCard key={event._id} event={event} />
+															))}
 														</div>
-													)}
-											</div>
-										</Link>
-									</div>
-								))}
-							</div>
+													</div>
+												)}
+											</>
+										)
+									})()}
+								</div>
+							)}
 						</div>
-					)}
 					{/* Venues Played Section */}
 					{artist.venuesPlayed && artist.venuesPlayed.length > 0 && (
 						<div className="space-y-4 pt-12">

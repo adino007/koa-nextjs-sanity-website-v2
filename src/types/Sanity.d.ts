@@ -111,7 +111,7 @@ declare global {
 				platform: string
 				url: string
 			}>
-			upcomingEvents?: Array<{
+			events?: Array<{
 				eventCTAS: boolean
 				time: any
 				flyer: any
@@ -121,10 +121,6 @@ declare global {
 				name: ReactI18NextChildren | Iterable<ReactI18NextChildren>
 				date: string | number | Date
 				venue: any
-				type: 'reference'
-				to: Event
-			}>
-			pastEvents?: Array<{
 				type: 'reference'
 				to: Event
 			}>
