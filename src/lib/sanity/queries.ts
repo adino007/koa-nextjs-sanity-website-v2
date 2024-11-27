@@ -190,8 +190,19 @@ export const artistQuery = groq`
       eventCTAS[]
     },
     venuesPlayed[]->{
+      _id,
       name,
-      location
+      location,
+      photo{
+        asset->{
+          url
+        }
+      },
+      metadata {
+        slug {
+          current
+        }
+      }
     },
     metadata {
       title,

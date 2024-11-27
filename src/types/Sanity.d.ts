@@ -125,6 +125,8 @@ declare global {
 				to: Event
 			}>
 			venuesPlayed?: Array<{
+				_id: Key | null | undefined
+				photo: any
 				metadata: any
 				name: ReactI18NextChildren | Iterable<ReactI18NextChildren>
 				location: ReactI18NextChildren | Iterable<ReactI18NextChildren>
