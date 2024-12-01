@@ -3,33 +3,42 @@
 import Image from 'next/image'
 import Link from 'next/link'
 
-export default function VenuesPlayed({ venues }: { venues: any[] }) {
-    return (
-        <div className="space-y-4 pt-12">
-            <h2 className="text-2xl font-semibold">Venues Played</h2>
-            <div className="flex flex-wrap justify-center gap-4">
-                {venues.map((venue) => (
-                    <Link
-                        key={`venue-${venue._id}`}
-                        href={venue?.metadata?.slug?.current ? `/venue/${venue.metadata.slug.current}` : '#'}
-                        className="flex w-24 flex-col items-center justify-center text-center transition-none group/venue"
-                    >
-                        {venue.photo?.asset?.url && (
-                            <div className="relative mx-auto mb-1 h-16 w-16 transition-transform duration-300 group-hover/venue:scale-110">
-                                <Image
-                                    src={venue.photo.asset.url}
-                                    alt={venue.name}
-                                    fill
-                                    className="rounded-lg object-cover"
-                                />
-                            </div>
-                        )}
-                        <span className="pt-2 text-sm leading-5 group-hover/venue:text-blue-400">
-                            {venue.name}
-                        </span>
-                    </Link>
-                ))}
-            </div>
-        </div>
-    )
+type VenuePlayedProps = Pick<
+	Sanity.Venue,
+	'_id' | 'name' | 'location' | 'image' | 'metadata'
+>
+
+export default function VenuesPlayed({
+	venues,
+}: {
+	venues: VenuePlayedProps[]
+}) {
+	return (
+		<div className="mt-5">
+			<h2 className="mb-2 text-lg font-semibold">Venues Played</h2>
+			<div className="flex flex-wrap items-start justify-center gap-8">
+				{venues.map((venue) => (
+					<Link
+						key={venue._id}
+						href={`/venue/${venue.metadata?.slug?.current}`}
+						className="group flex w-14 flex-col items-center justify-start text-center"
+					>
+						<div className="relative mx-auto mb-1 h-14 w-14 transform transition-all duration-300 group-hover:scale-110">
+							{venue.image?.asset?.url && (
+								<Image
+									src={venue.image.asset.url}
+									alt={venue.name}
+									fill
+									className="rounded-full object-cover"
+								/>
+							)}
+						</div>
+						<span className="pt-1 text-[11px] leading-4 transition-colors duration-300 group-hover:text-blue-400">
+							{venue.name}
+						</span>
+					</Link>
+				))}
+			</div>
+		</div>
+	)
 }

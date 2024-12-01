@@ -193,7 +193,7 @@ export const artistQuery = groq`
       _id,
       name,
       location,
-      photo{
+      image {
         asset->{
           url
         }
@@ -231,7 +231,6 @@ export async function getArtist(slug: string): Promise<Sanity.Artist | null> {
 		},
 	)
 }
-
 // --- EVENT QUERY ---
 export const eventQuery = groq`
   *[_type == "event"]{
