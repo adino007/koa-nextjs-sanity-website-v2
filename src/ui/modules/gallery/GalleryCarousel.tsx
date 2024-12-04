@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { IoClose } from 'react-icons/io5'
 import {
@@ -15,16 +15,27 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 	const [fullscreen, setFullscreen] = useState(false)
 	const [currentIndex, setCurrentIndex] = useState(0)
 
+	useEffect(() => {
+		if (fullscreen) {
+			document.body.style.overflow = 'hidden'
+		} else {
+			document.body.style.overflow = 'unset'
+		}
+		return () => {
+			document.body.style.overflow = 'unset'
+		}
+	}, [fullscreen])
+
 	return (
 		<>
 			{/* Regular Carousel */}
-			<div className="relative px-8">
+			<div className="relative">
 				<Carousel className="relative w-full">
 					<CarouselContent>
 						{gallery.map((image, index) => (
 							<CarouselItem key={index} className="w-full">
 								<div
-									className="cursor-pointer px-1"
+									className="cursor-pointer px-2"
 									onClick={() => {
 										setCurrentIndex(index)
 										setFullscreen(true)
@@ -42,18 +53,15 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 							</CarouselItem>
 						))}
 					</CarouselContent>
-					<div className="absolute left-2 top-1/2 z-10 -translate-y-1/2">
-						<CarouselPrevious />
-					</div>
-					<div className="absolute -right-4 top-1/2 z-10 -translate-y-1/2">
-						<CarouselNext />
-					</div>
+
+					<CarouselPrevious className="absolute -left-6 md:-left-10" />
+					<CarouselNext className="absolute -right-6 md:-right-10" />
 				</Carousel>
 			</div>
 
 			{/* Fullscreen Modal */}
 			{fullscreen && (
-				<div className="fixed inset-0 z-50 bg-black">
+				<div className="fixed inset-0 z-[9999] bg-black">
 					<button
 						onClick={() => setFullscreen(false)}
 						className="absolute right-4 top-4 z-50 text-4xl text-white hover:text-gray-300"
@@ -61,24 +69,31 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 						<IoClose />
 					</button>
 
-					<Carousel className="h-full">
-						<CarouselContent>
-							{gallery.map((image, index) => (
-								<CarouselItem key={index} className="h-full">
-									<div className="relative h-full">
-										<Image
-											src={image.asset.url}
-											alt={`Gallery image ${index + 1}`}
-											fill
-											className="object-contain"
-										/>
-									</div>
-								</CarouselItem>
-							))}
-						</CarouselContent>
-						<CarouselPrevious className="left-4" />
-						<CarouselNext className="right-4" />
-					</Carousel>
+					<div style={{ height: 'calc(100vh - 80px)', marginTop: '40px' }}>
+						<Carousel className="h-full">
+							<CarouselContent>
+								{gallery.map((image, index) => (
+									<CarouselItem
+										key={index}
+										className="flex h-full items-center justify-center"
+									>
+										<div className="relative h-[100vh] w-[100vw]">
+											<Image
+												src={image.asset.url}
+												alt={`Gallery image ${index + 1}`}
+												fill
+												priority
+												sizes="90vw"
+												className="object-contain"
+											/>
+										</div>
+									</CarouselItem>
+								))}
+							</CarouselContent>
+							<CarouselPrevious className="left-6" />
+							<CarouselNext className="right-6" />
+						</Carousel>
+					</div>
 				</div>
 			)}
 		</>

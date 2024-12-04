@@ -91,7 +91,7 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 					)}
 					{/* Desktop version - above events */}
 					{artist.venuesPlayed && artist.venuesPlayed.length > 0 && (
-						<div className="hidden lg:block">
+						<div className="hidden pt-4 lg:block">
 							<VenuesPlayed venues={artist.venuesPlayed} />
 						</div>
 					)}
@@ -136,15 +136,16 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 									</h2>
 									<Carousel className="relative w-full">
 										<CarouselContent className="px-2">
+											{/* Upcoming Events */}
 											{events.upcoming.map((event) => (
-												<CarouselItem key={event._id} className="w-full">
-													<div className="pr-4">
+												<CarouselItem key={event._id} className="flex w-full justify-center">
+													<div className="w-full px-4">
 														<EventCard event={event} />
 													</div>
 												</CarouselItem>
 											))}
 										</CarouselContent>
-										<div className="absolute left-7 top-1/2 z-10 -translate-y-1/2">
+										<div className="absolute -left-5 top-1/2 z-10 -translate-y-1/2">
 											<CarouselPrevious />
 										</div>
 										<div className="absolute right-1 top-1/2 z-10 -translate-y-1/2">
@@ -161,9 +162,10 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 									</h2>
 									<Carousel className="relative w-full">
 										<CarouselContent className="px-2">
+											{/* Past Events */}
 											{events.past.map((event) => (
-												<CarouselItem key={event._id} className="w-full">
-													<div className="pr-4">
+												<CarouselItem key={event._id} className="flex w-full justify-center">
+													<div className="w-full px-4">
 														<EventCard event={event} />
 													</div>
 												</CarouselItem>
