@@ -33,7 +33,10 @@ const RelatedEvents = forwardRef<HTMLDivElement, { currentEventId: string }>(
 		if (!events.length) return null
 
 		return (
-			<div ref={ref} className="mx-auto w-full max-w-[100vw] md:max-w-4xl">
+			<div
+				ref={ref}
+				className="mx-auto w-full max-w-[100vw] pb-2 pt-6 md:max-w-4xl"
+			>
 				<div className="relative w-full">
 					<h2 className="mb-4 text-center text-2xl font-semibold">
 						More Events
