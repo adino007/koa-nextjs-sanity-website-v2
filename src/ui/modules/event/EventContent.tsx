@@ -7,11 +7,13 @@ import Link from 'next/link'
 import CTAList from '@/ui/CTAList'
 import { FaCalendar, FaClock } from 'react-icons/fa6'
 import { IoLocation } from 'react-icons/io5'
+import RelatedEvents from './RelatedEvents'
 
 export default function EventContent({ event }: { event: Sanity.Event }) {
 	const [bgColor, setBgColor] = useState('transparent')
-	const [isSticky, setIsSticky] = useState(true) // Initialize to true instead of false
+	const [isSticky, setIsSticky] = useState(true)
 	const ctaRef = useRef(null)
+	const moreEventsRef = useRef(null)
 
 	const getMapUrl = (location: string) => {
 		return `maps://maps.apple.com/?address=${encodeURIComponent(location)}&dirflg=d`
@@ -36,17 +38,23 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			([entry]) => {
-				setIsSticky(!entry.isIntersecting)
+				console.log('CTA intersection:', entry.isIntersecting)
+				console.log('Scroll position:', window.scrollY)
+				console.log('Boundary rect:', entry.boundingClientRect)
+
+				if (entry.boundingClientRect.top < 0) {
+					setIsSticky(false)
+				} else {
+					setIsSticky(!entry.isIntersecting)
+				}
 			},
 			{
 				threshold: 0,
-				rootMargin: '0px',
+				rootMargin: '-100px 0px 0px 0px',
 			},
 		)
 
-		if (ctaRef.current) {
-			observer.observe(ctaRef.current)
-		}
+		if (ctaRef.current) observer.observe(ctaRef.current)
 
 		return () => observer.disconnect()
 	}, [])
@@ -56,7 +64,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 			{/* Mobile Sticky CTA */}
 			{isSticky && event.eventCTAS && event.eventCTAS[0] && (
 				<div
-					className="fixed bottom-0 left-0 right-0 z-10 py-2 lg:hidden"
+					className="fixed bottom-0 left-0 right-0 z-50 py-2 lg:hidden"
 					style={{
 						background: bgColor,
 						backdropFilter: 'blur(16px)',
@@ -96,7 +104,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 					<div className="space-y-6 text-center max-md:py-4 md:mt-4 lg:w-1/2">
 						<h1 className="text-5xl font-bold">{event.name}</h1>
 						{event.venue && (
-							<div className="text-xl">
+							<div className="text-xl leading-6">
 								<Link
 									href={`/venue/${event.venue.metadata.slug.current}`}
 									className="hover:text-blue-400"
@@ -106,7 +114,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 									</h2>
 								</Link>
 								<div
-									className="cursor-pointer pt-2 text-sm hover:text-blue-400"
+									className="cursor-pointer pt-2 text-sm leading-6 hover:text-blue-400"
 									onClick={() =>
 										window.open(getMapUrl(event.venue.location), '_blank')
 									}
@@ -151,14 +159,14 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 
 						{/* Artists Section - Centered */}
 						{event.artists && event.artists.length > 0 && (
-							<div className="flex justify-center gap-4 overflow-x-auto py-4">
+							<div className="flex justify-center gap-4 overflow-x-auto py-3">
 								{event.artists.map(
 									(artist) =>
 										artist.metadata?.slug?.current && (
 											<Link
 												key={artist._id}
 												href={`/artist/${artist.metadata.slug.current}`}
-												className="flex-shrink-0 text-center"
+												className="flex-shrink-0 transform text-center transition-all hover:scale-110 hover:text-blue-400"
 											>
 												{artist.photo?.asset?.url && (
 													<div className="relative mx-auto mb-2 h-16 w-16">
@@ -166,11 +174,13 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 															src={artist.photo.asset.url}
 															alt={artist.name}
 															fill
-															className="rounded-full object-cover"
+															className="rounded-full object-cover transition-opacity hover:opacity-90"
 														/>
 													</div>
 												)}
-												<p className="text-sm font-medium">{artist.name}</p>
+												<p className="whitespace-pre-line pt-1 text-xs font-medium">
+													{artist.name.split(' ').join('\n')}
+												</p>
 											</Link>
 										),
 								)}
@@ -188,6 +198,9 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						)}
 					</div>
 				</div>
+			</div>
+			<div className="mx-auto w-full max-w-[100vw] pt-2 md:max-w-4xl">
+				<RelatedEvents ref={moreEventsRef} currentEventId={event._id} />
 			</div>
 		</>
 	)

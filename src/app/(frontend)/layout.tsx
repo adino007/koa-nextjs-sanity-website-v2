@@ -38,7 +38,7 @@ export default async function RootLayout({
 				/>
 			</head>
 
-			<body className="bg-black font-moncheri uppercase text-white">
+			<body className="bg-almostBlack font-moncheri uppercase text-white">
 				<SkipToContent />
 				<Announcement />
 				<Header />

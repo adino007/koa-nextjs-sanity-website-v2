@@ -18,6 +18,7 @@ const config: Config = {
 				canvas: '#fff',
 				background: 'hsl(var(--background))',
 				white: '#ffffff',
+				almostBlack: '#030303',
 				tahiti: {
 					'100': '#cffafe',
 					'200': '#a5f3fc',
