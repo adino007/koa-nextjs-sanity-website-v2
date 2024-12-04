@@ -16,23 +16,26 @@ const RelatedEvents = forwardRef<HTMLDivElement, { currentEventId: string }>(
 	({ currentEventId }, ref) => {
 		const [events, setEvents] = useState<Sanity.Event[]>([])
 
-	useEffect(() => {
-		const fetchEvents = async () => {
-			const allEvents = await getEvents()
-			const filteredEvents = allEvents
-				.filter((event: Sanity.Event) => event._id !== currentEventId)
-				.sort((a: Sanity.Event, b: Sanity.Event) => new Date(b.date).getTime() - new Date(a.date).getTime())
-			setEvents(filteredEvents)
-		}
-		fetchEvents()
-	}, [currentEventId])
+		useEffect(() => {
+			const fetchEvents = async () => {
+				const allEvents = await getEvents()
+				const filteredEvents = allEvents
+					.filter((event: Sanity.Event) => event._id !== currentEventId)
+					.sort(
+						(a: Sanity.Event, b: Sanity.Event) =>
+							new Date(b.date).getTime() - new Date(a.date).getTime(),
+					)
+				setEvents(filteredEvents)
+			}
+			fetchEvents()
+		}, [currentEventId])
 
 		if (!events.length) return null
 
 		return (
 			<div ref={ref} className="mx-auto w-full max-w-[100vw] md:max-w-4xl">
 				<div className="relative w-full">
-					<h2 className="mb-4 text-2xl font-semibold text-center">
+					<h2 className="mb-4 text-center text-2xl font-semibold">
 						More Events
 					</h2>
 					<Carousel className="relative w-full">
@@ -45,17 +48,17 @@ const RelatedEvents = forwardRef<HTMLDivElement, { currentEventId: string }>(
 								</CarouselItem>
 							))}
 						</CarouselContent>
-						<div className="absolute -left-5 top-1/2 z-10 -translate-y-1/2">
+						<div className="absolute -left-2 top-1/2 z-10 -translate-y-1/2">
 							<CarouselPrevious />
 						</div>
-						<div className="absolute right-1 top-1/2 z-10 -translate-y-1/2">
+						<div className="absolute right-4 top-1/2 z-10 -translate-y-1/2">
 							<CarouselNext />
 						</div>
 					</Carousel>
 				</div>
 			</div>
 		)
-	}
+	},
 )
 
 RelatedEvents.displayName = 'RelatedEvents'
