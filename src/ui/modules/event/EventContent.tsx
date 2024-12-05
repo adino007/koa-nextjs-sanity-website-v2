@@ -64,7 +64,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 			{/* Mobile Sticky CTA */}
 			{isSticky && event.eventCTAS && event.eventCTAS[0] && (
 				<div
-					className="fixed bottom-0 left-0 right-0 z-50 py-2 lg:hidden"
+					className="fixed bottom-0 left-0 right-0 z-50 overflow-x-auto py-2 lg:hidden"
 					style={{
 						background: bgColor,
 						backdropFilter: 'blur(16px)',
@@ -199,7 +199,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 					</div>
 				</div>
 			</div>
-			<div className="mx-auto w-full max-w-[100vw] pt-2 md:max-w-4xl">
+			<div className="mx-auto w-full max-w-[100vw] overflow-x-auto pt-2 md:max-w-4xl">
 				<RelatedEvents ref={moreEventsRef} currentEventId={event._id} />
 			</div>
 		</>
