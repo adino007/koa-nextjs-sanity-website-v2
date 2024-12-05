@@ -30,7 +30,7 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 		<>
 			{/* Regular Carousel */}
 			<div className="relative">
-				<Carousel className="relative w-full">
+				<Carousel className="relative w-full justify-center">
 					<CarouselContent>
 						{gallery.map((image, index) => (
 							<CarouselItem key={index} className="w-full">
@@ -54,14 +54,18 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 						))}
 					</CarouselContent>
 
-					<CarouselPrevious className="absolute -left-6 md:-left-10" />
-					<CarouselNext className="absolute -right-6 md:-right-10" />
+					<div className="absolute -left-16 top-1/2 z-10 -ml-4 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-5">
+						<CarouselPrevious />
+					</div>
+					<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-2">
+						<CarouselNext />
+					</div>
 				</Carousel>
 			</div>
 
 			{/* Fullscreen Modal */}
 			{fullscreen && (
-				<div className="fixed inset-0 z-[9999] bg-black">
+				<div className="fixed inset-0 z-[9999] bg-almostBlack !px-0 pb-16">
 					<button
 						onClick={() => setFullscreen(false)}
 						className="absolute right-4 top-4 z-50 text-4xl text-white hover:text-gray-300"
@@ -70,14 +74,14 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 					</button>
 
 					<div style={{ height: 'calc(100vh - 80px)', marginTop: '40px' }}>
-						<Carousel className="h-full">
-							<CarouselContent>
+						<Carousel className="flex h-full w-screen items-center">
+							<CarouselContent className="h-full !p-0">
 								{gallery.map((image, index) => (
 									<CarouselItem
 										key={index}
-										className="flex h-full items-center justify-center"
+										className="flex h-full w-full items-center justify-center !px-0"
 									>
-										<div className="relative h-[100vh] w-[100vw]">
+										<div className="relative h-[100vh] w-[100vw] items-center justify-center">
 											<Image
 												src={image.asset.url}
 												alt={`Gallery image ${index + 1}`}
@@ -90,8 +94,13 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 									</CarouselItem>
 								))}
 							</CarouselContent>
-							<CarouselPrevious className="left-6" />
-							<CarouselNext className="right-6" />
+
+							<div className="absolute left-4 top-1/2 z-[60] -translate-y-1/2 max-md:absolute max-md:bottom-24 max-md:left-[14%] max-md:top-auto lg:left-10">
+								<CarouselPrevious />
+							</div>
+							<div className="absolute right-4 top-1/2 z-[60] -translate-y-1/2 max-md:absolute max-md:bottom-24 max-md:right-[20%] max-md:top-auto lg:right-16">
+								<CarouselNext />
+							</div>
 						</Carousel>
 					</div>
 				</div>

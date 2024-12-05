@@ -23,7 +23,9 @@ export default async function Social({
 	if (!social?.items?.length) return null
 
 	return (
-		<nav className={cn('group flex flex-wrap items-center', className)}>
+		<nav
+			className={cn('group flex flex-wrap items-center text-2xl', className)}
+		>
 			{social.items.map((item, key) => {
 				switch (item._type) {
 					case 'link':

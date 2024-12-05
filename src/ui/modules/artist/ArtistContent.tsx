@@ -75,7 +75,7 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 	}
 
 	return (
-		<div className="container mx-auto bg-transparent px-4 pb-12 transition-colors duration-500">
+		<div className="container mx-auto overflow-x-auto bg-transparent px-1 pb-4 transition-colors duration-500">
 			<div className="flex flex-col items-center justify-center gap-8 text-center md:ml-10 lg:flex-row lg:items-start">
 				<div className="flex w-full flex-col lg:w-1/3">
 					{artist.photo?.asset?.url && (
@@ -102,7 +102,7 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 					<h1 className="text-5xl font-bold md:mt-8 lg:mt-10">{artist.name}</h1>
 
 					{artist.bio && (
-						<div className="text-xs leading-loose">
+						<div className="word-spacing-4 text-sm leading-6 tracking-wide [word-spacing:0.16rem]">
 							<p>{artist.bio}</p>
 						</div>
 					)}
@@ -117,7 +117,7 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 										href={link.url}
 										target="_blank"
 										rel="noopener noreferrer"
-										className="text-2xl hover:text-blue-400"
+										className="text-3xl hover:text-blue-400"
 										title={link.platform}
 									>
 										{getSocialIcon(link.url)}
@@ -128,27 +128,30 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 					)}
 					{/* Events Section - Separated from bio with fixed width */}
 					{artist.events && artist.events.length > 0 && (
-						<div className="mx-auto w-full max-w-[100vw] md:max-w-4xl">
+						<div className="mx-auto w-full max-w-[100vw] space-y-8 md:max-w-4xl">
 							{events.upcoming.length > 0 && (
 								<div className="relative w-full">
 									<h2 className="mb-4 text-2xl font-semibold">
 										Upcoming Events
 									</h2>
 									<Carousel className="relative w-full">
-										<CarouselContent className="px-2">
+										<CarouselContent className="px-1">
 											{/* Upcoming Events */}
 											{events.upcoming.map((event) => (
-												<CarouselItem key={event._id} className="flex w-full justify-center">
-													<div className="w-full px-4">
+												<CarouselItem
+													key={event._id}
+													className="flex w-full snap-center justify-center"
+												>
+													<div className="w-full">
 														<EventCard event={event} />
 													</div>
 												</CarouselItem>
 											))}
 										</CarouselContent>
-										<div className="absolute -left-5 top-1/2 z-10 -translate-y-1/2">
+										<div className="absolute -left-16 top-1/2 z-10 -ml-4 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-8">
 											<CarouselPrevious />
 										</div>
-										<div className="absolute right-1 top-1/2 z-10 -translate-y-1/2">
+										<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-5">
 											<CarouselNext />
 										</div>
 									</Carousel>
@@ -156,25 +159,26 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 							)}
 
 							{events.past.length > 0 && (
-								<div className="relative w-full">
-									<h2 className="mb-4 text-2xl font-semibold leading-5">
-										Past Events
-									</h2>
+								<div className="relative w-full pt-20 lg:pt-4">
+									<h2 className="mb-4 text-2xl font-semibold">Past Events</h2>
 									<Carousel className="relative w-full">
-										<CarouselContent className="px-2">
-											{/* Past Events */}
+										<CarouselContent className="px-1">
+											{/* Upcoming Events */}
 											{events.past.map((event) => (
-												<CarouselItem key={event._id} className="flex w-full justify-center">
-													<div className="w-full px-4">
+												<CarouselItem
+													key={event._id}
+													className="flex w-full snap-center justify-center"
+												>
+													<div className="w-full">
 														<EventCard event={event} />
 													</div>
 												</CarouselItem>
 											))}
 										</CarouselContent>
-										<div className="absolute -left-5 top-1/2 z-10 -translate-y-1/2">
+										<div className="absolute -left-16 top-1/2 z-10 -ml-4 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-8">
 											<CarouselPrevious />
 										</div>
-										<div className="absolute right-1 top-1/2 z-10 -translate-y-1/2">
+										<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-5">
 											<CarouselNext />
 										</div>
 									</Carousel>
@@ -183,18 +187,18 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 						</div>
 					)}
 
-					{/* Mobile/Tablet version - at bottom */}
-					{artist.venuesPlayed && artist.venuesPlayed.length > 0 && (
-						<div className="pt-1 lg:hidden">
-							<VenuesPlayed venues={artist.venuesPlayed} />
+					{/* Gallery Section */}
+					{artist.gallery && artist.gallery.length > 0 && (
+						<div className="justify-center space-y-4 pt-20 text-center lg:pt-8">
+							<h2 className="text-2xl font-semibold">Gallery</h2>
+							<GalleryCarousel gallery={artist.gallery} />
 						</div>
 					)}
 
-					{/* Gallery Section */}
-					{artist.gallery && artist.gallery.length > 0 && (
-						<div className="space-y-4 pt-6">
-							<h2 className="text-2xl font-semibold">Gallery</h2>
-							<GalleryCarousel gallery={artist.gallery} />
+					{/* Mobile/Tablet version - at bottom */}
+					{artist.venuesPlayed && artist.venuesPlayed.length > 0 && (
+						<div className="pt-20 lg:hidden lg:pt-8">
+							<VenuesPlayed venues={artist.venuesPlayed} />
 						</div>
 					)}
 				</div>

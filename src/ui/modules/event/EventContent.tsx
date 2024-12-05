@@ -78,7 +78,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 				</div>
 			)}
 
-			<div className="container mx-auto bg-transparent px-4 transition-colors duration-500 md:pb-12">
+			<div className="container mx-auto overflow-x-auto bg-transparent px-4 transition-colors duration-500 md:pb-12">
 				<div className="flex flex-col items-center justify-center gap-8 lg:flex-row">
 					{/* Flyer Section */}
 					<div className="w-full lg:w-1/3">

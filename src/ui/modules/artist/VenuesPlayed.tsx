@@ -14,16 +14,16 @@ export default function VenuesPlayed({
 	venues: VenuePlayedProps[]
 }) {
 	return (
-		<div className="mt-5">
-			<h2 className="mb-2 text-lg font-semibold">Venues Played</h2>
-			<div className="flex flex-wrap items-start justify-center gap-8">
+		<div className="mt-6">
+			<h2 className="mb-2 text-xl font-semibold">Venues Played</h2>
+			<div className="flex flex-wrap items-start justify-center gap-10 pt-2 lg:gap-12">
 				{venues.map((venue) => (
 					<Link
 						key={venue._id}
 						href={`/venue/${venue.metadata?.slug?.current}`}
-						className="group flex w-14 flex-col items-center justify-start text-center"
+						className="lg:w-18 group flex w-20 flex-col items-center justify-start text-center"
 					>
-						<div className="relative mx-auto mb-1 h-14 w-14 transform transition-all duration-300 group-hover:scale-110">
+						<div className="lg:h-18 lg:w-18 relative mx-auto mb-1 h-20 w-20 transform transition-all duration-300 group-hover:scale-110">
 							{venue.image?.asset?.url && (
 								<Image
 									src={venue.image.asset.url}
@@ -33,7 +33,7 @@ export default function VenuesPlayed({
 								/>
 							)}
 						</div>
-						<span className="pt-1 text-[11px] leading-4 transition-colors duration-300 group-hover:text-blue-400">
+						<span className="pt-3 text-sm leading-4 transition-colors duration-300 group-hover:text-blue-400">
 							{venue.name}
 						</span>
 					</Link>
