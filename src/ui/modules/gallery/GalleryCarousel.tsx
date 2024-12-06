@@ -1,5 +1,6 @@
 'use client'
 
+import { FaDownload, FaShare } from 'react-icons/fa6'
 import { useEffect, useState } from 'react'
 import Image from 'next/image'
 import { IoClose } from 'react-icons/io5'
@@ -25,6 +26,31 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 			document.body.style.overflow = 'unset'
 		}
 	}, [fullscreen])
+
+	const handleDownload = async (imageUrl: string) => {
+		const response = await fetch(imageUrl)
+		const blob = await response.blob()
+		const url = window.URL.createObjectURL(blob)
+		const link = document.createElement('a')
+		link.href = url
+		link.download = 'image.jpg'
+		document.body.appendChild(link)
+		link.click()
+		document.body.removeChild(link)
+	}
+
+	const handleShare = async (imageUrl: string) => {
+		if (navigator.share) {
+			try {
+				await navigator.share({
+					title: 'Check out this image',
+					url: imageUrl,
+				})
+			} catch (error) {
+				console.log('Error sharing:', error)
+			}
+		}
+	}
 
 	return (
 		<>
@@ -60,7 +86,9 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 					<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-2">
 						<CarouselNext />
 					</div>
-				</Carousel>
+
+
+						</Carousel>
 			</div>
 
 			{/* Fullscreen Modal */}
@@ -95,10 +123,27 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 								))}
 							</CarouselContent>
 
-							<div className="absolute left-4 top-1/2 z-[60] -translate-y-1/2 max-md:absolute max-md:bottom-24 max-md:left-[14%] max-md:top-auto lg:left-10">
+							<div className="absolute left-4 top-1/2 z-[60] -translate-y-1/2 max-md:absolute max-md:bottom-28 max-md:left-[20%] max-md:top-auto">
 								<CarouselPrevious />
 							</div>
-							<div className="absolute right-4 top-1/2 z-[60] -translate-y-1/2 max-md:absolute max-md:bottom-24 max-md:right-[20%] max-md:top-auto lg:right-16">
+
+							<div className="hidden max-md:absolute max-md:bottom-24 max-md:left-1/2 max-md:z-[60] max-md:flex max-md:-translate-x-1/2 max-md:gap-4">
+								<button
+									onClick={() =>
+										handleDownload(gallery[currentIndex].asset.url)
+									}
+									className="rounded-full bg-white/10 p-3 hover:bg-white/20"
+								>
+									<FaDownload className="text-white" />
+								</button>
+								<button
+									onClick={() => handleShare(gallery[currentIndex].asset.url)}
+									className="rounded-full bg-white/10 p-3 hover:bg-white/20"
+								>
+									<FaShare className="text-white" />
+								</button>
+							</div>
+							<div className="absolute right-4 top-1/2 z-[60] -translate-y-1/2 max-md:absolute max-md:bottom-28 max-md:right-[25%] max-md:top-auto">
 								<CarouselNext />
 							</div>
 						</Carousel>

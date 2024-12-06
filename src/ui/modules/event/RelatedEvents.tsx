@@ -35,29 +35,24 @@ const RelatedEvents = forwardRef<HTMLDivElement, { currentEventId: string }>(
 		return (
 			<div
 				ref={ref}
-				className="mx-auto w-full max-w-[100vw] px-2 pb-8 pt-8 md:max-w-4xl lg:pt-1"
+				className="relative mx-auto w-full max-w-[100vw] overflow-visible px-2 pb-8 pt-8 md:max-w-5xl lg:pt-1"
 			>
-				<div className="relative w-full">
-					<h2 className="mb-4 text-center text-2xl font-semibold">
-						More Events
-					</h2>
-					<Carousel className="relative w-full pt-2">
-						<CarouselContent className="-ml-4">
-							{events.map((event) => (
-								<CarouselItem key={event._id} className="w-full snap-center">
-									<EventCard event={event} />
-								</CarouselItem>
-							))}
-						</CarouselContent>
+				<Carousel className="relative w-full overflow-visible">
+					<CarouselContent className="overflow-visible">
+						{events.map((event) => (
+							<CarouselItem key={event._id} className="w-full snap-center">
+								<EventCard event={event} />
+							</CarouselItem>
+						))}
+					</CarouselContent>
 
-						<div className="absolute -left-16 top-1/2 z-10 -ml-4 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-6">
-							<CarouselPrevious />
-						</div>
-						<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-4">
-							<CarouselNext />
-						</div>
-					</Carousel>
-				</div>
+					<div className="absolute -left-16 top-1/2 z-10 -ml-4 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-6">
+						<CarouselPrevious />
+					</div>
+					<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-4">
+						<CarouselNext />
+					</div>
+				</Carousel>
 			</div>
 		)
 	},

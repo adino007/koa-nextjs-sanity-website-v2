@@ -64,7 +64,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 			{/* Mobile Sticky CTA */}
 			{isSticky && event.eventCTAS && event.eventCTAS[0] && (
 				<div
-					className="fixed bottom-0 left-0 right-0 z-50 overflow-x-auto py-2 lg:hidden"
+					className="fixed bottom-0 left-0 right-0 z-30 overflow-x-auto py-2 lg:hidden"
 					style={{
 						background: bgColor,
 						backdropFilter: 'blur(16px)',
@@ -78,7 +78,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 				</div>
 			)}
 
-			<div className="container mx-auto overflow-x-auto bg-transparent px-4 transition-colors duration-500 md:pb-12">
+			<div className="container mx-auto overflow-visible overflow-x-auto bg-transparent px-4 transition-colors duration-500 md:pb-12">
 				<div className="flex flex-col items-center justify-center gap-8 lg:flex-row">
 					{/* Flyer Section */}
 					<div className="w-full lg:w-1/3">
@@ -104,7 +104,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 					<div className="space-y-6 text-center max-md:py-4 md:mt-4 lg:w-1/2">
 						<h1 className="text-5xl font-bold">{event.name}</h1>
 						{event.venue && (
-							<div className="text-xl leading-6">
+							<div className="text-xl leading-10">
 								<Link
 									href={`/venue/${event.venue.metadata.slug.current}`}
 									className="hover:text-blue-400"
@@ -199,7 +199,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 					</div>
 				</div>
 			</div>
-			<div className="mx-auto w-full max-w-[100vw] overflow-x-auto pt-2 md:max-w-4xl">
+			<div className="flex w-full max-w-[100vw] justify-center overflow-x-hidden pt-2">
 				<RelatedEvents ref={moreEventsRef} currentEventId={event._id} />
 			</div>
 		</>
