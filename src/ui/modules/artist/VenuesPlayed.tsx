@@ -13,11 +13,17 @@ export default function VenuesPlayed({
 }: {
 	venues: VenuePlayedProps[]
 }) {
+	// Remove duplicates by venue ID if any slip through
+	const uniqueVenues = venues.filter(
+		(venue, index, self) =>
+			index === self.findIndex((v) => v._id === venue._id),
+	)
+
 	return (
 		<div className="mt-6">
 			<h2 className="mb-2 text-xl font-semibold">Venues Played</h2>
 			<div className="flex flex-wrap items-start justify-center gap-10 pt-2 lg:gap-12">
-				{venues.map((venue) => (
+				{uniqueVenues.map((venue) => (
 					<Link
 						key={venue._id}
 						href={`/venue/${venue.metadata?.slug?.current}`}

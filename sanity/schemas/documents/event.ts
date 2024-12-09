@@ -20,13 +20,6 @@ export default defineType({
 			group: 'content',
 		}),
 		defineField({
-			name: 'date',
-			title: 'Date',
-			type: 'datetime',
-			validation: (Rule) => Rule.required(),
-			group: 'content',
-		}),
-		defineField({
 			name: 'time',
 			title: 'Event Time',
 			type: 'object',

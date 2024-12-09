@@ -22,6 +22,7 @@ export default function EventGrid() {
 		async function fetchEvents() {
 			try {
 				const data = await getEvents()
+				console.log('Raw events data:', data) // Debug log
 				setEvents(data)
 			} catch (error) {
 				console.error('Error fetching events:', error)
@@ -33,9 +34,9 @@ export default function EventGrid() {
 	}, [])
 
 	const filteredEvents = events
-		.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+		.sort((a, b) => new Date(b.time.start).getTime() - new Date(a.time.start).getTime())
 		.filter((event) => {
-			const eventDate = new Date(event.date)
+			const eventDate = new Date(event.time.start)
 			const now = new Date()
 			if (filter === 'upcoming') {
 				return eventDate >= now

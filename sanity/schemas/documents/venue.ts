@@ -67,20 +67,6 @@ export default defineType({
 			group: 'content',
 		}),
 		defineField({
-			name: 'upcomingEvents',
-			title: 'Upcoming Events',
-			type: 'array',
-			of: [{ type: 'reference', to: [{ type: 'event' }] }],
-			group: 'content',
-		}),
-		defineField({
-			name: 'pastEvents',
-			title: 'Past Events',
-			type: 'array',
-			of: [{ type: 'reference', to: [{ type: 'event' }] }],
-			group: 'content',
-		}),
-		defineField({
 			name: 'metadata',
 			type: 'metadata',
 			group: 'seo',

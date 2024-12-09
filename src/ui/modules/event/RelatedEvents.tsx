@@ -23,7 +23,7 @@ const RelatedEvents = forwardRef<HTMLDivElement, { currentEventId: string }>(
 					.filter((event: Sanity.Event) => event._id !== currentEventId)
 					.sort(
 						(a: Sanity.Event, b: Sanity.Event) =>
-							new Date(b.date).getTime() - new Date(a.date).getTime(),
+							new Date(b.time.start).getTime() - new Date(a.time.start).getTime(),
 					)
 				setEvents(filteredEvents)
 			}

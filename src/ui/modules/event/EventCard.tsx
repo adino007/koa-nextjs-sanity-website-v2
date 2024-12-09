@@ -16,42 +16,48 @@ export default function EventCard({ event }: EventProps) {
 	}
 
 	const generateCalendarUrl = (event: Sanity.Event) => {
-		const startDate = new Date(event.date)
-		if (event.time?.start) {
-			startDate.setHours(new Date(event.time.start).getHours())
-			startDate.setMinutes(new Date(event.time.start).getMinutes())
+		if (!event.time?.start) {
+			console.error('Missing start time for event:', event)
+			return '#'
 		}
 
-		const endDate = new Date(event.date)
-		if (event.time?.end) {
-			endDate.setHours(new Date(event.time.end).getHours())
-			endDate.setMinutes(new Date(event.time.end).getMinutes())
+		try {
+			const startDate = new Date(event.time.start)
+			const endDate = event.time?.end
+				? new Date(event.time.end)
+				: new Date(startDate)
+
+			if (isNaN(startDate.getTime()) || isNaN(endDate.getTime())) {
+				console.error('Invalid date for event:', event)
+				return '#'
+			}
+
+			const details = `
+				${event.venue ? `Venue: ${event.venue.name}` : ''}
+				${event.artists ? `Artists: ${event.artists.map((a) => a.name).join(', ')}` : ''}
+			`.trim()
+
+			return `data:text/calendar;charset=utf-8,BEGIN:VCALENDAR
+	VERSION:2.0
+	BEGIN:VEVENT
+	DTSTART:${startDate
+		.toISOString()
+		.replace(/[-:]/g, '')
+		.replace(/\.\d{3}/g, '')}
+	DTEND:${endDate
+		.toISOString()
+		.replace(/[-:]/g, '')
+		.replace(/\.\d{3}/g, '')}
+	SUMMARY:${event.name}
+	LOCATION:${event.venue?.location || ''}
+	DESCRIPTION:${details}
+	END:VEVENT
+	END:VCALENDAR`.replace(/\n/g, '%0A')
+		} catch (error) {
+			console.error('Error generating calendar URL:', error)
+			return '#'
 		}
-
-		const details = `
-            ${event.venue ? `Venue: ${event.venue.name}` : ''}
-            ${event.artists ? `Artists: ${event.artists.map((a) => a.name).join(', ')}` : ''}
-        `.trim()
-
-		// For modern browsers and mobile devices
-		return `data:text/calendar;charset=utf-8,BEGIN:VCALENDAR
-VERSION:2.0
-BEGIN:VEVENT
-DTSTART:${startDate
-			.toISOString()
-			.replace(/[-:]/g, '')
-			.replace(/\.\d{3}/g, '')}
-DTEND:${endDate
-			.toISOString()
-			.replace(/[-:]/g, '')
-			.replace(/\.\d{3}/g, '')}
-SUMMARY:${event.name}
-LOCATION:${event.venue?.location || ''}
-DESCRIPTION:${details}
-END:VEVENT
-END:VCALENDAR`.replace(/\n/g, '%0A')
 	}
-
 	return (
 		<div className="block">
 			<Link
@@ -81,24 +87,26 @@ END:VCALENDAR`.replace(/\n/g, '%0A')
 					<div className="flex-grow">
 						<h2 className="mb-2 text-2xl font-bold">{event.name}</h2>
 						<div className="space-y-2">
-							<div className="flex items-center gap-2">
-								<a
-									href={generateCalendarUrl(event)}
-									download={`${event.name}.ics`}
-									onClick={(e) => e.stopPropagation()}
-									className="flex items-center gap-2 hover:text-blue-400"
-								>
-									<FaCalendar className="text-gray-400" />
-									<span>
-										{new Date(event.date).toLocaleDateString('en-US', {
-											weekday: 'long',
-											year: 'numeric',
-											month: 'long',
-											day: 'numeric',
-										})}
-									</span>
-								</a>
-							</div>
+							{event.time?.start && (
+								<div className="flex items-center gap-2">
+									<a
+										href={generateCalendarUrl(event)}
+										download={`${event.name}.ics`}
+										onClick={(e) => e.stopPropagation()}
+										className="flex items-center gap-2 hover:text-blue-400"
+									>
+										<FaCalendar className="text-gray-400" />
+										<span>
+											{new Date(event.time.start).toLocaleDateString('en-US', {
+												weekday: 'long',
+												year: 'numeric',
+												month: 'long',
+												day: 'numeric',
+											})}
+										</span>
+									</a>
+								</div>
+							)}
 							{event.venue && (
 								<div className="flex items-center gap-2">
 									<IoLocation className="text-gray-400" />
@@ -136,35 +144,41 @@ END:VCALENDAR`.replace(/\n/g, '%0A')
 					{/* Artists Section */}
 					<div className="mt-4 flex w-full flex-wrap justify-start gap-4 md:mt-0 md:w-auto md:justify-end">
 						{event.artists &&
-							event.artists.map(
-								(artist: {
-									_id: string
-									metadata?: { slug?: { current?: string } }
-									photo?: { asset?: { url: string } }
-									name: string
-								}) => (
-									<Link
-										key={artist._id}
-										href={`/artist/${artist.metadata?.slug?.current}`}
-										onClick={(e) => e.stopPropagation()}
-										className="group/artist flex w-16 flex-col items-center justify-center text-center transition-none"
-									>
-										{artist.photo?.asset?.url && (
-											<div className="relative mx-auto mb-1 h-12 w-12 transition-transform duration-300 group-hover/artist:scale-110">
-												<Image
-													src={artist.photo.asset.url}
-													alt={artist.name}
-													fill
-													className="rounded-full object-cover"
-												/>
-											</div>
-										)}
-										<span className="pt-2 text-xs leading-5 group-hover/artist:text-blue-400">
-											{artist.name}
-										</span>
-									</Link>
-								),
-							)}
+							event.artists
+								.filter((artist: null) => artist !== null)
+								.map(
+									(artist: {
+										_id: string
+										metadata?: { slug?: { current?: string } }
+										photo?: { asset?: { url: string } }
+										name: string
+									}) => (
+										<Link
+											key={artist._id}
+											href={
+												artist.metadata?.slug?.current
+													? `/artist/${artist.metadata.slug.current}`
+													: '#'
+											}
+											onClick={(e) => e.stopPropagation()}
+											className="group/artist flex w-16 flex-col items-center justify-center text-center transition-none"
+										>
+											{artist.photo?.asset?.url && (
+												<div className="relative mx-auto mb-1 h-12 w-12 transition-transform duration-300 group-hover/artist:scale-110">
+													<Image
+														src={artist.photo.asset.url}
+														alt={artist.name}
+														fill
+														className="rounded-full object-cover"
+													/>
+												</div>
+											)}
+											<span className="pt-2 text-xs leading-5 group-hover/artist:text-blue-400">
+												{artist.name}
+											</span>
+										</Link>
+									),
+								)}
 					</div>
 					{event.eventCTAS &&
 						Array.isArray(event.eventCTAS) &&

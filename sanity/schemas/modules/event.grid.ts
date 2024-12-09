@@ -23,7 +23,7 @@ export default defineType({
 					type: 'reference',
 					to: [{ type: 'event' }],
 					options: {
-						filter: 'date >= $now',
+						filter: 'time.start >= $now',
 						filterParams: { now: new Date().toISOString() },
 					},
 				},

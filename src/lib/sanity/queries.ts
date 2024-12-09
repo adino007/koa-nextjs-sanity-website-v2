@@ -189,20 +189,16 @@ export const artistQuery = groq`
       },
       eventCTAS[]
     },
-    venuesPlayed[]->{
+    "venuesPlayed": *[_type == "event" && references(^._id)].venue-> {
       _id,
       name,
       location,
       image {
-        asset->{
-          url
-        }
-      },
-      metadata {
-        slug {
-          current
-        }
+        asset-> {
+         url
       }
+    },
+      metadata
     },
     metadata {
       title,
@@ -245,7 +241,6 @@ export const eventQuery = groq`
         internal->{ _type, title, metadata }
       }
     },
-    date,
     time{
       start,
       end
@@ -294,7 +289,6 @@ export const eventQuery = groq`
       }
     }
   }
-
 `
 
 export async function getEvents() {
@@ -355,16 +349,6 @@ export const venueQuery = groq`
     socialLinks[]{
       platform,
       url
-    },
-    upcomingEvents[]->{
-      _id,
-      name,
-      date
-    },
-    pastEvents[]->{
-      _id,
-      name,
-      date
     },
     metadata{
       slug{

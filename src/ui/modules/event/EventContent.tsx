@@ -153,7 +153,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 
 							<div className="inline-flex items-center gap-2 pt-2">
 								<FaCalendar className="text-gray-400" />
-								<p>{new Date(event.date).toLocaleDateString()}</p>
+								<p>{new Date(event.time.start).toLocaleDateString()}</p>
 							</div>
 						</div>
 

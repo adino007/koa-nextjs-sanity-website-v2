@@ -62,27 +62,6 @@ export default defineType({
 			group: 'social',
 		}),
 		defineField({
-			name: 'upcomingEvents',
-			title: 'Upcoming Events',
-			type: 'array',
-			of: [{ type: 'reference', to: [{ type: 'event' }] }],
-			group: 'events',
-		}),
-		defineField({
-			name: 'pastEvents',
-			title: 'Past Events',
-			type: 'array',
-			of: [{ type: 'reference', to: [{ type: 'event' }] }],
-			group: 'events',
-		}),
-		defineField({
-			name: 'venuesPlayed',
-			title: 'Venues Played',
-			type: 'array',
-			of: [{ type: 'reference', to: [{ type: 'venue' }] }],
-			group: 'events',
-		}),
-		defineField({
 			name: 'gallery',
 			title: 'Gallery',
 			type: 'array',
