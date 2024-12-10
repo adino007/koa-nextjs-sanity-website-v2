@@ -38,24 +38,15 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 	useEffect(() => {
 		const observer = new IntersectionObserver(
 			([entry]) => {
-				console.log('CTA intersection:', entry.isIntersecting)
-				console.log('Scroll position:', window.scrollY)
-				console.log('Boundary rect:', entry.boundingClientRect)
-
-				if (entry.boundingClientRect.top < 0) {
-					setIsSticky(false)
-				} else {
-					setIsSticky(!entry.isIntersecting)
-				}
+				// Only show sticky when we're above the regular CTA
+				setIsSticky(entry.boundingClientRect.top > window.innerHeight)
 			},
 			{
 				threshold: 0,
-				rootMargin: '-100px 0px 0px 0px',
 			},
 		)
 
 		if (ctaRef.current) observer.observe(ctaRef.current)
-
 		return () => observer.disconnect()
 	}, [])
 
@@ -156,37 +147,35 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 								<p>{new Date(event.time.start).toLocaleDateString()}</p>
 							</div>
 						</div>
-
-						{/* Artists Section - Centered */}
+						{/* Artists Section */}
 						{event.artists && event.artists.length > 0 && (
-							<div className="flex justify-center gap-4 overflow-x-auto py-3">
-								{event.artists.map(
-									(artist) =>
-										artist.metadata?.slug?.current && (
-											<Link
-												key={artist._id}
-												href={`/artist/${artist.metadata.slug.current}`}
-												className="flex-shrink-0 transform text-center transition-all hover:scale-110 hover:text-blue-400"
-											>
+							<div className="flex justify-center gap-10 overflow-x-auto py-3 lg:gap-12">
+								{event.artists
+									.filter((artist) => artist !== null)
+									.map((artist) => (
+										<Link
+											key={artist._id}
+											href={`/artist/${artist.metadata?.slug?.current}`}
+											className="lg:w-18 group flex w-20 flex-col items-center justify-start text-center"
+											onClick={(e) => e.stopPropagation()}
+										>
+											<div className="lg:h-18 lg:w-18 relative mx-auto mb-1 h-20 w-20 transform transition-all duration-300 group-hover:scale-110">
 												{artist.photo?.asset?.url && (
-													<div className="relative mx-auto mb-2 h-16 w-16">
-														<Image
-															src={artist.photo.asset.url}
-															alt={artist.name}
-															fill
-															className="rounded-full object-cover transition-opacity hover:opacity-90"
-														/>
-													</div>
+													<Image
+														src={artist.photo.asset.url}
+														alt={artist.name}
+														fill
+														className="rounded-full object-cover"
+													/>
 												)}
-												<p className="whitespace-pre-line pt-1 text-xs font-medium">
-													{artist.name.split(' ').join('\n')}
-												</p>
-											</Link>
-										),
-								)}
+											</div>
+											<span className="pt-3 text-sm leading-5 transition-colors duration-300 group-hover:text-blue-400">
+												{artist.name}
+											</span>
+										</Link>
+									))}
 							</div>
 						)}
-
 						{/* Regular CTA */}
 						{event.eventCTAS && event.eventCTAS.length > 0 && (
 							<div ref={ctaRef} className="!mt-4">

@@ -75,7 +75,7 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 	}
 
 	return (
-		<div className="container mx-auto overflow-x-auto bg-transparent px-1 pb-4 transition-colors duration-500">
+		<div className="container mx-auto overflow-x-auto overflow-x-hidden bg-transparent px-1 pb-4 transition-colors duration-500">
 			<div className="flex flex-col items-center justify-center gap-8 text-center md:ml-10 lg:flex-row lg:items-start">
 				<div className="flex w-full flex-col lg:w-1/3">
 					{artist.photo?.asset?.url && (
@@ -197,7 +197,7 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 
 					{/* Mobile/Tablet version - at bottom */}
 					{artist.venuesPlayed && artist.venuesPlayed.length > 0 && (
-						<div className="pt-20 lg:hidden lg:pt-8">
+						<div className="pt-12 lg:hidden lg:pt-8">
 							<VenuesPlayed venues={artist.venuesPlayed} />
 						</div>
 					)}

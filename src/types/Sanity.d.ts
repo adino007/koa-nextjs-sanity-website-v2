@@ -160,8 +160,7 @@ declare global {
 					url: string
 				}
 			}>
-			upcomingEvents?: Event[]
-			pastEvents?: Event[]
+			events?: Array<Event>
 			metadata: Metadata
 		}
 

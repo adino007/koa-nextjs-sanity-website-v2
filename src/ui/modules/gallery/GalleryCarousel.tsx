@@ -75,20 +75,23 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 											className="rounded-lg object-cover"
 										/>
 									</div>
+									<span className="mt-2 block pt-2 text-center text-xs text-gray-400">
+										tap the image for fullscreen mode
+									</span>
 								</div>
 							</CarouselItem>
 						))}
 					</CarouselContent>
-
-					<div className="absolute -left-16 top-1/2 z-10 -ml-4 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-5">
+					{/* Previous Button */}
+					<div className="absolute -left-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[7%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-8">
 						<CarouselPrevious />
 					</div>
-					<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-2">
+
+					{/* Next Button */}
+					<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[7%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-5">
 						<CarouselNext />
 					</div>
-
-
-						</Carousel>
+				</Carousel>
 			</div>
 
 			{/* Fullscreen Modal */}
@@ -143,7 +146,7 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 									<FaShare className="text-white" />
 								</button>
 							</div>
-							<div className="absolute right-4 top-1/2 z-[60] -translate-y-1/2 max-md:absolute max-md:bottom-28 max-md:right-[25%] max-md:top-auto">
+							<div className="absolute right-10 top-1/2 z-[60] -translate-y-1/2 max-md:absolute max-md:bottom-28 max-md:right-[20%] max-md:top-auto">
 								<CarouselNext />
 							</div>
 						</Carousel>

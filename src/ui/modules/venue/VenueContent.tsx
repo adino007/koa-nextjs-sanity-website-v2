@@ -1,64 +1,163 @@
 'use client'
 
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
+import { IoLocation } from 'react-icons/io5'
+import EventCard from '../event/EventCard'
+import GalleryCarousel from '../gallery/GalleryCarousel'
+import {
+	Carousel,
+	CarouselContent,
+	CarouselItem,
+	CarouselNext,
+	CarouselPrevious,
+} from '@/components/ui/carousel'
 
 export default function VenueContent({ venue }: { venue: Sanity.Venue }) {
-    return (
-        <div className="container mx-auto bg-transparent px-4 py-8 transition-colors duration-500">
-            <div className="flex flex-col items-center justify-center gap-8 lg:flex-row">
-                <div className="w-full lg:w-1/3">
-                    {venue.image?.asset?.url && (
-                        <div className="sticky top-24 relative mx-auto aspect-square w-full max-w-sm">
-                            <Image
-                                src={venue.image.asset.url}
-                                alt={venue.name}
-                                fill
-                                className="rounded-lg object-cover"
-                                priority
-                            />
-                        </div>
-                    )}
-                </div>
+	const [events, setEvents] = useState<{ upcoming: any[]; past: any[] }>({
+		upcoming: [],
+		past: [],
+	})
 
-                <div className="space-y-6 text-center lg:w-1/2">
-                    <h1 className="text-4xl font-bold">{venue.name}</h1>
-                    <p className="text-xl">{venue.location}</p>
+	useEffect(() => {
+		if (!venue.events) return
 
-                    {venue.description && (
-                        <div className="text-xl">
-                            <p>{venue.description}</p>
-                        </div>
-                    )}
+		const now = new Date()
+		const upcoming = venue.events
+			.filter((event) => new Date(event.time.start) >= now)
+			.sort(
+				(a, b) =>
+					new Date(a.time.start).getTime() - new Date(b.time.start).getTime(),
+			)
 
-                    {(venue as any).socialLinks && (venue as any).socialLinks.length > 0 && (
-                        <div className="flex justify-center gap-4">
-                            {(venue as any).socialLinks.map((link: any, index: number) => (
-                                <a
-                                    key={index}
-                                    href={link.url}
-                                    target="_blank"
-                                    rel="noopener noreferrer"
-                                    className="hover:opacity-70"
-                                >
-                                    {link.platform}
-                                </a>
-                            ))}
-                        </div>
-                    )}
+		const past = venue.events
+			.filter((event) => new Date(event.time.start) < now)
+			.sort(
+				(a, b) =>
+					new Date(b.time.start).getTime() - new Date(a.time.start).getTime(),
+			)
 
-                    {venue.upcomingEvents && venue.upcomingEvents.length > 0 && (
-                        <div className="space-y-2">
-                            <h2 className="text-2xl font-semibold">Upcoming Events</h2>
-                            {venue.upcomingEvents.map((event) => (
-                                <div key={event._id}>
-                                    <p>{event.name}</p>
-                                    <p>{new Date(event.date).toLocaleDateString()}</p>
-                                </div>
-                            ))}
-                        </div>
-                    )}
-                </div>
-            </div>
-        </div>
-    )
+		setEvents({ upcoming, past })
+	}, [venue.events])
+
+	return (
+		<div className="container mx-auto overflow-x-auto bg-transparent px-1 pb-4 transition-colors duration-500">
+			<div className="flex flex-col items-center justify-center gap-8 text-center md:ml-10 lg:flex-row lg:items-start">
+				{/* Left Column - Image */}
+				<div className="flex w-full flex-col lg:w-1/3">
+					{venue.image?.asset?.url && (
+						<div className="relative mx-auto mt-3 w-full max-w-sm cursor-pointer max-lg:aspect-square max-md:mt-0 lg:aspect-[3/4]">
+							<Image
+								src={venue.image.asset.url}
+								alt={venue.name}
+								fill
+								className="rounded-lg object-cover"
+								priority
+							/>
+						</div>
+					)}
+				</div>
+
+				{/* Right Column - Content */}
+				<div className="mx-auto w-full max-w-2xl space-y-6 text-center max-md:py-4">
+					<h1 className="text-5xl font-bold md:mt-8 lg:mt-10">{venue.name}</h1>
+
+					{/* Location */}
+					<div className="text-xl leading-10">
+						<div
+							className="cursor-pointer pt-2 text-sm leading-6 hover:text-blue-400"
+							onClick={() =>
+								window.open(
+									`maps://maps.apple.com/?address=${encodeURIComponent(venue.location)}&dirflg=d`,
+									'_blank',
+								)
+							}
+						>
+							<span className="flex flex-col">
+								<span>
+									<IoLocation className="mr-2 inline-block text-gray-400" />
+									{venue.location.split(',')[0]}
+								</span>
+								<span>{venue.location.split(',').slice(1).join(',')}</span>
+							</span>
+						</div>
+					</div>
+
+					{/* Description */}
+					{venue.description && (
+						<div className="word-spacing-4 text-sm leading-6 tracking-wide [word-spacing:0.16rem] max-md:px-6">
+							<p>{venue.description}</p>
+						</div>
+					)}
+
+					{/* Events Section */}
+					{venue.events && venue.events.length > 0 && (
+						<div className="mx-auto w-full max-w-[100vw] space-y-8 pt-4 md:max-w-4xl">
+							{events.upcoming.length > 0 && (
+								<div className="relative w-full">
+									<h2 className="mb-4 text-2xl font-semibold">
+										Upcoming Events
+									</h2>
+									<Carousel className="relative w-full">
+										<CarouselContent className="px-1">
+											{events.upcoming.map((event) => (
+												<CarouselItem
+													key={event._id}
+													className="flex w-full snap-center justify-center"
+												>
+													<div className="w-full">
+														<EventCard event={event} />
+													</div>
+												</CarouselItem>
+											))}
+										</CarouselContent>
+										<div className="absolute -left-16 top-1/2 z-10 -ml-4 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-8">
+											<CarouselPrevious />
+										</div>
+										<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-5">
+											<CarouselNext />
+										</div>
+									</Carousel>
+								</div>
+							)}
+
+							{events.past.length > 0 && (
+								<div className="relative w-full">
+									<h2 className="mb-4 text-2xl font-semibold">Past Events</h2>
+									<Carousel className="relative w-full">
+										<CarouselContent className="px-1">
+											{events.past.map((event) => (
+												<CarouselItem
+													key={event._id}
+													className="flex w-full snap-center justify-center"
+												>
+													<div className="w-full">
+														<EventCard event={event} />
+													</div>
+												</CarouselItem>
+											))}
+										</CarouselContent>
+										<div className="absolute -left-16 top-1/2 z-10 -ml-4 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-8">
+											<CarouselPrevious />
+										</div>
+										<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-5">
+											<CarouselNext />
+										</div>
+									</Carousel>
+								</div>
+							)}
+						</div>
+					)}
+
+					{/* Gallery Section */}
+					{venue.gallery && venue.gallery.length > 0 && (
+						<div className="justify-center space-y-4 pt-20 text-center lg:pt-8">
+							<h2 className="text-2xl font-semibold">Gallery</h2>
+							<GalleryCarousel gallery={venue.gallery} />
+						</div>
+					)}
+				</div>
+			</div>
+		</div>
+	)
 }

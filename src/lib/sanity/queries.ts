@@ -341,20 +341,34 @@ export const venueQuery = groq`
     name,
     location,
     description,
-    photo{
+    image{
       asset->{
         url
       }
     },
-    socialLinks[]{
-      platform,
-      url
-    },
-    metadata{
-      slug{
-        current
+    gallery[]{
+      asset->{
+        url
       }
-    }
+    },
+    "events": *[_type == "event" && venue._ref == ^._id] {
+      _id,
+      name,
+      time,
+      flyer {
+        asset-> {
+          url
+        }
+      },
+      metadata {
+        slug {
+          current
+        }
+      },
+      venue->,
+      eventCTAS[]
+    },
+    metadata
   }
 `
 

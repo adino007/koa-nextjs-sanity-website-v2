@@ -48,23 +48,18 @@ export default defineType({
 		}),
 		defineField({
 			name: 'gallery',
-			title: 'Gallery Items',
+			title: 'Gallery',
 			type: 'array',
 			of: [
 				{
 					type: 'image',
-					title: 'Photo',
-					options: { hotspot: true },
-				},
-				{
-					type: 'mux.video',
-					title: 'Video',
-				},
+					options: { hotspot: true }
+				}
 			],
 			options: {
-				layout: 'grid',
+				layout: 'grid'
 			},
-			group: 'content',
+			group: 'content'
 		}),
 		defineField({
 			name: 'metadata',
