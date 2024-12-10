@@ -41,7 +41,7 @@ export default function VenueContent({ venue }: { venue: Sanity.Venue }) {
 	}, [venue.events])
 
 	return (
-		<div className="container mx-auto overflow-x-auto bg-transparent px-1 pb-4 transition-colors duration-500">
+		<div className="container mx-auto overflow-hidden bg-transparent px-1 pb-4 transition-colors duration-500">
 			<div className="flex flex-col items-center justify-center gap-8 text-center md:ml-10 lg:flex-row lg:items-start">
 				{/* Left Column - Image */}
 				<div className="flex w-full flex-col lg:w-1/3">
@@ -85,11 +85,10 @@ export default function VenueContent({ venue }: { venue: Sanity.Venue }) {
 
 					{/* Description */}
 					{venue.description && (
-						<div className="word-spacing-4 text-sm leading-6 tracking-wide [word-spacing:0.16rem] max-md:px-6">
+						<div className="word-spacing-4 text-sm leading-6 tracking-wide [word-spacing:0.16rem] max-md:px-2">
 							<p>{venue.description}</p>
 						</div>
 					)}
-
 					{/* Events Section */}
 					{venue.events && venue.events.length > 0 && (
 						<div className="mx-auto w-full max-w-[100vw] space-y-8 pt-4 md:max-w-4xl">
@@ -122,7 +121,9 @@ export default function VenueContent({ venue }: { venue: Sanity.Venue }) {
 							)}
 
 							{events.past.length > 0 && (
-								<div className="relative w-full">
+								<div
+									className={`relative w-full ${events.upcoming.length > 0 ? 'pt-16' : 'pt-4'}`}
+								>
 									<h2 className="mb-4 text-2xl font-semibold">Past Events</h2>
 									<Carousel className="relative w-full">
 										<CarouselContent className="px-1">
@@ -148,7 +149,6 @@ export default function VenueContent({ venue }: { venue: Sanity.Venue }) {
 							)}
 						</div>
 					)}
-
 					{/* Gallery Section */}
 					{venue.gallery && venue.gallery.length > 0 && (
 						<div className="justify-center space-y-4 pt-20 text-center lg:pt-8">

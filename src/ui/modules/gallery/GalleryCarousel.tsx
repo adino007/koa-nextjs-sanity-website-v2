@@ -1,7 +1,7 @@
 'use client'
 
-import { FaDownload, FaShare } from 'react-icons/fa6'
 import { useEffect, useState } from 'react'
+import { FaDownload, FaShare } from 'react-icons/fa6'
 import Image from 'next/image'
 import { IoClose } from 'react-icons/io5'
 import {
@@ -11,19 +11,37 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from '@/components/ui/carousel'
+import useEmblaCarousel from 'embla-carousel-react'
 
 export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 	const [fullscreen, setFullscreen] = useState(false)
 	const [currentIndex, setCurrentIndex] = useState(0)
+	const [mainApi, setMainApi] = useState<any>(null)
+	const [fullscreenApi, setFullscreenApi] = useState<any>(null)
 
 	useEffect(() => {
-		if (fullscreen) {
-			document.body.style.overflow = 'hidden'
-		} else {
-			document.body.style.overflow = 'unset'
+		if (!mainApi) return
+
+		mainApi.on('select', () => {
+			setCurrentIndex(mainApi.selectedScrollSnap())
+		})
+	}, [mainApi])
+
+	useEffect(() => {
+		if (fullscreen && fullscreenApi) {
+			fullscreenApi.scrollTo(currentIndex)
 		}
+	}, [fullscreen, fullscreenApi, currentIndex])
+
+	useEffect(() => {
+		const toggleScroll = (disable: boolean) => {
+			document.body.style.overflow = disable ? 'hidden' : 'auto'
+		}
+
+		toggleScroll(fullscreen)
+
 		return () => {
-			document.body.style.overflow = 'unset'
+			toggleScroll(false)
 		}
 	}, [fullscreen])
 
@@ -40,15 +58,26 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 	}
 
 	const handleShare = async (imageUrl: string) => {
-		if (navigator.share) {
-			try {
+		try {
+			if (navigator.canShare && navigator.canShare({ url: imageUrl })) {
 				await navigator.share({
 					title: 'Check out this image',
+					text: 'Take a look at this image!',
 					url: imageUrl,
 				})
-			} catch (error) {
-				console.log('Error sharing:', error)
+			} else if (navigator.clipboard) {
+				await navigator.clipboard.writeText(imageUrl)
+				alert('Image URL copied to clipboard!')
+			} else {
+				alert('Sharing not supported on this device')
 			}
+		} catch (error: unknown) {
+			if (error instanceof Error && error.name === 'AbortError') {
+				// User cancelled the share
+				return
+			}
+			console.error('Error sharing:', error)
+			alert('Failed to share. Please try again.')
 		}
 	}
 
@@ -56,7 +85,10 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 		<>
 			{/* Regular Carousel */}
 			<div className="relative">
-				<Carousel className="relative w-full justify-center">
+				<Carousel
+					className="relative w-full justify-center"
+					setApi={setMainApi}
+				>
 					<CarouselContent>
 						{gallery.map((image, index) => (
 							<CarouselItem key={index} className="w-full">
@@ -105,7 +137,10 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 					</button>
 
 					<div style={{ height: 'calc(100vh - 80px)', marginTop: '40px' }}>
-						<Carousel className="flex h-full w-screen items-center">
+						<Carousel
+							className="flex h-full w-screen items-center"
+							setApi={setFullscreenApi}
+						>
 							<CarouselContent className="h-full !p-0">
 								{gallery.map((image, index) => (
 									<CarouselItem
@@ -125,29 +160,28 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 									</CarouselItem>
 								))}
 							</CarouselContent>
-
-							<div className="absolute left-4 top-1/2 z-[60] -translate-y-1/2 max-md:absolute max-md:bottom-28 max-md:left-[20%] max-md:top-auto">
-								<CarouselPrevious />
+							<div className="absolute left-4 top-1/2 z-[60] -translate-y-1/2 max-md:absolute max-md:bottom-28 max-md:left-[15%] max-md:top-auto">
+								<CarouselPrevious className="bg-black/80" />
 							</div>
 
-							<div className="hidden max-md:absolute max-md:bottom-24 max-md:left-1/2 max-md:z-[60] max-md:flex max-md:-translate-x-1/2 max-md:gap-4">
+							<div className="hidden max-md:absolute max-md:bottom-[5.9rem] max-md:left-1/2 max-md:z-[60] max-md:flex max-md:-translate-x-1/2 max-md:gap-4">
 								<button
 									onClick={() =>
 										handleDownload(gallery[currentIndex].asset.url)
 									}
-									className="rounded-full bg-white/10 p-3 hover:bg-white/20"
+									className="rounded-full bg-black/80 p-3 ring-1 ring-white"
 								>
 									<FaDownload className="text-white" />
 								</button>
 								<button
 									onClick={() => handleShare(gallery[currentIndex].asset.url)}
-									className="rounded-full bg-white/10 p-3 hover:bg-white/20"
+									className="rounded-full bg-black/80 p-3 ring-1 ring-white"
 								>
 									<FaShare className="text-white" />
 								</button>
 							</div>
 							<div className="absolute right-10 top-1/2 z-[60] -translate-y-1/2 max-md:absolute max-md:bottom-28 max-md:right-[20%] max-md:top-auto">
-								<CarouselNext />
+								<CarouselNext className="bg-black/30" />
 							</div>
 						</Carousel>
 					</div>

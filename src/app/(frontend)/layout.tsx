@@ -21,13 +21,13 @@ export default async function RootLayout({
 	children: React.ReactNode
 }) {
 	return (
-		<html lang="en">
+		<html lang="en" className="h-full">
 			<head>
 				{/* <GoogleTagManager gtmId='' /> */}
 				<meta name="seobility" content="856ff90b386856cdb709d1280d0b618e" />
 				<meta
 					name="viewport"
-					content="width=device-width, initial-scale=1, viewport-fit=cover"
+					content="width=device-width, initial-scale=1, viewport-fit=cover, interactive-widget=resizes-content, maximum-scale=1, user-scalable=no"
 				/>
 				<link
 					rel="preload"
@@ -38,7 +38,7 @@ export default async function RootLayout({
 				/>
 			</head>
 
-			<body className="bg-almostBlack font-moncheri uppercase text-white">
+			<body className="min-h-full bg-almostBlack font-moncheri uppercase text-white">
 				<SkipToContent />
 				<Announcement />
 				<Header />
