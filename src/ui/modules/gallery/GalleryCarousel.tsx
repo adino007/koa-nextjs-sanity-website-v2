@@ -11,7 +11,6 @@ import {
 	CarouselNext,
 	CarouselPrevious,
 } from '@/components/ui/carousel'
-import useEmblaCarousel from 'embla-carousel-react'
 
 export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 	const [fullscreen, setFullscreen] = useState(false)
