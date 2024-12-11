@@ -114,7 +114,7 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 						))}
 					</CarouselContent>
 					{/* Previous Button */}
-					<div className="absolute -left-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[7%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-8">
+					<div className="absolute overflow-hidden -left-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[7%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-8">
 						<CarouselPrevious />
 					</div>
 

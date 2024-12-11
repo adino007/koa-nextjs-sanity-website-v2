@@ -188,7 +188,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 					</div>
 				</div>
 			</div>
-			<div className="flex w-full max-w-[100vw] justify-center overflow-x-hidden pt-2">
+			<div className="flex w-full max-w-[100vw] justify-center !overflow-visible pt-2">
 				<RelatedEvents ref={moreEventsRef} currentEventId={event._id} />
 			</div>
 		</>
