@@ -33,11 +33,13 @@ export default function ArtistGrid() {
 		fetchArtists()
 	}, [])
 
-	const sortedArtists = [...artists].sort((a, b) => {
-		return sortOrder === 'asc'
-			? a.name.localeCompare(b.name)
-			: b.name.localeCompare(a.name)
-	})
+	const sortedArtists = [...artists]
+		.filter((artist: Sanity.Artist) => artist.isVisible !== false)
+		.sort((a, b) => {
+			return sortOrder === 'asc'
+				? a.name.localeCompare(b.name)
+				: b.name.localeCompare(a.name)
+		})
 
 	if (loading) {
 		return (

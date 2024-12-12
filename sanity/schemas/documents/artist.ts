@@ -34,6 +34,13 @@ export default defineType({
 			group: 'content',
 		}),
 		defineField({
+			name: 'isVisible',
+			title: 'Show in Artist Grid',
+			type: 'boolean',
+			group: 'content',
+			initialValue: true,
+		}),
+		defineField({
 			name: 'socialLinks',
 			title: 'Social Links',
 			type: 'array',

@@ -107,6 +107,12 @@ declare global {
 				hotspot?: boolean
 			}
 			bio?: string
+			isVisible: boolean
+			photo?: {
+				asset?: {
+					url: string
+				}
+			}
 			socialLinks?: Array<{
 				platform: string
 				url: string

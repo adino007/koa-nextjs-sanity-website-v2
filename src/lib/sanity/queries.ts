@@ -208,10 +208,10 @@ export const artistQuery = groq`
       slug {
         current
       }
-    }
+    },
+    isVisible
   }
 `
-
 export async function getArtists() {
 	const artists = await fetchSanity(artistQuery)
 	console.log('Raw GROQ Response:', artists)

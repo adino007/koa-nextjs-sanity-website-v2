@@ -35,14 +35,21 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 		if (!artist.events) return
 
 		const now = new Date()
-		const upcoming = artist.events
-			.filter((event) => new Date(event.date) >= now)
-			.sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())
-
 		const past = artist.events
-			.filter((event) => new Date(event.date) < now)
-			.sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
+			.filter((event) => new Date(event.time.start) < now)
+			.sort((a, b) => {
+				const dateA = new Date(a.time.start).valueOf()
+				const dateB = new Date(b.time.start).valueOf()
+				return dateB - dateA
+			})
 
+		const upcoming = artist.events
+			.filter((event) => new Date(event.time.start) >= now)
+			.sort((a, b) => {
+				const dateA = new Date(a.time.start).valueOf()
+				const dateB = new Date(b.time.start).valueOf()
+				return dateA - dateB
+			})
 		setEvents({ upcoming, past })
 	}, [artist.events])
 
