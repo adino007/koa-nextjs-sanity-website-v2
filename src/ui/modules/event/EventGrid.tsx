@@ -32,19 +32,19 @@ export default function EventGrid() {
 		}
 		fetchEvents()
 	}, [])
+	const upcomingEvents = events
+		.filter((event) => new Date(event.time.start) >= new Date())
+		.sort(
+			(a, b) =>
+				new Date(a.time.start).getTime() - new Date(b.time.start).getTime(),
+		)
 
-	const filteredEvents = events
-		.sort((a, b) => new Date(b.time.start).getTime() - new Date(a.time.start).getTime())
-		.filter((event) => {
-			const eventDate = new Date(event.time.start)
-			const now = new Date()
-			if (filter === 'upcoming') {
-				return eventDate >= now
-			} else if (filter === 'past') {
-				return eventDate < now
-			}
-			return true
-		})
+	const pastEvents = events
+		.filter((event) => new Date(event.time.start) < new Date())
+		.sort(
+			(a, b) =>
+				new Date(b.time.start).getTime() - new Date(a.time.start).getTime(),
+		)
 
 	if (loading) {
 		return (
@@ -89,11 +89,34 @@ export default function EventGrid() {
 				</Select>
 			</div>
 
-			{/* Event List */}
-			<div className="space-y-6">
-				{filteredEvents.map((event) => (
-					<EventCard key={event._id} event={event} />
-				))}
+			{/* Event Lists */}
+			<div className="space-y-12">
+				{(filter === 'all' || filter === 'upcoming') &&
+					upcomingEvents.length > 0 && (
+						<div>
+							<h2 className="mb-4 text-center text-2xl font-semibold max-md:pt-8">
+								Upcoming Events
+							</h2>
+							<div className="space-y-6">
+								{upcomingEvents.map((event) => (
+									<EventCard key={event._id} event={event} />
+								))}
+							</div>
+						</div>
+					)}
+
+				{(filter === 'all' || filter === 'past') && pastEvents.length > 0 && (
+					<div>
+						<h2 className="mb-4 pt-4 text-center text-2xl font-semibold">
+							Past Events
+						</h2>
+						<div className="space-y-6">
+							{pastEvents.map((event) => (
+								<EventCard key={event._id} event={event} />
+							))}
+						</div>
+					</div>
+				)}
 			</div>
 		</div>
 	)

@@ -142,7 +142,7 @@ export default function EventCard({ event }: EventProps) {
 					</div>
 
 					{/* Artists Section */}
-					<div className="mt-4 flex w-full flex-wrap justify-start gap-4 md:mt-0 md:w-auto md:justify-end">
+					<div className="mt-4 flex w-full flex-wrap justify-start gap-6 md:mt-0 md:w-auto md:justify-end">
 						{event.artists &&
 							event.artists
 								.filter((artist: null) => artist !== null)
