@@ -149,17 +149,17 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						</div>
 						{/* Artists Section */}
 						{event.artists && event.artists.length > 0 && (
-							<div className="flex justify-center gap-10 overflow-x-auto py-3 lg:gap-12">
+							<div className="mx-auto grid w-full max-w-4xl grid-cols-3 justify-center gap-4 py-3 lg:grid-cols-4">
 								{event.artists
 									.filter((artist) => artist !== null)
 									.map((artist) => (
 										<Link
 											key={artist._id}
 											href={`/artist/${artist.metadata?.slug?.current}`}
-											className="lg:w-18 group flex w-20 flex-col items-center justify-start text-center"
+											className="group flex flex-col items-center justify-start text-center"
 											onClick={(e) => e.stopPropagation()}
 										>
-											<div className="lg:h-18 lg:w-18 relative mx-auto mb-1 h-20 w-20 transform transition-all duration-300 group-hover:scale-110">
+											<div className="relative mx-auto mb-1 h-20 w-20 transform transition-all duration-300 group-hover:scale-110">
 												{artist.photo?.asset?.url && (
 													<Image
 														src={artist.photo.asset.url}

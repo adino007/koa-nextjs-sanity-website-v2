@@ -39,7 +39,7 @@ export default function VenuesPlayed({
 								/>
 							)}
 						</div>
-						<span className="pt-3 text-sm leading-4 transition-colors duration-300 group-hover:text-blue-400">
+						<span className="pt-3 text-sm leading-5 transition-colors duration-300 group-hover:text-blue-400">
 							{venue.name}
 						</span>
 					</Link>

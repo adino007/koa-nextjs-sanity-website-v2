@@ -75,7 +75,8 @@ export default function ArtistGrid() {
 					</SelectContent>
 				</Select>
 			</div>
-			<div className="grid grid-cols-5 gap-4 pt-4 max-lg:grid-cols-4 max-sm:grid-cols-3 sm:gap-6 lg:gap-3">
+
+			<div className="grid grid-cols-3 gap-4 pt-4 sm:gap-6 lg:grid-cols-4 lg:gap-3">
 				{sortedArtists.map((artist) => (
 					<Link
 						key={artist._id}
