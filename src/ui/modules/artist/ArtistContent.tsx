@@ -23,6 +23,7 @@ import {
 import EventCard from '../event/EventCard'
 import VenuesPlayed from './VenuesPlayed'
 import GalleryCarousel from '../gallery/GalleryCarousel'
+import StandardCarousel from '@/ui/components/StandardCarousel'
 
 export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 	const [bgColor, setBgColor] = useState('transparent')
@@ -105,7 +106,7 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 				</div>
 
 				{/* Artist Details Section */}
-				<div className="mx-auto w-full max-w-2xl space-y-6 text-center max-md:py-4">
+				<div className="mx-auto w-full max-w-2xl space-y-2 text-center max-md:py-4">
 					<h1 className="text-5xl font-bold md:mt-8 lg:mt-10">{artist.name}</h1>
 
 					{artist.bio && (
@@ -133,70 +134,55 @@ export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {
 							</div>
 						</div>
 					)}
-					{/* Events Section - Separated from bio with fixed width */}
+					{/* Events Section */}
 					{artist.events && artist.events.length > 0 && (
-						<div className="mx-auto w-full max-w-[100vw] space-y-8 md:max-w-4xl">
+						<div className="mx-auto w-full max-w-[100vw] space-y-4 md:max-w-4xl">
 							{events.upcoming.length > 0 && (
 								<div className="relative w-full">
-									<h2 className="mb-4 text-2xl font-semibold">
-										Upcoming Events
-									</h2>
-									<Carousel className="relative w-full">
-										<CarouselContent className="px-1">
-											{/* Upcoming Events */}
+									<div className="container mx-auto">
+										<h2 className="mt-4 text-2xl font-semibold">
+											Upcoming Events
+										</h2>
+										<StandardCarousel>
 											{events.upcoming.map((event) => (
-												<CarouselItem
-													key={event._id}
-													className="flex w-full snap-center justify-center"
-												>
-													<div className="w-full">
-														<EventCard event={event} />
+												<CarouselItem key={event._id} className="w-full">
+													<div className="mx-auto max-w-5xl px-4 py-4">
+														<div className="mx-auto">
+															<EventCard event={event} />
+														</div>
 													</div>
 												</CarouselItem>
 											))}
-										</CarouselContent>
-										<div className="absolute -left-16 top-1/2 z-10 -ml-4 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-8">
-											<CarouselPrevious />
-										</div>
-										<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-5">
-											<CarouselNext />
-										</div>
-									</Carousel>
+										</StandardCarousel>
+									</div>
 								</div>
 							)}
 
 							{events.past.length > 0 && (
-								<div className="relative w-full pt-20 lg:pt-4">
-									<h2 className="mb-4 text-2xl font-semibold">Past Events</h2>
-									<Carousel className="relative w-full">
-										<CarouselContent className="px-1">
-											{/* Upcoming Events */}
+								<div className="relative w-full">
+									<div className="container mx-auto">
+										<h2 className="fo nt-semibold mt-6 text-2xl lg:mt-8">
+											Past Events
+										</h2>
+										<StandardCarousel>
 											{events.past.map((event) => (
-												<CarouselItem
-													key={event._id}
-													className="flex w-full snap-center justify-center"
-												>
-													<div className="w-full">
-														<EventCard event={event} />
+												<CarouselItem key={event._id} className="w-full">
+													<div className="mx-auto max-w-5xl px-4 py-4">
+														<div className="mx-auto">
+															<EventCard event={event} />
+														</div>
 													</div>
 												</CarouselItem>
 											))}
-										</CarouselContent>
-										<div className="absolute -left-16 top-1/2 z-10 -ml-4 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-8">
-											<CarouselPrevious />
-										</div>
-										<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[10%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-5">
-											<CarouselNext />
-										</div>
-									</Carousel>
+										</StandardCarousel>
+									</div>
 								</div>
 							)}
 						</div>
 					)}
-
 					{/* Gallery Section */}
 					{artist.gallery && artist.gallery.length > 0 && (
-						<div className="justify-center space-y-4 pt-20 text-center lg:pt-8">
+						<div className="justify-center space-y-4 pt-8 text-center lg:pt-8">
 							<h2 className="text-2xl font-semibold">Gallery</h2>
 							<GalleryCarousel gallery={artist.gallery} />
 						</div>

@@ -27,19 +27,16 @@ const RelatedEvents = forwardRef<HTMLDivElement, { currentEventId: string }>(
 		}, [currentEventId])
 
 		if (!events.length) return null
-
 		return (
-			<div
-				ref={ref}
-				className="relative mx-auto w-full max-w-[100vw] !overflow-visible px-2 pb-8 pt-8 md:max-w-5xl lg:pt-1"
-			>
+			<div ref={ref} className="container mx-auto">
 				<StandardCarousel>
 					{events.map((event) => (
-						<CarouselItem
-							key={event._id}
-							className="w-full snap-center overflow-visible"
-						>
-							<EventCard event={event} />
+						<CarouselItem key={event._id} className="w-full">
+							<div className="mx-auto max-w-5xl p-4">
+								<div className="mx-auto">
+									<EventCard event={event} />
+								</div>
+							</div>
 						</CarouselItem>
 					))}
 				</StandardCarousel>

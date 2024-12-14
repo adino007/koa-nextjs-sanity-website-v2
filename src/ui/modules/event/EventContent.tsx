@@ -72,7 +72,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 			<div className="container mx-auto overflow-visible overflow-x-auto bg-transparent px-4 transition-colors duration-500 md:pb-12">
 				<div className="flex flex-col items-center justify-center gap-8 lg:flex-row">
 					{/* Flyer Section */}
-					<div className="w-full lg:w-1/3">
+					<div className="w-full lg:w-1/3 lg:self-start">
 						<div
 							className="relative mx-auto aspect-[3/4] w-full max-w-sm cursor-pointer md:mt-6"
 							onClick={() =>
@@ -149,14 +149,14 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 						</div>
 						{/* Artists Section */}
 						{event.artists && event.artists.length > 0 && (
-							<div className="mx-auto grid w-full max-w-4xl grid-cols-3 justify-center gap-4 py-3 lg:grid-cols-4">
+							<div className="flex flex-wrap justify-center gap-10 overflow-x-auto py-3 lg:mx-auto lg:max-w-[32rem]">
 								{event.artists
 									.filter((artist) => artist !== null)
 									.map((artist) => (
 										<Link
 											key={artist._id}
 											href={`/artist/${artist.metadata?.slug?.current}`}
-											className="group flex flex-col items-center justify-start text-center"
+											className="group flex w-20 flex-col items-center justify-start text-center"
 											onClick={(e) => e.stopPropagation()}
 										>
 											<div className="relative mx-auto mb-1 h-20 w-20 transform transition-all duration-300 group-hover:scale-110">

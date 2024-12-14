@@ -16,12 +16,10 @@ export default function StandardCarousel({
 	setApi?: (api: any) => void
 }) {
 	return (
-		<div className="container mx-auto w-full max-w-[100vw] !overflow-visible md:max-w-5xl">
-			<Carousel className="relative w-full !overflow-visible" setApi={setApi}>
-				<CarouselContent className="!overflow-visible">
-					{children}
-				</CarouselContent>
-				<div className="mt-8 flex items-center justify-center gap-8">
+		<div className="w-full pb-8">
+			<Carousel className="relative w-full" setApi={setApi}>
+				<CarouselContent>{children}</CarouselContent>
+				<div className="flex items-center justify-center gap-8 pt-2">
 					<div className="relative w-6">
 						<CarouselPrevious className="!-left-0" />
 					</div>

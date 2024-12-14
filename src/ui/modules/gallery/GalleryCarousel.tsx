@@ -91,13 +91,10 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 					<CarouselContent>
 						{gallery.map((image, index) => (
 							<CarouselItem key={index} className="w-full">
-								<div
-									className="cursor-pointer px-2"
-									onClick={() => {
-										setCurrentIndex(index)
-										setFullscreen(true)
-									}}
-								>
+								<div className="cursor-pointer px-2" onClick={() => {
+									setCurrentIndex(index)
+									setFullscreen(true)
+								}}>
 									<div className="relative aspect-square">
 										<Image
 											src={image.asset.url}
@@ -105,22 +102,25 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 											fill
 											className="rounded-lg object-cover"
 										/>
+										<span className="absolute bottom-0 left-0 right-0 rounded-b-lg bg-black/50 p-2 text-center text-xs text-gray-400">
+											tap the image for fullscreen mode
+										</span>
 									</div>
-									<span className="mt-2 block pt-2 text-center text-xs text-gray-400">
-										tap the image for fullscreen mode
-									</span>
 								</div>
 							</CarouselItem>
 						))}
 					</CarouselContent>
-					{/* Previous Button */}
-					<div className="absolute overflow-hidden -left-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[7%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-left-8">
-						<CarouselPrevious />
-					</div>
 
-					{/* Next Button */}
-					<div className="absolute -right-16 top-1/2 z-10 -translate-y-1/2 max-md:relative max-md:top-auto max-md:mt-[7%] max-md:flex max-md:-translate-y-0 max-md:justify-center lg:-right-5">
-						<CarouselNext />
+					<div className="flex items-center justify-center gap-8 pt-8">
+						<div className="relative w-6">
+							<CarouselPrevious className="!-left-0" />
+						</div>
+						<span className="block text-center text-xs text-gray-400">
+							swipe through gallery
+						</span>
+						<div className="relative w-6">
+							<CarouselNext className="!-right-0" />
+						</div>
 					</div>
 				</Carousel>
 			</div>

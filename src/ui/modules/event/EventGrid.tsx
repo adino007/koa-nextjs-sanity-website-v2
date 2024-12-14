@@ -94,7 +94,7 @@ export default function EventGrid() {
 				{(filter === 'all' || filter === 'upcoming') &&
 					upcomingEvents.length > 0 && (
 						<div>
-							<h2 className="mb-4 text-center text-2xl font-semibold max-md:pt-8">
+							<h2 className="mb-4 text-center text-2xl font-semibold max-md:pt-4">
 								Upcoming Events
 							</h2>
 							<div className="space-y-6">
@@ -107,7 +107,7 @@ export default function EventGrid() {
 
 				{(filter === 'all' || filter === 'past') && pastEvents.length > 0 && (
 					<div>
-						<h2 className="mb-4 pt-4 text-center text-2xl font-semibold">
+						<h2 className="mb-4 pt-4 text-center text-2xl font-semibold max-md:pt-2">
 							Past Events
 						</h2>
 						<div className="space-y-6">

@@ -22,7 +22,7 @@ export default function VenuesPlayed({
 	return (
 		<div className="mt-6">
 			<h2 className="mb-2 text-xl font-semibold">Venues Played</h2>
-			<div className="flex flex-wrap items-start justify-center gap-10 pt-2 lg:gap-12">
+			<div className="flex flex-wrap items-start justify-center gap-x-10 gap-y-2 pt-4 lg:gap-x-10 lg:gap-y-4">
 				{uniqueVenues.map((venue) => (
 					<Link
 						key={venue._id}
