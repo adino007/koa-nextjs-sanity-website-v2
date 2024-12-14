@@ -91,10 +91,13 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 					<CarouselContent>
 						{gallery.map((image, index) => (
 							<CarouselItem key={index} className="w-full">
-								<div className="cursor-pointer px-2" onClick={() => {
-									setCurrentIndex(index)
-									setFullscreen(true)
-								}}>
+								<div
+									className="cursor-pointer px-2"
+									onClick={() => {
+										setCurrentIndex(index)
+										setFullscreen(true)
+									}}
+								>
 									<div className="relative aspect-square">
 										<Image
 											src={image.asset.url}
@@ -102,7 +105,7 @@ export default function GalleryCarousel({ gallery }: { gallery: any[] }) {
 											fill
 											className="rounded-lg object-cover"
 										/>
-										<span className="absolute bottom-0 left-0 right-0 rounded-b-lg bg-black/50 p-2 text-center text-xs text-gray-400">
+										<span className="absolute bottom-0 left-0 right-0 rounded-b-lg bg-black/50 p-2 text-center text-xs text-white">
 											tap the image for fullscreen mode
 										</span>
 									</div>
