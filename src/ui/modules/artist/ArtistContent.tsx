@@ -22,7 +22,7 @@ import {
 } from '@/components/ui/carousel'
 import EventCard from '../event/EventCard'
 import VenuesPlayed from './VenuesPlayed'
-import GalleryCarousel from '../gallery/GalleryCarousel'
+import GalleryCarousel from '../../components/GalleryCarousel'
 import StandardCarousel from '@/ui/components/StandardCarousel'
 
 export default function ArtistContent({ artist }: { artist: Sanity.Artist }) {

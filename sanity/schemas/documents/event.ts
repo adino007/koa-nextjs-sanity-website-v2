@@ -10,6 +10,7 @@ export default defineType({
 	groups: [
 		{ name: 'content', default: true },
 		{ name: 'seo', title: 'SEO' },
+		{ name: 'options', title: 'Options' },
 	],
 	fields: [
 		defineField({
@@ -69,9 +70,18 @@ export default defineType({
 			group: 'content',
 			validation: (Rule) => Rule.required(),
 		}),
+		{
+			name: 'showInGallery',
+			title: 'Show in Gallery',
+			type: 'boolean',
+			description: 'Toggle to display this event in the gallery grid',
+			initialValue: false,
+			group: 'options',
+		},
 		defineField({
 			name: 'gallery',
 			title: 'Gallery Items',
+			description: 'First image will display as gallery grid image',
 			type: 'array',
 			of: [
 				{

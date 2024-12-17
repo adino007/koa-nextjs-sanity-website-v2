@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react'
 import Image from 'next/image'
 import { IoLocation } from 'react-icons/io5'
 import EventCard from '../event/EventCard'
-import GalleryCarousel from '../gallery/GalleryCarousel'
+import GalleryCarousel from '../../components/GalleryCarousel'
 import {
 	Carousel,
 	CarouselContent,

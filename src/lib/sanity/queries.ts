@@ -287,7 +287,8 @@ export const eventQuery = groq`
       asset->{
         url
       }
-    }
+    },
+    showInGallery
   }
 `
 

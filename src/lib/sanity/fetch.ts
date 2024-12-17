@@ -46,7 +46,7 @@ export function fetchSanity<T = any>(
 					perspective: 'published',
 					useCdn: true,
 					next: {
-						revalidate: 360, // revalidate after 1 hour
+						revalidate: 0, // revalidate after 1 hour
 						...next,
 					},
 				},
