@@ -1,9 +1,9 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import Image from 'next/image'
-import { motion, AnimatePresence } from 'framer-motion'
 import Link from 'next/link'
+import { motion, AnimatePresence } from 'framer-motion'
 
 interface Props {
 	events: Sanity.Event[]
@@ -38,22 +38,32 @@ function GalleryGrid({ events }: Props) {
 		enter: (direction: number) => ({
 			x: direction > 0 ? 1000 : -1000,
 			opacity: 0,
+			scale: 0.8,
+			rotateY: direction > 0 ? 45 : -45,
 		}),
 		center: {
-			zIndex: 1,
 			x: 0,
 			opacity: 1,
+			scale: 1,
+			rotateY: 0,
+			transition: {
+				duration: 0.6,
+				ease: [0.16, 1, 0.3, 1],
+				scale: { duration: 0.4 },
+				opacity: { duration: 0.3 },
+			},
 		},
 		exit: (direction: number) => ({
-			zIndex: 0,
 			x: direction < 0 ? 1000 : -1000,
 			opacity: 0,
+			scale: 0.8,
+			rotateY: direction < 0 ? 45 : -45,
 		}),
 	}
 
-	const swipeConfidenceThreshold = 10000
+	const swipeConfidenceThreshold = 5000 // Reduced from 10000
 	const swipePower = (offset: number, velocity: number) => {
-		return Math.abs(offset) * velocity
+		return Math.abs(offset) * velocity * 1.5 // Added multiplier for increased sensitivity
 	}
 
 	const paginate = (newDirection: number) => {
@@ -64,8 +74,27 @@ function GalleryGrid({ events }: Props) {
 		)
 	}
 
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'ArrowLeft' || e.key === 'ArrowRight') {
+				e.preventDefault()
+				paginate(e.key === 'ArrowLeft' ? -1 : 1)
+			}
+		}
+		window.addEventListener('keydown', handleKeyDown)
+		return () => window.removeEventListener('keydown', handleKeyDown)
+	}, [])
+	useEffect(() => {
+		const handleKeyDown = (e: KeyboardEvent) => {
+			if (e.key === 'ArrowLeft') paginate(-1)
+			if (e.key === 'ArrowRight') paginate(1)
+		}
+		window.addEventListener('keydown', handleKeyDown)
+		return () => window.removeEventListener('keydown', handleKeyDown)
+	}, [])
+
 	return (
-		<div className="container mx-auto px-4 pb-12 pt-2">
+		<div className="container mx-auto px-4 pb-12 pt-2 select-none">
 			<div className="relative h-[75vh] w-full overflow-hidden md:h-[75vh] lg:h-[70vh]">
 				{/* Side Preview - Previous */}
 				<div className="absolute left-[-25%] top-1/2 z-0 h-[75%] w-[80%] -translate-y-1/2 opacity-30 md:left-[-15%] md:w-[45%]">
@@ -113,7 +142,7 @@ function GalleryGrid({ events }: Props) {
 					>
 						<Link
 							href={`/gallery/${sortedEvents[currentIndex].metadata.slug.current}`}
-							className="relative block h-full w-full"
+							className="pointer-events-none relative block h-full w-full md:group-hover:pointer-events-auto"
 						>
 							<Image
 								src={
