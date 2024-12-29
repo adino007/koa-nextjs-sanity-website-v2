@@ -48,6 +48,7 @@
 		"sanity-plugin-mux-input": "^2.3.6",
 		"shiki": "^1.16.2",
 		"styled-components": "^6.1.13",
+		"swiper": "^11.1.15",
 		"tailwind-merge": "^2.5.4",
 		"tailwindcss-animate": "^1.0.7",
 		"zustand": "^4.5.5"
