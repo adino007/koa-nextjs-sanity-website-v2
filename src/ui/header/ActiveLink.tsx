@@ -26,7 +26,7 @@ export default function ActiveLink({
 
 	return (
 		<div
-			className={cn(className, isActive && 'text-2xl')}
+			className={cn(className, isActive && 'text-2xl leading-6')}
 			onClick={handleClick}
 		>
 			{children}
