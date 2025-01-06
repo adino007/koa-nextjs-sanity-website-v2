@@ -1,17 +1,18 @@
 'use client'
 
-import { FastAverageColor } from 'fast-average-color'
 import { useState, useEffect, useRef } from 'react'
+import { FastAverageColor } from 'fast-average-color'
 import Image from 'next/image'
 import Link from 'next/link'
+import DynamicBackground from '@/ui/modules/Styling Module/DynamicBackground'
 import CTAList from '@/ui/CTAList'
 import { FaCalendar, FaClock } from 'react-icons/fa6'
 import { IoLocation } from 'react-icons/io5'
 import RelatedEvents from './RelatedEvents'
 
 export default function EventContent({ event }: { event: Sanity.Event }) {
-	const [bgColor, setBgColor] = useState('transparent')
 	const [isSticky, setIsSticky] = useState(true)
+	const [bgColor, setBgColor] = useState('transparent')
 	const ctaRef = useRef(null)
 	const moreEventsRef = useRef(null)
 
@@ -29,7 +30,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 			img.onload = () => {
 				const color = fac.getColor(img)
 				setBgColor(
-					`rgba(${color.value[0]}, ${color.value[1]}, ${color.value[2]}, 0.7) backdrop-filter: blur(16px)`,
+					`rgba(${color.value[0]}, ${color.value[1]}, ${color.value[2]}, 0.7)`,
 				)
 			}
 		}
@@ -51,7 +52,7 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 	}, [])
 
 	return (
-		<>
+		<DynamicBackground imageUrl={event.flyer?.asset?.url || ''}>
 			{/* Mobile Sticky CTA */}
 			{isSticky && event.eventCTAS && event.eventCTAS[0] && (
 				<div
@@ -191,6 +192,6 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 			<div className="flex w-full max-w-[100vw] justify-center !overflow-visible pt-2">
 				<RelatedEvents ref={moreEventsRef} currentEventId={event._id} />
 			</div>
-		</>
+		</DynamicBackground>
 	)
 }
