@@ -1,7 +1,6 @@
 'use client'
 
 import { useState, useEffect, useRef } from 'react'
-import { FastAverageColor } from 'fast-average-color'
 import Image from 'next/image'
 import Link from 'next/link'
 import DynamicBackground from '@/ui/modules/Styling Module/DynamicBackground'
@@ -12,29 +11,12 @@ import RelatedEvents from './RelatedEvents'
 
 export default function EventContent({ event }: { event: Sanity.Event }) {
 	const [isSticky, setIsSticky] = useState(true)
-	const [bgColor, setBgColor] = useState('transparent')
 	const ctaRef = useRef(null)
 	const moreEventsRef = useRef(null)
 
 	const getMapUrl = (location: string) => {
 		return `maps://maps.apple.com/?address=${encodeURIComponent(location)}&dirflg=d`
 	}
-
-	useEffect(() => {
-		if (event.flyer?.asset?.url) {
-			const fac = new FastAverageColor()
-			const img = document.createElement('img')
-			img.src = event.flyer.asset.url
-			img.crossOrigin = 'anonymous'
-
-			img.onload = () => {
-				const color = fac.getColor(img)
-				setBgColor(
-					`rgba(${color.value[0]}, ${color.value[1]}, ${color.value[2]}, 0.7)`,
-				)
-			}
-		}
-	}, [event.flyer?.asset?.url])
 
 	useEffect(() => {
 		const observer = new IntersectionObserver(
@@ -53,12 +35,11 @@ export default function EventContent({ event }: { event: Sanity.Event }) {
 
 	return (
 		<DynamicBackground imageUrl={event.flyer?.asset?.url || ''}>
-			{/* Mobile Sticky CTA */}
 			{isSticky && event.eventCTAS && event.eventCTAS[0] && (
 				<div
 					className="fixed bottom-0 left-0 right-0 z-30 overflow-x-auto py-2 lg:hidden"
 					style={{
-						background: bgColor,
+						background: getComputedStyle(document.body).backgroundColor,
 						backdropFilter: 'blur(16px)',
 						WebkitBackdropFilter: 'blur(16px)',
 					}}
