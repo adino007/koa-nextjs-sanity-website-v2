@@ -53,13 +53,13 @@ export default defineType({
 			of: [
 				{
 					type: 'image',
-					options: { hotspot: true }
-				}
+					options: { hotspot: true },
+				},
 			],
 			options: {
-				layout: 'grid'
+				layout: 'grid',
 			},
-			group: 'content'
+			group: 'content',
 		}),
 		defineField({
 			name: 'metadata',

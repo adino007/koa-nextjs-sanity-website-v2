@@ -1,4 +1,5 @@
 import { getEvent } from '@/lib/sanity/queries'
+import GalleryView from '../../../../ui/modules/gallery/GalleryView'
 
 export default async function GallerySpecificPage({
 	params,
@@ -6,6 +7,5 @@ export default async function GallerySpecificPage({
 	params: { slug: string }
 }) {
 	const event = await getEvent(params.slug)
-
-	return <h1>Gallery for event specific page!</h1>
+	return <GalleryView event={event} />
 }

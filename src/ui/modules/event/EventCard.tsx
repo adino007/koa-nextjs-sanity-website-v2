@@ -5,12 +5,14 @@ import Link from 'next/link'
 import { FaCalendar, FaClock } from 'react-icons/fa6'
 import { IoLocation } from 'react-icons/io5'
 import CTAList from '@/ui/CTAList'
+import { GrHide } from 'react-icons/gr'
 
-type EventProps = {
-	event: Sanity.Event | any
+interface EventCardProps {
+	event: Sanity.Event
+	hideArtists?: boolean
 }
 
-export default function EventCard({ event }: EventProps) {
+export default function EventCard({ event, hideArtists = false }: EventCardProps) {
 	const getMapUrl = (location: string) => {
 		return `maps://maps.apple.com/?address=${encodeURIComponent(location)}&dirflg=d`
 	}
@@ -142,44 +144,34 @@ export default function EventCard({ event }: EventProps) {
 					</div>
 
 					{/* Artists Section */}
-					<div className="mt-4 flex w-full flex-wrap justify-start gap-6 md:mt-0 md:w-auto md:justify-end">
-						{event.artists &&
-							event.artists
-								.filter((artist: null) => artist !== null)
-								.map(
-									(artist: {
-										_id: string
-										metadata?: { slug?: { current?: string } }
-										photo?: { asset?: { url: string } }
-										name: string
-									}) => (
-										<Link
-											key={artist._id}
-											href={
-												artist.metadata?.slug?.current
-													? `/artist/${artist.metadata.slug.current}`
-													: '#'
-											}
-											onClick={(e) => e.stopPropagation()}
-											className="group/artist flex w-16 flex-col items-center justify-center text-center transition-none"
-										>
-											{artist.photo?.asset?.url && (
-												<div className="relative mx-auto mb-1 h-12 w-12 transition-transform duration-300 group-hover/artist:scale-110">
-													<Image
-														src={artist.photo.asset.url}
-														alt={artist.name}
-														fill
-														className="rounded-full object-cover"
-													/>
-												</div>
-											)}
-											<span className="pt-2 text-xs leading-5 group-hover/artist:text-blue-400">
-												{artist.name}
-											</span>
-										</Link>
-									),
-								)}
-					</div>
+					{event.artists && event.artists && !hideArtists && (
+						<div className="mt-4 flex w-full flex-wrap justify-start gap-6 md:mt-0 md:w-auto md:justify-end">
+							{event.artists
+								.filter((artist) => artist !== null)
+								.map((artist) => (
+									<Link
+										key={artist._id}
+										href={`/artist/${artist.metadata?.slug?.current}`}
+										onClick={(e) => e.stopPropagation()}
+										className="group/artist flex w-16 flex-col items-center justify-center text-center transition-none"
+									>
+										{artist.photo?.asset?.url && (
+											<div className="relative mx-auto mb-1 h-12 w-12 transition-transform duration-300 group-hover/artist:scale-110">
+												<Image
+													src={artist.photo.asset.url}
+													alt={artist.name}
+													fill
+													className="rounded-full object-cover"
+												/>
+											</div>
+										)}
+										<span className="pt-2 text-xs leading-5 group-hover/artist:text-blue-400">
+											{artist.name}
+										</span>
+									</Link>
+								))}
+						</div>
+					)}
 					{event.eventCTAS &&
 						Array.isArray(event.eventCTAS) &&
 						event.eventCTAS.length > 0 &&

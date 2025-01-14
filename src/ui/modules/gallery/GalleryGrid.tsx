@@ -15,6 +15,15 @@ import '../../swipers/swiper-carousel/effect-carousel.css'
 interface Props {
 	events: Sanity.Event[]
 }
+function getOrdinalSuffix(day: number) {
+	const j = day % 10
+	const k = day % 100
+	if (j == 1 && k != 11) return 'st'
+	if (j == 2 && k != 12) return 'nd'
+	if (j == 3 && k != 13) return 'rd'
+	return 'th'
+}
+
 function GalleryGrid({ events }: Props) {
 	// Filter for gallery-enabled events first
 	const galleryEvents = events.filter(
@@ -40,7 +49,12 @@ function GalleryGrid({ events }: Props) {
 
 	const swiperConfig = {
 		modules: [A11y, Keyboard, Navigation, Pagination, EffectCarousel],
-		slidesPerView: 1.5 as const,
+		slidesPerView: 1.2, // wider cards on mobile
+		breakpoints: {
+			768: {
+				slidesPerView: 1.5, // original desktop width
+			},
+		},
 		centeredSlides: true,
 		loop: true,
 		effect: 'carousel',
@@ -55,7 +69,7 @@ function GalleryGrid({ events }: Props) {
 			bulletClass: 'swiper-pagination-bullet !bg-white',
 		},
 		keyboard: { enabled: true },
-		className: 'h-[75vh] w-full',
+		className: 'h-[65vh] w-full',
 		slideActiveClass: 'swiper-slide-active',
 	}
 	return (
@@ -99,23 +113,26 @@ function GalleryGrid({ events }: Props) {
 									priority={index === 0}
 								/>
 								<div className="swiper-carousel-animate-opacity absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/70">
-									<div className="absolute top-0 w-full p-8 text-center text-white">
+									<div className="absolute top-0 w-full p-8 text-center text-white backdrop-blur-sm bg-black/30">
 										<h3 className="text-4xl font-bold leading-tight max-md:text-3xl">
 											{event.name}
 										</h3>
-										<p className="text-md mt-3 opacity-90">
-											{new Date(event.time.start).toLocaleDateString('en-US', {
+									</div>
+									<div className="absolute bottom-0 w-full p-8 text-center text-white backdrop-blur-sm bg-black/30">
+										<p className="text-md opacity-90">
+											{new Intl.DateTimeFormat('en-US', {
 												weekday: 'long',
 												year: 'numeric',
 												month: 'long',
 												day: 'numeric',
-											})}
+											})
+												.format(new Date(event.time.start))
+												.replace(
+													/(\d+)/,
+													(match) =>
+														`${match}${getOrdinalSuffix(parseInt(match))}`,
+												)}
 										</p>
-										{/* {event.venue && (
-											<p className="mt-2 text-xl font-medium opacity-90">
-												@ {event.venue.name}
-											</p>
-										)} */}
 									</div>
 								</div>
 							</Link>

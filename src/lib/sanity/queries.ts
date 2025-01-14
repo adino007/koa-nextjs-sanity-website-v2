@@ -356,6 +356,20 @@ export const venueQuery = groq`
       _id,
       name,
       time,
+      artists[]->{
+        _id,
+        name,
+        photo{
+          asset->{
+            url
+          }
+        },
+        metadata{
+          slug{
+            current
+          }
+        }
+      },
       flyer {
         asset-> {
           url
@@ -372,7 +386,6 @@ export const venueQuery = groq`
     metadata
   }
 `
-
 export async function getVenues() {
 	const venues = await fetchSanity(venueQuery)
 	return venues

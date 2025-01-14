@@ -17,7 +17,17 @@ export default function StandardCarousel({
 }) {
 	return (
 		<div className="w-full pb-8">
-			<Carousel className="relative w-full" setApi={setApi}>
+			<Carousel
+				opts={{
+					align: "start",
+					loop: true,
+					containScroll: "trimSnaps",
+					duration: 20,
+					dragFree: false,
+					skipSnaps: false
+				}}
+				setApi={setApi}
+			>
 				<CarouselContent>{children}</CarouselContent>
 				<div className="flex items-center justify-center gap-8 pt-2">
 					<div className="relative w-6">
