@@ -130,7 +130,7 @@ export default function GalleryView({ event }: { event: any }) {
 								<div
 									className={`pointer-events-none group-[.swiper-slide-active]:pointer-events-auto`}
 								>
-									<div className="absolute inset-0 z-10 backdrop-blur-[4px] group-[.swiper-slide-active]:backdrop-blur-[none]" />
+									<div className="blurred-overlay group-[.swiper-slide-active]:-webkit-backdrop-filter-none absolute inset-0 z-10 group-[.swiper-slide-active]:backdrop-blur-none" />
 									<Image
 										src={photo.asset.url}
 										alt={`Event photo ${index + 1}`}
