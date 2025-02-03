@@ -21,7 +21,7 @@ const nextConfig = {
 
 	async redirects() {
 		try {
-			// Fetch redirects from Sanity
+			// Fetch dynamic redirects from Sanity
 			const sanityRedirects = await client.fetch(
 				groq`*[_type == 'redirect']{
           source,
@@ -30,30 +30,54 @@ const nextConfig = {
         }`,
 			)
 
-			// If we have any redirects from Sanity, map them to ensure the source is a relative path.
 			if (sanityRedirects.length > 0) {
-				return sanityRedirects.map((redirect) => ({
-					// Remove any protocol and domain from the source.
-					source: redirect.source.replace(/^https?:\/\/[^\/]+/, ''),
-					destination: redirect.destination,
-					permanent: redirect.permanent,
-				}))
+				// Normalize each redirect's source to be relative and (if desired) add a host condition.
+				return sanityRedirects.map((redirect) => {
+					// Convert absolute URLs to relative paths.
+					const relativeSource = redirect.source.replace(
+						/^https?:\/\/[^\/]+/,
+						'',
+					)
+					// (Optional) If you know the redirect should only trigger for non-www,
+					// you can add a condition. For example:
+					// has: [{ type: 'host', value: 'koalosangeles.com' }]
+					return {
+						source: relativeSource,
+						destination: redirect.destination,
+						permanent: redirect.permanent,
+						// Uncomment and modify if needed:
+						// has: [{ type: 'host', value: 'koalosangeles.com' }],
+					}
+				})
 			}
 
-			// Fallback default redirect if no redirects are defined in Sanity.
+			// Fallback: Only redirect if the request's host is exactly 'koalosangeles.com'
 			return [
 				{
-					source: '/:path*', // Relative path for the source
+					source: '/:path*', // Matches any path on the naked domain.
+					// Only apply if the host header is 'koalosangeles.com'
+					has: [
+						{
+							type: 'host',
+							value: 'koalosangeles.com',
+						},
+					],
 					destination: 'https://www.koalosangeles.com/:path*',
-					permanent: true, // 301 Redirect (SEO-friendly)
+					permanent: true, // 301 redirect for SEO
 				},
 			]
 		} catch (error) {
 			console.error('Error fetching redirects from Sanity:', error)
-			// Return the default redirect in case of an error
+			// In case of error, fallback with the same host-based redirect.
 			return [
 				{
-					source: '/:path*', // Relative path for the source
+					source: '/:path*',
+					has: [
+						{
+							type: 'host',
+							value: 'koalosangeles.com',
+						},
+					],
 					destination: 'https://www.koalosangeles.com/:path*',
 					permanent: true,
 				},
