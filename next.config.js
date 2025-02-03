@@ -21,27 +21,41 @@ const nextConfig = {
 
 	async redirects() {
 		try {
-			const sanityRedirects = await client.fetch(groq`*[_type == 'redirect']{
-            source,
-            destination,
-            permanent
-        }`)
-			return sanityRedirects.length > 0
-				? sanityRedirects
-				: [
-						{
-							source: 'https://koalosangeles.com/:path*',
-							destination: 'https://www.koalosangeles.com/:path*',
-							permanent: true, // Default redirect for SEO
-						},
-					]
-		} catch (error) {
-			console.error('Error fetching redirects from Sanity:', error)
+			// Fetch redirects from Sanity
+			const sanityRedirects = await client.fetch(
+				groq`*[_type == 'redirect']{
+          source,
+          destination,
+          permanent
+        }`,
+			)
+
+			// If we have any redirects from Sanity, map them to ensure the source is a relative path.
+			if (sanityRedirects.length > 0) {
+				return sanityRedirects.map((redirect) => ({
+					// Remove any protocol and domain from the source.
+					source: redirect.source.replace(/^https?:\/\/[^\/]+/, ''),
+					destination: redirect.destination,
+					permanent: redirect.permanent,
+				}))
+			}
+
+			// Fallback default redirect if no redirects are defined in Sanity.
 			return [
 				{
-					source: 'https://koalosangeles.com/:path*',
+					source: '/:path*', // Relative path for the source
 					destination: 'https://www.koalosangeles.com/:path*',
-					permanent: true, // Default redirect
+					permanent: true, // 301 Redirect (SEO-friendly)
+				},
+			]
+		} catch (error) {
+			console.error('Error fetching redirects from Sanity:', error)
+			// Return the default redirect in case of an error
+			return [
+				{
+					source: '/:path*', // Relative path for the source
+					destination: 'https://www.koalosangeles.com/:path*',
+					permanent: true,
 				},
 			]
 		}
