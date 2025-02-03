@@ -20,11 +20,31 @@ const nextConfig = {
 	},
 
 	async redirects() {
-		return await client.fetch(groq`*[_type == 'redirect']{
-			source,
-			destination,
-			permanent
-		}`)
+		try {
+			const sanityRedirects = await client.fetch(groq`*[_type == 'redirect']{
+            source,
+            destination,
+            permanent
+        }`)
+			return sanityRedirects.length > 0
+				? sanityRedirects
+				: [
+						{
+							source: 'https://koalosangeles.com/:path*',
+							destination: 'https://www.koalosangeles.com/:path*',
+							permanent: true, // Default redirect for SEO
+						},
+					]
+		} catch (error) {
+			console.error('Error fetching redirects from Sanity:', error)
+			return [
+				{
+					source: 'https://koalosangeles.com/:path*',
+					destination: 'https://www.koalosangeles.com/:path*',
+					permanent: true, // Default redirect
+				},
+			]
+		}
 	},
 
 	// logging: {
