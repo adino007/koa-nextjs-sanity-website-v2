@@ -11,7 +11,7 @@ import '@/styles/app.css'
 
 export const metadata: Metadata = {
 	icons: {
-		icon: `https://fav.farm/🔥`,
+		icon: `@/public/favicon.ico`,
 	},
 }
 
