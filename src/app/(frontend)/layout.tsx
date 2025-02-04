@@ -11,10 +11,9 @@ import '@/styles/app.css'
 
 export const metadata: Metadata = {
 	icons: {
-		icon: `@/public/favicon.ico`,
+		icon: '/favicon.ico', // Reference from public directory
 	},
 }
-
 export default async function RootLayout({
 	children,
 }: {
