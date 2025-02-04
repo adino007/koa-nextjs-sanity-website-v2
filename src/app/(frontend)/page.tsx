@@ -1,17 +1,7 @@
 import { fetchSanity, groq } from '@/lib/sanity/fetch'
 import { modulesQuery } from '@/lib/sanity/queries'
-import Modules from '@/ui/modules'
 import processMetadata from '@/lib/processMetadata'
-
-export default async function Page() {
-	const page = await getPage()
-	return <Modules modules={page?.modules} />
-}
-
-export async function generateMetadata() {
-	const page = await getPage()
-	return processMetadata(page)
-}
+import Modules from '@/ui/modules'
 
 async function getPage() {
 	const page = await fetchSanity<Sanity.Page>(
@@ -32,4 +22,14 @@ async function getPage() {
 		)
 
 	return page
+}
+
+export default async function HomePage() {
+	const page = await getPage()
+	return <Modules modules={page?.modules} />
+}
+
+export async function generateMetadata() {
+	const page = await getPage()
+	return processMetadata(page)
 }

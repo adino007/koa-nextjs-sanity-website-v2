@@ -24,8 +24,8 @@ export const ctaQuery = groq`
 `
 
 export async function getSite() {
-	const site = await fetchSanity<Sanity.Site>(
-		groq`
+  const site = await fetchSanity<Sanity.Site>(
+    groq`
       *[_type == 'site'][0]{
         ...,
         ctas[]{ ${ctaQuery} },
@@ -35,10 +35,10 @@ export async function getSite() {
         'ogimage': ogimage.asset->url
       }
     `,
-		{ tags: ['site'] },
-	)
-	if (!site) throw new Error("Missing 'site' document in Sanity Studio")
-	return site
+    { tags: ['site'] },
+  )
+  if (!site) throw new Error("Missing 'site' document in Sanity Studio")
+  return site
 }
 
 // --- MODULES QUERY ---
@@ -132,11 +132,11 @@ export const heroVideoQuery = groq`
 `
 
 export async function getHeroVideo() {
-	const heroVideo = await fetchSanity(heroVideoQuery)
-	if (!heroVideo || heroVideo.length === 0) {
-		throw new Error('No hero video found in Sanity.')
-	}
-	return heroVideo[0]
+  const heroVideo = await fetchSanity(heroVideoQuery)
+  if (!heroVideo || heroVideo.length === 0) {
+    throw new Error('No hero video found in Sanity.')
+  }
+  return heroVideo[0]
 }
 
 // --- ARTIST QUERY ---
@@ -213,19 +213,19 @@ export const artistQuery = groq`
   }
 `
 export async function getArtists() {
-	const artists = await fetchSanity(artistQuery)
-	console.log('Raw GROQ Response:', artists)
-	return artists
+  const artists = await fetchSanity(artistQuery)
+  console.log('Raw GROQ Response:', artists)
+  return artists
 }
 // --- ARTIST QUERY Function ---
 export async function getArtist(slug: string): Promise<Sanity.Artist | null> {
-	return await fetchSanity<Sanity.Artist | null>(
-		`${artistQuery}[metadata.slug.current == $slug][0]`,
-		{
-			params: { slug },
-			tags: ['artists'],
-		},
-	)
+  return await fetchSanity<Sanity.Artist | null>(
+    `${artistQuery}[metadata.slug.current == $slug][0]`,
+    {
+      params: { slug },
+      tags: ['artists'],
+    },
+  )
 }
 // --- EVENT QUERY ---
 export const eventQuery = groq`
@@ -293,17 +293,17 @@ export const eventQuery = groq`
 `
 
 export async function getEvents() {
-	return await fetchSanity(eventQuery)
+  return await fetchSanity(eventQuery)
 }
 
 export async function getEvent(slug: string): Promise<Sanity.Event | null> {
-	return await fetchSanity<Sanity.Event | null>(
-		`${eventQuery}[metadata.slug.current == $slug][0]`,
-		{
-			params: { slug },
-			tags: ['events'],
-		},
-	)
+  return await fetchSanity<Sanity.Event | null>(
+    `${eventQuery}[metadata.slug.current == $slug][0]`,
+    {
+      params: { slug },
+      tags: ['events'],
+    },
+  )
 }
 // queries.ts
 export const galleryQuery = groq`
@@ -330,8 +330,8 @@ export const galleryQuery = groq`
 `
 // Fetch function to get gallery data
 export async function getGallery() {
-	const galleryData = await fetchSanity(galleryQuery)
-	return galleryData
+  const galleryData = await fetchSanity(galleryQuery)
+  return galleryData
 }
 
 // --- VENUE QUERY ---
@@ -387,16 +387,16 @@ export const venueQuery = groq`
   }
 `
 export async function getVenues() {
-	const venues = await fetchSanity(venueQuery)
-	return venues
+  const venues = await fetchSanity(venueQuery)
+  return venues
 }
 
 export async function getVenue(slug: string): Promise<Sanity.Venue | null> {
-	return await fetchSanity<Sanity.Venue | null>(
-		`${venueQuery}[metadata.slug.current == $slug][0]`,
-		{
-			params: { slug },
-			tags: ['venues'],
-		},
-	)
+  return await fetchSanity<Sanity.Venue | null>(
+    `${venueQuery}[metadata.slug.current == $slug][0]`,
+    {
+      params: { slug },
+      tags: ['venues'],
+    },
+  )
 }
