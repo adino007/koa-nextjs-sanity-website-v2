@@ -1,11 +1,14 @@
 import { getEvent } from '@/lib/sanity/queries'
 import GalleryView from '@/ui/modules/gallery/GalleryView'
 import processMetadata from '@/lib/processMetadata'
-import DynamicBackground from '@/ui/modules/Styling Module/DynamicBackground'
 import client from '@/lib/sanity/client'
 import { groq } from '@/lib/sanity/fetch'
 
-export default async function GalleryPage({ params }: { params: { slug: string } }) {
+export default async function GalleryPage({
+	params,
+}: {
+	params: { slug: string }
+}) {
 	const event = await getEvent(params.slug)
 
 	// Structured data for SEO
@@ -31,14 +34,16 @@ export default async function GalleryPage({ params }: { params: { slug: string }
 				type="application/ld+json"
 				dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData) }}
 			/>
-			<DynamicBackground imageUrl={event?.flyer?.asset?.url || ''}>
-				<GalleryView event={event} />
-			</DynamicBackground>
+			<GalleryView event={event} />
 		</>
 	)
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({
+	params,
+}: {
+	params: { slug: string }
+}) {
 	const event = await getEvent(params.slug)
 	return processMetadata(event)
 }

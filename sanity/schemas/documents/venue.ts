@@ -40,10 +40,8 @@ export default defineType({
 					name: 'alt',
 					title: 'Alternative Text',
 					type: 'string',
-					fieldset: 'imageOptions',
 				}),
 			],
-			fieldset: 'imageOptions',
 		}),
 		defineField({
 			name: 'gallery',
@@ -72,11 +70,4 @@ export default defineType({
 			media: 'image',
 		},
 	},
-	fieldsets: [
-		{
-			name: 'imageOptions',
-			title: 'Image Options',
-			options: { collapsible: true, collapsed: true },
-		},
-	],
 })

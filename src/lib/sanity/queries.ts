@@ -117,8 +117,13 @@ export const modulesQuery = groq`
   },
   _type == 'testimonial.featured' => { testimonial-> },
   _type == 'testimonial-list' => { testimonials[]-> },
+  _type == 'contactForm' => {
+    title,
+    description,
+    submitButtonText,
+    successMessage
+  },
 `
-
 // --- HERO VIDEO QUERY ---
 export const heroVideoQuery = groq`
   *[_type == "hero.video"]{

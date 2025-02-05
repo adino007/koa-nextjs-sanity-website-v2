@@ -175,15 +175,20 @@ export default function GalleryView({ event }: { event: any }) {
 									className="flex h-full w-full items-center justify-center"
 								>
 									<div className="relative h-[100vh] w-[100vw] items-center justify-center">
-										<div className="absolute inset-0 z-10 backdrop-blur-[4px] group-[.swiper-slide-active]:backdrop-blur-[none]" />
-										<Image
-											src={photo.asset.url}
-											alt={`Event photo ${index + 1}`}
-											fill
-											priority
-											sizes="90vw"
-											className="swiper-carousel-animate-opacity object-contain"
+										<div 
+											className={`absolute inset-0 z-10 transition-all duration-300 ease-in-out
+											${fullscreen ? 'backdrop-blur-0' : 'backdrop-blur-[4px] group-[.swiper-slide-active]:backdrop-blur-0'}`} 
 										/>
+										{photo?.asset?.url && (
+											<Image
+												src={photo.asset.url}
+												alt={`Event photo ${index + 1}`}
+												fill
+												priority={index === currentIndex}
+												sizes="100vw"
+												className="swiper-carousel-animate-opacity object-contain transition-opacity duration-300"
+											/>
+										)}
 									</div>
 								</SwiperSlide>
 							))}
