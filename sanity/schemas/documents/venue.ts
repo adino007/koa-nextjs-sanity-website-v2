@@ -34,17 +34,16 @@ export default defineType({
 			title: 'Venue Image',
 			type: 'image',
 			options: { hotspot: true },
+			group: 'content',
 			fields: [
-				{
+				defineField({
 					name: 'alt',
 					title: 'Alternative Text',
 					type: 'string',
-					options: {
-						isHighlighted: true,
-					},
-				},
+					fieldset: 'imageOptions',
+				}),
 			],
-			group: 'content',
+			fieldset: 'imageOptions',
 		}),
 		defineField({
 			name: 'gallery',
@@ -73,4 +72,11 @@ export default defineType({
 			media: 'image',
 		},
 	},
+	fieldsets: [
+		{
+			name: 'imageOptions',
+			title: 'Image Options',
+			options: { collapsible: true, collapsed: true },
+		},
+	],
 })
