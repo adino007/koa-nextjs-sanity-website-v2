@@ -32,6 +32,7 @@ export default defineType({
 				{ type: 'callout' },
 				{ type: 'creative-module' },
 				{ type: 'custom-html' },
+				{ type: 'contactForm' },
 				{ type: 'flag-list' },
 				{ type: 'hero' },
 				{ type: 'hero.video' },
