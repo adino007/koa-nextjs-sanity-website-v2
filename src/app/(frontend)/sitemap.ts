@@ -15,11 +15,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 					metadata.slug.current == 'index' => 1,
 					0.5
 				),
-			},
-			'posts': *[_type == 'blog.post' && metadata.noIndex != true]|order(name){
-				'url': $baseUrl + 'blog/' + metadata.slug.current,
-				'lastModified': _updatedAt,
-				'priority': 0.4
+				'changefreq': 'daily'
 			},
 			'events': *[_type == 'event' && defined(metadata.slug.current)]|order(date desc){
 				'url': $baseUrl + 'event/' + metadata.slug.current,
@@ -30,19 +26,22 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			'artists': *[_type == 'artist' && defined(metadata.slug.current)]|order(name){
 				'url': $baseUrl + 'artist/' + metadata.slug.current,
 				'lastModified': _updatedAt,
-				'priority': 0.7
+				'priority': 0.7,
+				'changefreq': 'weekly'
 			},
 			'venues': *[_type == 'venue' && defined(metadata.slug.current)]|order(name){
 				'url': $baseUrl + 'venue/' + metadata.slug.current,
 				'lastModified': _updatedAt,
-				'priority': 0.6
+				'priority': 0.6,
+				'changefreq': 'weekly'
 			}
 		}`,
 		{
 			params: {
 				baseUrl: process.env.NEXT_PUBLIC_BASE_URL + '/',
 			},
-		},
+			tags: ['sitemap']
+		}
 	)
 
 	return Object.values(allPages).flat()

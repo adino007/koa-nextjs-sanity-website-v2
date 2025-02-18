@@ -64,16 +64,30 @@ export default async function processMetadata(
 			url,
 			title,
 			description,
+			siteName: 'KÖA Afro House Events',
 			images: ogimage ? [{ url: ogimage }] : site?.ogimage ? [{ url: site.ogimage }] : [],
+		},
+		twitter: {
+			card: 'summary_large_image',
+			title,
+			description,
+			images: ogimage ? [ogimage] : site?.ogimage ? [site.ogimage] : [],
 		},
 		robots: {
 			index: !noIndex,
+			follow: !noIndex,
+			googleBot: {
+				index: !noIndex,
+				follow: !noIndex,
+				'max-video-preview': -1,
+				'max-image-preview': 'large',
+				'max-snippet': -1,
+			},
 		},
 		alternates: {
 			canonical: url,
 		},
-		other: {
-			'script:ld+json': JSON.stringify(structuredData),
-		},
-	}
-}
+		verification: {
+			google: process.env.NEXT_PUBLIC_GOOGLE_VERIFICATION,
+		}
+	}}
