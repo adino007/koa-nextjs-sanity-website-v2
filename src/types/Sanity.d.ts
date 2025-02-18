@@ -256,4 +256,24 @@ declare global {
 	}
 }
 
+declare module 'sanity' {
+    export * from '@sanity/types'
+}
+
+declare module 'sanity/structure' {
+    export * from '@sanity/types'
+}
+
+declare module 'sanity/presentation' {
+    export * from '@sanity/types'
+}
+
+declare module 'sanity/desk' {
+    export * from '@sanity/types'
+}
+
+declare module 'sanity/router' {
+    export * from '@sanity/types'
+}
+
 export {}
