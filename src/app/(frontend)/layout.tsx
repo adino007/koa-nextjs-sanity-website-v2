@@ -1,4 +1,4 @@
-// import { GoogleTagManager } from '@next/third-parties/google'
+import { GoogleTagManager } from '@next/third-parties/google'
 import type { Metadata } from 'next'
 import SkipToContent from '@/ui/SkipToContent'
 import Announcement from '@/ui/Announcement'
@@ -22,7 +22,7 @@ export default async function RootLayout({
 	return (
 		<html lang="en" className="h-full">
 			<head>
-				{/* <GoogleTagManager gtmId='' /> */}
+				<GoogleTagManager gtmId="GTM-TLJKF7C4" />
 				<meta name="seobility" content="856ff90b386856cdb709d1280d0b618e" />
 				<meta
 					name="viewport"
@@ -52,4 +52,5 @@ export default async function RootLayout({
 			</body>
 		</html>
 	)
+
 }
