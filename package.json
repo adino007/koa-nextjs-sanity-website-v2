@@ -44,7 +44,7 @@
 		"react-spring-lightbox": "^1.8.0",
 		"rss": "^1.2.2",
 		"rxjs": "^7.8.1",
-		"sanity": "^2.36.6",
+		"sanity": "^3.77.2",
 		"sanity-plugin-dashboard-widget-vercel": "^2.0.1",
 		"sanity-plugin-mux-input": "^2.5.0",
 		"shiki": "^1.16.2",
