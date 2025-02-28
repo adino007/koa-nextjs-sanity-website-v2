@@ -21,7 +21,8 @@
 		"paths": {
 			"@/*": ["./src/*"],
 			"@sanity/*": ["./sanity/*"]
-		}
+		},
+		"typeRoots": ["./node_modules/@types", "./src/types"]
 	},
 	"include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/ui/modules/gallery/debug.txr"],
 	"exclude": ["node_modules"]

@@ -16,6 +16,7 @@
 		"@portabletext/to-html": "^2.0.13",
 		"@radix-ui/react-select": "^2.1.2",
 		"@radix-ui/react-slot": "^1.1.0",
+		"@sanity/client": "^6.28.1",
 		"@sanity/code-input": "^4.1.4",
 		"@sanity/dashboard": "^4.0.0",
 		"@sanity/image-url": "^1.0.2",
@@ -55,7 +56,7 @@
 	},
 	"devDependencies": {
 		"@sanity/eslint-config-studio": "^4.0.0",
-		"@sanity/types": "^3.75.1",
+		"@sanity/types": "^3.77.2",
 		"@types/node": "^22.5.4",
 		"@types/react": "^18.3.5",
 		"@types/react-dom": "^18.3.0",
