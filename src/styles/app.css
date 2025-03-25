@@ -147,49 +147,50 @@
 	/* ctas, links */
 
 	._btn {
-		@apply relative z-10 m-2 flex items-center justify-center border border-white bg-transparent px-6 py-4 text-sm text-white transition-all duration-200;
-		background: rgba(255, 255, 255, 0.1);
-		backdrop-filter: blur(4px);
-		-webkit-backdrop-filter: blur(4px);
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		padding: 1rem 1.5em;
+		margin: 0.5rem 0.5rem;
+		background-color: transparent;
+		border: solid white 1px;
+		font-size: 0.8rem;
+		color: white;
+		transition: 0.25s background-color;
+		z-index: 1;
 	}
 
 	.bg-hover {
-		@apply bg-white text-black transition-all duration-200;
-		opacity: 0.85;
+		background: white;
+		opacity: 85%;
+		color: black;
+		transition: background 0.25s;
 	}
 
 	.action {
-		@apply _btn rounded border text-white shadow-md hover:bg-white hover:text-black max-sm:w-full;
-		&:hover {
-			background: white !important;
-			color: black !important;
-		}
+		@apply _btn frosted-glass hover:bg-hover text-balance rounded border text-white shadow hover:bg-white hover:text-black max-sm:w-full;
 	}
 
 	.action-outline {
-		@apply _btn rounded border text-white hover:bg-white/10;
-		border-color: rgba(255, 255, 255, 0.1);
-		&:hover {
-			border-color: rgba(255, 255, 255, 0.15);
-		}
+		@apply _btn frosted-glass text-balance rounded border border-accent/10 bg-gradient-to-br from-canvas/70 to-canvas text-accent hover:border-accent/15;
 	}
 
 	.ghost {
-		@apply _btn rounded hover:bg-white/5;
-		background: transparent;
-		border: none;
-		&:hover {
-			background: rgba(255, 255, 255, 0.05) !important;
-		}
+		@apply _btn frosted-glass rounded hover:bg-accent/5;
 	}
 
 	.link {
-		@apply underline hover:decoration-2;
+		text-decoration: underline;
+
+		&:hover {
+			text-decoration-thickness: 2px;
+		}
 	}
 
 	.is-external::after {
 		content: ' ↗';
-		@apply align-top text-[0.7em];
+		font-size: 0.7em;
+		vertical-align: top;
 	}
 
 	/* layout */

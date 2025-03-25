@@ -37,7 +37,7 @@ export default function DynamicBackground({
 
 				const elements = ['header', 'footer', 'main']
 				elements.forEach((selector) => {
-					const element = document.querySelector(selector)
+					const element = document.querySelector(selector) as HTMLElement
 					if (element) {
 						element.style.setProperty('--dynamic-bg', bgColor)
 						element.style.backgroundColor = 'var(--dynamic-bg)'
@@ -51,7 +51,7 @@ export default function DynamicBackground({
 			document.documentElement.style.removeProperty('--dynamic-bg')
 			const elements = ['header', 'footer', 'main']
 			elements.forEach((selector) => {
-				const element = document.querySelector(selector)
+				const element = document.querySelector(selector) as HTMLElement
 				if (element) {
 					element.style.removeProperty('--dynamic-bg')
 					element.style.backgroundColor = ''
