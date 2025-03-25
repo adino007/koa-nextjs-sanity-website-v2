@@ -5,7 +5,11 @@ export const locations: DocumentLocationResolver = (params, context) => {
 	if (['page', 'blog.post'].includes(params.type)) {
 		const doc$ = context.documentStore.listenQuery(
 			`*[_id == $id][0]{title,metadata}`,
-			params,
+			{
+				...params,
+				version: params.version || '',
+				perspectiveStack: params.perspectiveStack || [],
+			},
 			{ perspective: 'drafts' },
 		)
 

@@ -31,29 +31,42 @@ export default function DynamicBackground({
 
 				const bgColor = `rgba(${adjustedR}, ${adjustedG}, ${adjustedB}, 0.7)`
 
-				document.body.style.backgroundColor = bgColor
-				document.documentElement.style.backgroundColor = bgColor
+				// Apply background color with lower z-index
+				document.body.style.setProperty('--dynamic-bg', bgColor)
+				document.documentElement.style.setProperty('--dynamic-bg', bgColor)
 
-				const header = document.querySelector('header')
-				const footer = document.querySelector('footer')
-				const main = document.querySelector('main')
-
-				if (header) header.style.backgroundColor = bgColor
-				if (footer) footer.style.backgroundColor = bgColor
-				if (main) main.style.backgroundColor = bgColor
+				const elements = ['header', 'footer', 'main']
+				elements.forEach((selector) => {
+					const element = document.querySelector(selector)
+					if (element) {
+						element.style.setProperty('--dynamic-bg', bgColor)
+						element.style.backgroundColor = 'var(--dynamic-bg)'
+					}
+				})
 			}
 		}
 
 		return () => {
-			document.body.style.backgroundColor = ''
-			document.documentElement.style.backgroundColor = ''
+			document.body.style.removeProperty('--dynamic-bg')
+			document.documentElement.style.removeProperty('--dynamic-bg')
 			const elements = ['header', 'footer', 'main']
 			elements.forEach((selector) => {
 				const element = document.querySelector(selector)
-				if (element) (element as HTMLElement).style.backgroundColor = ''
+				if (element) {
+					element.style.removeProperty('--dynamic-bg')
+					element.style.backgroundColor = ''
+				}
 			})
 		}
 	}, [imageUrl])
 
-	return <div className="container mx-auto px-4">{children}</div>
+	return (
+		<div className="relative z-0">
+			<div
+				className="absolute inset-0 -z-10"
+				style={{ backgroundColor: 'var(--dynamic-bg)' }}
+			/>
+			<div className="relative z-10">{children}</div>
+		</div>
+	)
 }
