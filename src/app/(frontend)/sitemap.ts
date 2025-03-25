@@ -40,8 +40,8 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
 			params: {
 				baseUrl: process.env.NEXT_PUBLIC_BASE_URL + '/',
 			},
-			tags: ['sitemap']
-		}
+			tags: ['sitemap'],
+		},
 	)
 
 	return Object.values(allPages).flat()
