@@ -3,7 +3,10 @@ import type { Config } from 'tailwindcss'
 
 const config: Config = {
 	darkMode: ['class'],
-	content: ['./src/{app,ui}/**/*.{ts,tsx}'],
+	content: [
+		'./src/{app,ui,styles}/**/*.{ts,tsx,css}',
+		'./src/**/*.{ts,tsx,css}',
+	],
 	theme: {
 		screens: {
 			sm: '640px',
@@ -91,7 +94,13 @@ const config: Config = {
 		}),
 		require('tailwindcss-animate'),
 	],
-	safelist: [{ pattern: /action.*/ }, 'ghost'],
+	safelist: [
+		{ pattern: /action.*/ },
+		'ghost',
+		'frosted-glass',
+		'_btn',
+		'bg-hover',
+	],
 }
 
 export default config

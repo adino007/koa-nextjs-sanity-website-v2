@@ -1,3 +1,18 @@
+@media screen and (max-width: 99999px) {
+	._btn {
+		composes: _btn from global;
+	}
+	.action {
+		composes: action from global;
+	}
+	.action-outline {
+		composes: action-outline from global;
+	}
+	.ghost {
+		composes: ghost from global;
+	}
+}
+
 @import './fonts.css';
 
 @tailwind base;
@@ -147,50 +162,38 @@
 	/* ctas, links */
 
 	._btn {
-		display: flex;
-		align-items: center;
-		justify-content: center;
-		padding: 1rem 1.5em;
-		margin: 0.5rem 0.5rem;
-		background-color: transparent;
-		border: solid white 1px;
-		font-size: 0.8rem;
-		color: white;
-		transition: 0.25s background-color;
-		z-index: 1;
+		@apply relative z-10 m-2 flex items-center justify-center border border-white bg-transparent px-6 py-4 text-sm text-white transition-all duration-200;
 	}
 
 	.bg-hover {
-		background: white;
-		opacity: 85%;
-		color: black;
-		transition: background 0.25s;
+		@apply bg-white text-black transition-all duration-200;
+		opacity: 0.85;
 	}
 
 	.action {
-		@apply _btn frosted-glass hover:bg-hover text-balance rounded border text-white shadow hover:bg-white hover:text-black max-sm:w-full;
+		@apply frosted-glass relative z-10 m-2 flex items-center justify-center rounded border border-white bg-transparent px-6 py-4 text-sm text-white shadow transition-all duration-200 hover:bg-white hover:text-black max-sm:w-full;
 	}
 
 	.action-outline {
-		@apply _btn frosted-glass text-balance rounded border border-accent/10 bg-gradient-to-br from-canvas/70 to-canvas text-accent hover:border-accent/15;
+		@apply frosted-glass relative z-10 m-2 flex items-center justify-center rounded border border-accent/10 bg-transparent px-6 py-4 text-sm text-accent transition-all duration-200 hover:border-accent/15;
+		background: linear-gradient(
+			to bottom right,
+			var(--canvas-70),
+			var(--canvas)
+		);
 	}
 
 	.ghost {
-		@apply _btn frosted-glass rounded hover:bg-accent/5;
+		@apply frosted-glass relative z-10 m-2 flex items-center justify-center rounded border-transparent bg-transparent px-6 py-4 text-sm text-white transition-all duration-200 hover:bg-accent/5;
 	}
 
 	.link {
-		text-decoration: underline;
-
-		&:hover {
-			text-decoration-thickness: 2px;
-		}
+		@apply underline transition-all duration-200 hover:decoration-2;
 	}
 
 	.is-external::after {
 		content: ' ↗';
-		font-size: 0.7em;
-		vertical-align: top;
+		@apply align-top text-[0.7em];
 	}
 
 	/* layout */

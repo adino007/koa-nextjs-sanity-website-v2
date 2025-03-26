@@ -19,6 +19,18 @@ const nextConfig = {
 		],
 	},
 
+	webpack: (config, { isServer }) => {
+		if (!isServer) {
+			// Don't resolve 'fs' module on the client to prevent this error
+			config.resolve.fallback = {
+				fs: false,
+				net: false,
+				tls: false,
+			}
+		}
+		return config
+	},
+
 	async redirects() {
 		try {
 			// Fetch dynamic redirects from Sanity
