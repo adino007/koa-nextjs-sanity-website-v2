@@ -125,6 +125,12 @@ export const modulesQuery = groq`
     submitButtonText,
     successMessage
   },
+  _type == 'relatedEvents' => {
+    title,
+    description,
+    currentEventId,
+    maxEvents
+  }
 `
 // --- HERO VIDEO QUERY ---
 export const heroVideoQuery = groq`
