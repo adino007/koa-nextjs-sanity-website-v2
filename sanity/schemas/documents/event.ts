@@ -87,7 +87,25 @@ export default defineType({
 				{
 					type: 'image',
 					title: 'Photo',
-					options: { hotspot: true },
+					options: {
+						hotspot: true,
+						storeOriginalFilename: true,
+						accept: 'image/*',
+					},
+					fields: [
+						{
+							name: 'alt',
+							type: 'string',
+							title: 'Alternative text',
+							description: 'Important for SEO and accessibility.',
+						},
+						{
+							name: 'caption',
+							type: 'string',
+							title: 'Caption',
+							description: 'Optional caption for the image.',
+						},
+					],
 				},
 				{
 					type: 'mux.video',

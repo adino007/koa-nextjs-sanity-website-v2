@@ -12,4 +12,6 @@ export default createClient({
 	},
 	perspective: 'published',
 	timeout: 60000, // 60 seconds timeout
+	withCredentials: true,
+	token: process.env.NEXT_PUBLIC_SANITY_TOKEN,
 })
