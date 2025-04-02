@@ -5,22 +5,22 @@
 	"author": "nuotsu <mitchell@nuotsu.dev> (https://nuotsu.dev)",
 	"license": "ISC",
 	"scripts": {
-		"dev": "sudo next dev",
-		"build": "sudo next build",
-		"start": "sudo next start",
-		"lint": "sudo next lint",
-		"clean": "sudo rm -rf .next node_modules package-lock.json",
-		"clean:install": "sudo npm run clean && sudo npm install",
-		"type-check": "sudo tsc --noEmit",
-		"format": "sudo prettier --write \"**/*.{ts,tsx,md,json}\"",
-		"format:check": "sudo prettier --check \"**/*.{ts,tsx,md,json}\"",
-		"lint:fix": "sudo eslint --fix \"**/*.{ts,tsx}\"",
-		"update-deps": "sudo npm update",
-		"update-deps:check": "sudo npm outdated",
-		"audit:fix": "sudo npm audit fix",
-		"build:analyze": "sudo ANALYZE=true next build",
-		"postinstall": "sudo npm run type-check",
-		"prepare": "sudo husky install"
+		"dev": "next dev",
+		"build": "next build",
+		"start": "next start",
+		"lint": "next lint",
+		"clean": "rm -rf .next node_modules package-lock.json",
+		"clean:install": "npm run clean && npm install",
+		"type-check": "tsc --noEmit",
+		"format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+		"format:check": "prettier --check \"**/*.{ts,tsx,md,json}\"",
+		"lint:fix": "eslint --fix \"**/*.{ts,tsx}\"",
+		"update-deps": "npm update",
+		"update-deps:check": "npm outdated",
+		"audit:fix": "npm audit fix",
+		"build:analyze": "ANALYZE=true next build",
+		"postinstall": "npm run type-check",
+		"prepare": "husky install"
 	},
 	"dependencies": {
 		"@next/third-parties": "^14.2.24",
@@ -83,7 +83,7 @@
 		"typescript": "^5.5.4"
 	},
 	"engines": {
-		"node": ">=18.0.0"
+		"node": "20.x"
 	},
 	"resolutions": {
 		"@sanity/ui": "1.9.3",
