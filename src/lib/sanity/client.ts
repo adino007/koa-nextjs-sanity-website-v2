@@ -12,5 +12,4 @@ export default createClient({
 	},
 	perspective: 'published',
 	timeout: 60000, // 60 seconds timeout
-	retry: 3, // Retry failed requests 3 times
 })
