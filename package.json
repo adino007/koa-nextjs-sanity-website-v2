@@ -19,8 +19,7 @@
 		"update-deps:check": "npm outdated",
 		"audit:fix": "npm audit fix",
 		"build:analyze": "ANALYZE=true next build",
-		"postinstall": "npm run type-check",
-		"prepare": "husky install"
+		"postinstall": "npm run type-check"
 	},
 	"dependencies": {
 		"@next/third-parties": "^14.2.24",
