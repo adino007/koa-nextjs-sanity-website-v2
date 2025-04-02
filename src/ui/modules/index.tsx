@@ -22,7 +22,7 @@ import StepList from './StepList'
 import TestimonialList from './TestimonialList'
 import TestimonialFeatured from './TestimonialFeatured'
 import ContactForm from './ContactForm'
-import RelatedEventsModule from './RelatedEvents'
+import RelatedEventsModule from './related-events'
 
 export default function Modules({
 	modules,
@@ -91,7 +91,7 @@ export default function Modules({
 						return <TestimonialFeatured {...module} key={module._key} />
 					case 'contactForm':
 						return <ContactForm {...module} key={module._key} />
-					case 'relatedEvents':
+					case 'related-events':
 						return <RelatedEventsModule {...module} key={module._key} />
 					default:
 						return <div data-type={module._type} key={module._key} />

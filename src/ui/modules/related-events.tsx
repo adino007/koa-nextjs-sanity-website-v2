@@ -14,6 +14,8 @@ export default function RelatedEventsModule({
 	currentEventId: string
 	textAlign: React.CSSProperties['textAlign']
 }>) {
+	if (!currentEventId) return null
+
 	return (
 		<section className="section">
 			<div
