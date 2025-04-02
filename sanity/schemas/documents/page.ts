@@ -18,6 +18,7 @@ export default defineType({
 		}),
 		defineField({
 			name: 'modules',
+			title: 'Page Modules',
 			description: 'Page content',
 			type: 'array',
 			of: [
@@ -45,6 +46,7 @@ export default defineType({
 				{ type: 'step-list' },
 				{ type: 'testimonial-list' },
 				{ type: 'testimonial.featured' },
+				{ type: 'relatedEvents' },
 			],
 			options: {
 				insertMenu: {
