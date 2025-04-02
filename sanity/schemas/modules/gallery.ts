@@ -22,8 +22,20 @@ export default defineType({
 			title: 'Select Events for Gallery',
 			type: 'array',
 			of: [{ type: 'reference', to: [{ type: 'event' }] }],
-			validation: (Rule) =>
-				Rule.required().min(1).error('Select at least one event'),
+		}),
+		defineField({
+			name: 'images',
+			title: 'Gallery Images',
+			type: 'array',
+			of: [
+				{
+					type: 'image',
+					options: {
+						hotspot: true,
+						storeOriginalFilename: true,
+					},
+				},
+			],
 		}),
 	],
 })

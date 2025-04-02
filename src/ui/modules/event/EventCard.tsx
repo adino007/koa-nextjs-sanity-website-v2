@@ -12,7 +12,10 @@ interface EventCardProps {
 	hideArtists?: boolean
 }
 
-export default function EventCard({ event, hideArtists = false }: EventCardProps) {
+export default function EventCard({
+	event,
+	hideArtists = false,
+}: EventCardProps) {
 	const getMapUrl = (location: string) => {
 		return `maps://maps.apple.com/?address=${encodeURIComponent(location)}&dirflg=d`
 	}

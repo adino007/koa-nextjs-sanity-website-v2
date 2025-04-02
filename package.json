@@ -5,10 +5,22 @@
 	"author": "nuotsu <mitchell@nuotsu.dev> (https://nuotsu.dev)",
 	"license": "ISC",
 	"scripts": {
-		"dev": "next dev",
-		"build": "next build",
-		"start": "next start",
-		"lint": "next lint"
+		"dev": "sudo next dev",
+		"build": "sudo next build",
+		"start": "sudo next start",
+		"lint": "sudo next lint",
+		"clean": "sudo rm -rf .next node_modules package-lock.json",
+		"clean:install": "sudo npm run clean && sudo npm install",
+		"type-check": "sudo tsc --noEmit",
+		"format": "sudo prettier --write \"**/*.{ts,tsx,md,json}\"",
+		"format:check": "sudo prettier --check \"**/*.{ts,tsx,md,json}\"",
+		"lint:fix": "sudo eslint --fix \"**/*.{ts,tsx}\"",
+		"update-deps": "sudo npm update",
+		"update-deps:check": "sudo npm outdated",
+		"audit:fix": "sudo npm audit fix",
+		"build:analyze": "sudo ANALYZE=true next build",
+		"postinstall": "sudo npm run type-check",
+		"prepare": "sudo husky install"
 	},
 	"dependencies": {
 		"@next/third-parties": "^14.2.24",
@@ -69,5 +81,15 @@
 		"prettier-plugin-tailwindcss": "^0.6.6",
 		"tailwindcss": "^3.4.10",
 		"typescript": "^5.5.4"
+	},
+	"engines": {
+		"node": ">=18.0.0"
+	},
+	"resolutions": {
+		"@sanity/ui": "1.9.3",
+		"@sanity/vision": "3.81.0",
+		"@sanity/visual-editing": "1.0.0",
+		"esbuild": "0.19.12",
+		"prismjs": "1.30.0"
 	}
 }

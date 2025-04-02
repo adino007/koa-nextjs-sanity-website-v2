@@ -175,9 +175,8 @@ export default function GalleryView({ event }: { event: any }) {
 									className="flex h-full w-full items-center justify-center"
 								>
 									<div className="relative h-[100vh] w-[100vw] items-center justify-center">
-										<div 
-											className={`absolute inset-0 z-10 transition-all duration-300 ease-in-out
-											${fullscreen ? 'backdrop-blur-0' : 'backdrop-blur-[4px] group-[.swiper-slide-active]:backdrop-blur-0'}`} 
+										<div
+											className={`absolute inset-0 z-10 transition-all duration-300 ease-in-out ${fullscreen ? 'backdrop-blur-0' : 'backdrop-blur-[4px] group-[.swiper-slide-active]:backdrop-blur-0'}`}
 										/>
 										{photo?.asset?.url && (
 											<Image

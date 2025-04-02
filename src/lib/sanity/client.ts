@@ -4,10 +4,13 @@ import dev from '@/lib/env'
 export default createClient({
 	projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
 	dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-	apiVersion: '2024-07-01',
+	apiVersion: '2025-02-19',
 	useCdn: !dev,
 	stega: {
 		enabled: false,
 		studioUrl: '/admin',
 	},
+	perspective: 'published',
+	timeout: 60000, // 60 seconds timeout
+	retry: 3, // Retry failed requests 3 times
 })

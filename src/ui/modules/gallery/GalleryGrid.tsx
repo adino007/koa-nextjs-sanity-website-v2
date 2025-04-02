@@ -113,12 +113,12 @@ function GalleryGrid({ events }: Props) {
 									priority={index === 0}
 								/>
 								<div className="swiper-carousel-animate-opacity absolute inset-0 bg-gradient-to-b from-black/70 via-transparent to-black/70">
-									<div className="absolute top-0 w-full p-8 text-center text-white backdrop-blur-sm bg-black/30">
+									<div className="absolute top-0 w-full bg-black/30 p-8 text-center text-white backdrop-blur-sm">
 										<h3 className="text-4xl font-bold leading-tight max-md:text-3xl">
 											{event.name}
 										</h3>
 									</div>
-									<div className="absolute bottom-0 w-full p-8 text-center text-white backdrop-blur-sm bg-black/30">
+									<div className="absolute bottom-0 w-full bg-black/30 p-8 text-center text-white backdrop-blur-sm">
 										<p className="text-md opacity-90">
 											{new Intl.DateTimeFormat('en-US', {
 												weekday: 'long',

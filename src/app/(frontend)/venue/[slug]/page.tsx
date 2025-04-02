@@ -6,7 +6,11 @@ import DynamicBackground from '@/ui/modules/Styling Module/DynamicBackground'
 import client from '@/lib/sanity/client'
 import { groq } from '@/lib/sanity/fetch'
 
-export default async function VenuePage({ params }: { params: { slug: string } }) {
+export default async function VenuePage({
+	params,
+}: {
+	params: { slug: string }
+}) {
 	const venue = await getVenue(params.slug)
 	if (!venue) notFound()
 
@@ -34,7 +38,11 @@ export default async function VenuePage({ params }: { params: { slug: string } }
 	)
 }
 
-export async function generateMetadata({ params }: { params: { slug: string } }) {
+export async function generateMetadata({
+	params,
+}: {
+	params: { slug: string }
+}) {
 	const venue = await getVenue(params.slug)
 	return processMetadata(venue)
 }

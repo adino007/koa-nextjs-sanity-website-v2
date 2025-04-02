@@ -19,12 +19,12 @@ export default function StandardCarousel({
 		<div className="w-full pb-8">
 			<Carousel
 				opts={{
-					align: "start",
+					align: 'start',
 					loop: true,
-					containScroll: "trimSnaps",
+					containScroll: 'trimSnaps',
 					duration: 20,
 					dragFree: false,
-					skipSnaps: false
+					skipSnaps: false,
 				}}
 				setApi={setApi}
 			>
