@@ -8,6 +8,7 @@ import { Analytics } from '@vercel/analytics/react'
 import { SpeedInsights } from '@vercel/speed-insights/next'
 import VisualEditingControls from '@/ui/VisualEditingControls'
 import '@/styles/app.css'
+import { CookieConsent } from '@/components/ui/CookieConsent'
 
 export const metadata: Metadata = {
 	icons: {
@@ -49,6 +50,7 @@ export default async function RootLayout({
 				<Analytics />
 				<SpeedInsights />
 				<VisualEditingControls />
+				<CookieConsent />
 			</body>
 		</html>
 	)
