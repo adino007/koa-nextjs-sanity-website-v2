@@ -12,7 +12,6 @@ interface EventShowcaseProps {
 	title?: string
 	description?: any
 	maxEvents?: number
-	displayStyle?: 'desert-neon' | 'classic-dark' | 'minimal-light'
 	showVenue?: boolean
 	showDate?: boolean
 	textAlign?: 'left' | 'center' | 'right'
@@ -22,7 +21,6 @@ export default function EventShowcase({
 	title,
 	description,
 	maxEvents = 3,
-	displayStyle = 'desert-neon',
 	showVenue = true,
 	showDate = true,
 	textAlign = 'center',
@@ -44,20 +42,12 @@ export default function EventShowcase({
 	if (!events?.length) return null
 
 	return (
-		<section
-			className={cn(
-				'section py-16',
-				displayStyle === 'desert-neon' && 'bg-purple-900 text-white',
-			)}
-		>
+		<section className="section py-16">
 			<div className="container mx-auto">
 				{title && (
 					<div className="mb-6" style={{ textAlign: 'center' }}>
 						<h2
-							className={cn(
-								'font-moncheri text-4xl',
-								displayStyle === 'desert-neon' && 'text-pink-400',
-							)}
+							className="font-moncheri text-4xl"
 							style={{ textAlign: 'center' }}
 						>
 							{title}
