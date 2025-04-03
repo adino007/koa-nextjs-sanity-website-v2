@@ -4,6 +4,7 @@ import EventGrid from './event/EventGrid'
 import Gallery from './Gallery'
 import BlogFrontpage from './blog/BlogFrontpage'
 import BlogList from './blog/BlogList'
+import PostContent from './blog/PostContent'
 import Breadcrumbs from './Breadcrumbs'
 import Callout from './Callout'
 import CreativeModule from './CreativeModule'
@@ -11,10 +12,9 @@ import CustomHTML from './CustomHTML'
 import FlagList from './FlagList'
 import Hero from './Hero'
 import HeroVideo from './HeroVideo'
+import HeroSaas from './HeroSaaS'
 import HeroSplit from './HeroSplit'
-import HeroSaaS from './HeroSaaS'
 import LogoList from './LogoList'
-import PostContent from './blog/PostContent'
 import PricingList from './PricingList'
 import RichtextModule from './RichtextModule'
 import StatList from './StatList'
@@ -22,20 +22,20 @@ import StepList from './StepList'
 import TestimonialList from './TestimonialList'
 import TestimonialFeatured from './TestimonialFeatured'
 import ContactForm from './ContactForm'
-import RelatedEventsModule from './related-events'
+import EventShowcase from './EventShowcase'
 
 export default function Modules({
-	modules,
-	page,
-	post,
+	modules = [],
 }: {
 	modules?: Sanity.Module[]
-	page?: Sanity.Page
-	post?: Sanity.BlogPost
 }) {
+	if (!modules?.length) return null
+
 	return (
 		<>
-			{modules?.map((module) => {
+			{modules.map((module) => {
+				if (!module?._type) return null
+
 				switch (module._type) {
 					case 'accordion-list':
 						return <AccordionList {...module} key={module._key} />
@@ -50,15 +50,9 @@ export default function Modules({
 					case 'blog-list':
 						return <BlogList {...module} key={module._key} />
 					case 'blog-post-content':
-						return <PostContent {...module} post={post} key={module._key} />
+						return <PostContent {...module} key={module._key} />
 					case 'breadcrumbs':
-						return (
-							<Breadcrumbs
-								{...module}
-								currentPage={post || page}
-								key={module._key}
-							/>
-						)
+						return <Breadcrumbs {...module} key={module._key} />
 					case 'callout':
 						return <Callout {...module} key={module._key} />
 					case 'creative-module':
@@ -71,10 +65,10 @@ export default function Modules({
 						return <Hero {...module} key={module._key} />
 					case 'hero.video':
 						return <HeroVideo {...module} key={module._key} />
+					case 'hero.saas':
+						return <HeroSaas {...module} key={module._key} />
 					case 'hero.split':
 						return <HeroSplit {...module} key={module._key} />
-					case 'hero.saas':
-						return <HeroSaaS {...module} key={module._key} />
 					case 'logo-list':
 						return <LogoList {...module} key={module._key} />
 					case 'pricing-list':
@@ -91,8 +85,8 @@ export default function Modules({
 						return <TestimonialFeatured {...module} key={module._key} />
 					case 'contactForm':
 						return <ContactForm {...module} key={module._key} />
-					case 'related-events':
-						return <RelatedEventsModule {...module} key={module._key} />
+					case 'event-showcase':
+						return <EventShowcase {...module} key={module._key} />
 					default:
 						return <div data-type={module._type} key={module._key} />
 				}

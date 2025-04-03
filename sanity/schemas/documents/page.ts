@@ -46,7 +46,7 @@ export default defineType({
 				{ type: 'step-list' },
 				{ type: 'testimonial-list' },
 				{ type: 'testimonial.featured' },
-				{ type: 'relatedEvents' },
+				{ type: 'event-showcase' },
 			],
 			options: {
 				insertMenu: {
@@ -62,6 +62,10 @@ export default defineType({
 							of: ['testimonial-list', 'testimonial.featured'],
 						},
 						{ name: 'artists', of: ['artist.grid'] },
+						{
+							name: 'events',
+							of: ['event.grid', 'event-showcase'],
+						},
 					],
 				},
 			},

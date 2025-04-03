@@ -125,11 +125,14 @@ export const modulesQuery = groq`
     submitButtonText,
     successMessage
   },
-  _type == 'relatedEvents' => {
+  _type == 'event-showcase' => {
     title,
     description,
-    currentEventId,
-    maxEvents
+    maxEvents,
+    displayStyle,
+    showVenue,
+    showDate,
+    textAlign
   }
 `
 // --- HERO VIDEO QUERY ---
@@ -246,6 +249,7 @@ export const eventQuery = groq`
     _type,
     _id,
     name,
+    date,
     eventCTAS[]{ 
       ...,
       showCTA,
@@ -307,6 +311,33 @@ export const eventQuery = groq`
 
 export async function getEvents() {
 	return await fetchSanity(eventQuery)
+}
+
+export async function getUpcomingEvents({
+	limit = 10,
+}: { limit?: number } = {}) {
+	return await fetchSanity<Sanity.Event[]>(
+		groq`*[_type == "event" && dateTime(coalesce(date, "1970-01-01")) >= dateTime(now())] | order(date asc)[0...${limit}]{
+			_id,
+			name,
+			date,
+			venue->{
+				name,
+				location
+			},
+			artists[]->{
+				name
+			},
+			flyer{
+				asset->{
+					url
+				}
+			}
+		}`,
+		{
+			tags: ['events'],
+		},
+	)
 }
 
 export async function getEvent(slug: string): Promise<Sanity.Event | null> {

@@ -46,7 +46,7 @@ import stepList from './modules/step-list'
 import testimonialFeatured from './modules/testimonial.featured'
 import testimonialList from './modules/testimonial-list'
 import contactForm from './modules/contactForm'
-import relatedEvents from './modules/related-events'
+import eventShowcase from './modules/event-showcase'
 
 export const schemaTypes = [
 	// documents
@@ -97,5 +97,5 @@ export const schemaTypes = [
 	stepList,
 	testimonialFeatured,
 	testimonialList,
-	relatedEvents,
+	eventShowcase,
 ]
