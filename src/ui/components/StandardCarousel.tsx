@@ -31,13 +31,13 @@ export default function StandardCarousel({
 				<CarouselContent>{children}</CarouselContent>
 				<div className="flex items-center justify-center gap-8 pt-2">
 					<div className="relative w-6">
-						<CarouselPrevious className="!-left-0" />
+						<CarouselPrevious className="!-left-0 border-white/20 bg-black/50 backdrop-blur-sm transition-colors hover:bg-white hover:text-black" />
 					</div>
 					<span className="block text-center text-xs text-gray-400">
 						swipe through events
 					</span>
 					<div className="relative w-6">
-						<CarouselNext className="!-right-0" />
+						<CarouselNext className="!-right-0 border-white/20 bg-black/50 backdrop-blur-sm transition-colors hover:bg-white hover:text-black" />
 					</div>
 				</div>
 			</Carousel>
