@@ -26,8 +26,12 @@ import EventShowcase from './EventShowcase'
 
 export default function Modules({
 	modules = [],
+	page,
+	post,
 }: {
 	modules?: Sanity.Module[]
+	page?: Sanity.Page
+	post?: Sanity.BlogPost
 }) {
 	if (!modules?.length) return null
 
