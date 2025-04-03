@@ -129,7 +129,6 @@ export const modulesQuery = groq`
     title,
     description,
     maxEvents,
-    displayStyle,
     showVenue,
     showDate,
     textAlign
