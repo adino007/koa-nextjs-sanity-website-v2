@@ -13,4 +13,8 @@ export default createClient({
 	perspective: 'published',
 	timeout: 60000, // 60 seconds timeout
 	token: process.env.NEXT_PUBLIC_SANITY_TOKEN,
+	// Add UTF-8 support
+	headers: {
+		'Content-Type': 'application/json; charset=utf-8',
+	},
 })
