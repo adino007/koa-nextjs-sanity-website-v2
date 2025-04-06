@@ -12,7 +12,35 @@ import { CookieConsent } from '@/components/ui/CookieConsent'
 
 export const metadata: Metadata = {
 	icons: {
-		icon: '/favicon.ico', // Reference from public directory
+		icon: '/icons/favicon.ico',
+		shortcut: '/icons/favicon.ico',
+		apple: '/icons/apple-touch-icon.png',
+		other: [
+			{
+				rel: 'icon',
+				type: 'image/png',
+				sizes: '32x32',
+				url: '/icons/favicon-32x32.png',
+			},
+			{
+				rel: 'icon',
+				type: 'image/png',
+				sizes: '16x16',
+				url: '/icons/favicon-16x16.png',
+			},
+			{
+				rel: 'icon',
+				type: 'image/png',
+				sizes: '192x192',
+				url: '/icons/android-chrome-192x192.png',
+			},
+			{
+				rel: 'icon',
+				type: 'image/png',
+				sizes: '512x512',
+				url: '/icons/android-chrome-512x512.png',
+			},
+		],
 	},
 }
 export default async function RootLayout({
