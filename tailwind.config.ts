@@ -98,8 +98,8 @@ const config: Config = {
 	plugins: [
 		plugin(function ({ addVariant, addUtilities }) {
 			// Add custom variants for header-open and header-closed
-			addVariant('header-open', '.header-open &')
-			addVariant('header-closed', '.header-closed &')
+			addVariant('header-open', 'body:has(#header-open:checked) &')
+			addVariant('header-closed', 'body:has(#header-open:not(:checked)) &')
 
 			// Add custom utilities with proper vendor prefixes and fallbacks
 			addUtilities({
