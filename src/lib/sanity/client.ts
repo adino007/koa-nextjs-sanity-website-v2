@@ -1,20 +1,14 @@
 import { createClient } from 'next-sanity'
-import dev from '@/lib/env'
+import { apiVersion, dataset, projectId, token } from './env'
 
-export default createClient({
-	projectId: process.env.NEXT_PUBLIC_SANITY_PROJECT_ID,
-	dataset: process.env.NEXT_PUBLIC_SANITY_DATASET,
-	apiVersion: '2025-02-19',
-	useCdn: !dev,
+export const client = createClient({
+	projectId,
+	dataset,
+	apiVersion,
+	token,
+	useCdn: false,
+	perspective: 'published',
 	stega: {
 		enabled: false,
-		studioUrl: '/admin',
-	},
-	perspective: 'published',
-	timeout: 60000, // 60 seconds timeout
-	token: process.env.NEXT_PUBLIC_SANITY_TOKEN,
-	// Add UTF-8 support
-	headers: {
-		'Content-Type': 'application/json; charset=utf-8',
 	},
 })
