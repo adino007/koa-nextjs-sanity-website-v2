@@ -98,8 +98,30 @@ const config: Config = {
 	plugins: [
 		plugin(function ({ addVariant, addUtilities }) {
 			// Add custom variants for header-open and header-closed
-			addVariant('header-open', 'body:has(#header-open:checked) &')
-			addVariant('header-closed', 'body:has(#header-open:not(:checked)) &')
+			addVariant('header-open', '.header-open &')
+			addVariant('header-closed', '.header-closed &')
+
+			// Add custom utilities with proper vendor prefixes and fallbacks
+			addUtilities({
+				'.frosted-glass': {
+					'@apply backdrop-blur-sm': {},
+					'background-color': 'rgba(255, 255, 255, 0.1)',
+					'-webkit-backdrop-filter': 'blur(4px)',
+					'backdrop-filter': 'blur(4px)',
+					'@supports not (backdrop-filter: blur(4px))': {
+						'background-color': 'rgba(255, 255, 255, 0.3)',
+					},
+				},
+				'.frosted-glass-dark': {
+					'@apply backdrop-blur-sm': {},
+					'background-color': 'rgba(0, 0, 0, 0.1)',
+					'-webkit-backdrop-filter': 'blur(4px)',
+					'backdrop-filter': 'blur(4px)',
+					'@supports not (backdrop-filter: blur(4px))': {
+						'background-color': 'rgba(0, 0, 0, 0.3)',
+					},
+				},
+			})
 		}),
 		require('tailwindcss-animate'),
 	],
