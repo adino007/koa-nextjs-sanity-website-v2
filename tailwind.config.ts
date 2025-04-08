@@ -101,25 +101,15 @@ const config: Config = {
 			addVariant('header-open', 'body:has(#header-open:checked) &')
 			addVariant('header-closed', 'body:has(#header-open:not(:checked)) &')
 
-			// Add custom utilities with proper vendor prefixes and fallbacks
+			// Add custom utilities with minimal vendor prefix additions
 			addUtilities({
 				'.frosted-glass': {
 					'@apply backdrop-blur-sm': {},
-					'background-color': 'rgba(255, 255, 255, 0.1)',
 					'-webkit-backdrop-filter': 'blur(4px)',
-					'backdrop-filter': 'blur(4px)',
-					'@supports not (backdrop-filter: blur(4px))': {
-						'background-color': 'rgba(255, 255, 255, 0.3)',
-					},
 				},
 				'.frosted-glass-dark': {
 					'@apply backdrop-blur-sm': {},
-					'background-color': 'rgba(0, 0, 0, 0.1)',
 					'-webkit-backdrop-filter': 'blur(4px)',
-					'backdrop-filter': 'blur(4px)',
-					'@supports not (backdrop-filter: blur(4px))': {
-						'background-color': 'rgba(0, 0, 0, 0.3)',
-					},
 				},
 			})
 		}),
