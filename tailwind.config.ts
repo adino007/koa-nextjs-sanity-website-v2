@@ -101,15 +101,25 @@ const config: Config = {
 			addVariant('header-open', 'body:has(#header-open:checked) &')
 			addVariant('header-closed', 'body:has(#header-open:not(:checked)) &')
 
-			// Add custom utilities with minimal vendor prefix additions
+			// Add custom utilities with mobile Safari and Chrome fixes
 			addUtilities({
 				'.frosted-glass': {
 					'@apply backdrop-blur-sm': {},
 					'-webkit-backdrop-filter': 'blur(4px)',
+					'@media (max-width: 1024px)': {
+						'-webkit-backdrop-filter': 'blur(4px)',
+						'backdrop-filter': 'blur(4px)',
+						'background-color': 'rgba(255, 255, 255, 0.1)',
+					},
 				},
 				'.frosted-glass-dark': {
 					'@apply backdrop-blur-sm': {},
 					'-webkit-backdrop-filter': 'blur(4px)',
+					'@media (max-width: 1024px)': {
+						'-webkit-backdrop-filter': 'blur(4px)',
+						'backdrop-filter': 'blur(4px)',
+						'background-color': 'rgba(0, 0, 0, 0.1)',
+					},
 				},
 			})
 		}),
