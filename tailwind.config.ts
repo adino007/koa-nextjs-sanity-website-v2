@@ -106,20 +106,10 @@ const config: Config = {
 				'.frosted-glass': {
 					'@apply backdrop-blur-sm': {},
 					'-webkit-backdrop-filter': 'blur(4px)',
-					'@media (max-width: 1024px)': {
-						'-webkit-backdrop-filter': 'blur(4px)',
-						'backdrop-filter': 'blur(4px)',
-						'background-color': 'rgba(255, 255, 255, 0.1)',
-					},
 				},
 				'.frosted-glass-dark': {
 					'@apply backdrop-blur-sm': {},
 					'-webkit-backdrop-filter': 'blur(4px)',
-					'@media (max-width: 1024px)': {
-						'-webkit-backdrop-filter': 'blur(4px)',
-						'backdrop-filter': 'blur(4px)',
-						'background-color': 'rgba(0, 0, 0, 0.1)',
-					},
 				},
 			})
 		}),
